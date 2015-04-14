@@ -1,0 +1,12 @@
+.sublimets
+.tscache
+*.js
+*.js.map
+dist
+dist-amd
+dist-cjs
+dist-es2015
+node_modules
+bower_modules
+!src/node.js
+!/Gruntfile.js
