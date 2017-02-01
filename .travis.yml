@@ -4,7 +4,6 @@ node_js:
 - '6'
 env:
   global:
-  # Please get your own free key if you want to test yourself
   - BROWSERSTACK_USERNAME: << USERNAME GOES HERE >>
   - BROWSERSTACK_ACCESS_KEY: << ACCESS KEY GOES HERE >>
   - SAUCE_USERNAME: << USERNAME GOES HERE >>
@@ -20,5 +19,4 @@ script:
 - grunt uploadCoverage
 notifications:
   slack:
-    secure: gX2fGk/195mWBsjdr9I7A5pUXhfjs/MDXgM5YT6PCikbpm0sLJiVSq9e8bQjugB+pddGeRxvhr01s0Yaz8SBojHWE8TDHUOcj8zklo/baAo/bBbLrGfUZ4kEHyN56oDN9pNGkcsYcWINKNRVKzraawTlGhE/lgV7LhjDdFuTLl+qFqnc+LkArtRvvIuvwB2dryD/Ehf6g3eIyr4EXR+/7tUhpayAMeN2CG2Qzo4H6tkYypxRfFmfcOVR1C8ox3QOgJOwLVSYGXirZKylzVoH3TS4bR0zCvB/Y4yP0XWseY7VsRLS1KDx+gqtM2om/M1GkMmnqLOmHY9pilEoBCzskm2wQ74GhyJ8g09fySw1gAgbUvMFdVNiUkk96u0Ufci0Tz3ZeCxw25efekDXbF7kU0AM+S35d8H7t3inGgrr4dSNglqP/zSOldVYvJ4rKuMEehm04iwSvQ7fSjOuhTKftLeYtWYCKpNAaZa3GAZJOqh/UedzNmRVlMNd1eTCuQk2uhvuZg7h6BkS84cyZAFIQS1Y7u0QvO0SUnGhDY7GDYeKCV1ZXvrk/jdiI+4za52f/zNtrX8WTnNzbvtdbTLyGvl8keA0vwoYwCRcgxKlTbZKJEax//MsatBe3Y3ThMCIRUYysGlzXCyj8OUMiDgX5Wfw4/z/P9xayCQYWgZGPXA=
-    on_success: change
+    secure: oh8TDBwSgIP+wzUpXJBE0TaQlGtQqdBYbDa9obrizQjk/hWEXGaPFYbBTnKH+5P7OgROlLbZLVcClsEjLgx+Cku8PFe6wkcTEwg/Ryxggl7MV0jgFfapdEeYrRUiMORUF16b3jSYpCM925V8nBmvxtsxOr4HwaJvG3UTRhBV7uDhUQqLxZ+V6n2WqnJeKuUE33E0VDyB0MUHXBr6Q+hgzooavxeVYDTzzxP15m2nwN/VuVXQXVkbl6N3vFLo+VIivYyNfp7cpKGpyYqlc/1PhN172xD5cNNclUtrYhcSfRci3zXWV5ZvX1hw/uRyJ6g3y5hpqdEKPg1Vt6DoCKYTKNaylAx5AAq+uv83US2C6TIw0NZHiTPQYCwp+syW3tUFJxOO2OLXQ2c0hyUIYdEp3mZbxryqukGQP2pC/4X/5Jj1YUav07YAG9/0RWGimLZL6in3CqnR5vGHIrWdXkFVOkE6C/50WZIOTW2fCynFdv0jZm4hq+maAAa5y6IFieVCWxNCahTiEvE5Dek8sfrdHfD3rQoA0m3is2kWb83Y8BrUvclIJuAnk0wKN9oMIuO9YijkCEirwcWNmbjPPYIE8M7xGp8y54NqfaY6CdP5vmAYC0VJUa6LKdjOqFrl7zwZrtppJ27gKrJ5O4zmMsLF0oKRhmsBYwelHuSfu0f2cJ0=
