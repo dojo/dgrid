@@ -1,5 +1,14 @@
 module.exports = function (grunt) {
-	require('grunt-dojo2').initConfig(grunt, {
-		/* any custom configuration goes here */
-	});
+    var staticFiles = [ 'src/**/*.html' ];
+
+    require('grunt-dojo2').initConfig(grunt, {
+        copy: {
+            staticFiles: {
+                expand: true,
+                cwd: '.',
+                src: staticFiles,
+                dest: '<%= devDirectory %>'
+            }
+        }
+    });
 };
