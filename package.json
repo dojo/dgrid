@@ -31,8 +31,11 @@
     "@dojo/has": "2.0.0-alpha.7",
     "@dojo/i18n": "2.0.0-alpha.5",
     "@dojo/shim": "2.0.0-beta.8",
-    "@dojo/widget-core": "2.0.0-alpha.21",
-    "maquette": "2.4.2"
+    "@dojo/widget-core": "^2.0.0-alpha.23",
+    "dgrid": "^1.1.0",
+    "istanbul": "^0.4.5",
+    "maquette": "2.4.2",
+    "sinon": "^1.17.7"
   },
   "devDependencies": {
     "@dojo/interfaces": "2.0.0-alpha.11",
