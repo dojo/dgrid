@@ -1,7 +1,9 @@
 {
-	"version": "2.1.5",
+	"version": "2.2.0",
 	"compilerOptions": {
 		"declaration": false,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
 		"module": "umd",
 		"moduleResolution": "node",
 		"noImplicitAny": true,
@@ -14,6 +16,7 @@
 	},
 	"include": [
 		"./src/**/*.ts",
+		"./src/examples/**/*.ts",
 		"./tests/**/*.ts",
 		"./typings/index.d.ts"
 	],
