@@ -1,0 +1,9 @@
+.cell {
+    padding: 3px;
+    text-align: left;
+    overflow: hidden;
+    vertical-align: top;
+    border: 1px solid #ddd;
+    border-top-style: none;
+    box-sizing: border-box;
+}
