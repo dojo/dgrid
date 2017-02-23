@@ -2,8 +2,6 @@ import * as registerSuite from 'intern/lib/interfaces/object';
 import { assert } from 'chai';
 import { VNode } from '@dojo/interfaces/vdom';
 import Cell from '../../src/Cell';
-import { ItemProperties, CellRendererProperties } from '../../src/interfaces';
-import { WidgetBase } from '@dojo/widget-core/WidgetBase';
 
 registerSuite({
 	name: 'Cell',
@@ -15,21 +13,6 @@ registerSuite({
 			const vnode = <VNode> cell.__render__();
 			assert.strictEqual(vnode.vnodeSelector, 'td');
 			assert.strictEqual(vnode.text, 'Hello, World!');
-		},
-		'data property value passed through to renderer when provided'() {
-			const cellRenderer = (item: ItemProperties<any>) => {
-				return class extends WidgetBase<CellRendererProperties> {
-					render() {
-						return this.properties.value.replace('World', 'Dojo');
-					}
-				};
-			};
-			const cell = new Cell();
-			cell.setProperties(<any> { value: 'Hello, World!', cellRenderer });
-
-			const vnode = <VNode> cell.__render__();
-			assert.strictEqual(vnode.vnodeSelector, 'td');
-			assert.strictEqual(vnode.text, 'Hello, Dojo!');
 		},
 		'null is returned when no data property'() {
 			const cell = new Cell();
