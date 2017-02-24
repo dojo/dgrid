@@ -12,8 +12,10 @@ export interface RowProperties extends WidgetProperties, HasColumns, RegistryMix
 	item: any;
 }
 
+export const RowBase = ThemeableMixin(RegistryMixin(WidgetBase));
+
 @theme(rowClasses)
-class Row  extends ThemeableMixin(RegistryMixin(WidgetBase))<RowProperties> {
+class Row extends RowBase<RowProperties> {
 	render() {
 		const {
 			registry,
