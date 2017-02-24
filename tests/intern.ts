@@ -11,21 +11,21 @@ export const proxyUrl = 'http://localhost:9000/';
 // automatically
 export const capabilities = {
 	'browserstack.debug': false,
-	project: 'Dojo 2',
-	name: 'dojo/dgrid'
+	project: '@dojo/dgrid',
+	name: '@dojo/dgrid'
 };
 
 // Browsers to run integration testing against. Note that version numbers must be strings if used with Sauce
 // OnDemand. Options that will be permutated are browserName, version, platform, and platformVersion; any other
 // capabilities options specified for an environment will be copied as-is
 export const environments = [
-	{ browserName: 'internet explorer', version: [ '10', '11' ], platform: 'WINDOWS' },
-	{ browserName: 'firefox', platform: 'WINDOWS' },
-	{ browserName: 'chrome', platform: 'WINDOWS' }
+	{ browserName: 'Edge', platform: 'Windows' },
+	{ browserName: 'Firefox', platform: 'Windows' },
+	{ browserName: 'Chrome', platform: 'Windows' }
 ];
 
 // Maximum number of simultaneous integration tests that should be executed on the remote WebDriver service
-export const maxConcurrency = 2;
+export const maxConcurrency = 1;
 
 // Name of the tunnel class to use for WebDriver tests
 export const tunnel = 'BrowserStackTunnel';
@@ -52,8 +52,11 @@ export const loaderOptions = {
 	packages: [
 		{ name: 'src', location: '_build/src' },
 		{ name: 'tests', location: '_build/tests' },
-		{ name: 'dojo', location: 'node_modules/intern/node_modules/dojo' },
-		{ name: '@dojo', location: 'node_modules/intern/node_modules/@dojo' }
+		{ name: 'chai', location: 'node_modules/chai', main: 'chai' },
+		{ name: 'dojo', location: 'node_modules/intern/browser_modules/dojo' },
+		{ name: '@dojo', location: 'node_modules/@dojo' },
+		{ name: 'maquette', location: 'node_modules/maquette/dist', main: 'maquette' },
+		{ name: 'sinon', location: 'node_modules/sinon/pkg', main: 'sinon' }
 	]
 };
 
@@ -64,4 +67,4 @@ export const suites = [ 'tests/unit/all' ];
 export const functionalSuites = [ 'tests/functional/all' ];
 
 // A regular expression matching URLs to files that should not be included in code coverage analysis
-export const excludeInstrumentation = /(?:node_modules|bower_components|tests)[\/\\]/;
+export const excludeInstrumentation = /(?:node_modules|bower_components|tests|examples)[\/\\]/;
