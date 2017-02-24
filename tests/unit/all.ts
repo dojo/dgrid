@@ -1,1 +1,2 @@
+import './HeaderCell';
 import './Cell';
