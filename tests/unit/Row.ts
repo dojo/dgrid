@@ -67,9 +67,9 @@ registerSuite({
 			item: { foo: 'bar' }
 		};
 
-		const rowView = new Row();
-		rowView.setProperties(properties);
-		const vnode = <VNode> rowView.__render__();
+		const row = new Row();
+		row.setProperties(properties);
+		const vnode = <VNode> row.__render__();
 
 		assert.strictEqual(vnode.vnodeSelector, 'div');
 		assert.lengthOf(vnode.children, 1);
