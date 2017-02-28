@@ -8,8 +8,10 @@ import * as headerCellClasses from './styles/headerCell.css';
 
 export interface HeaderCellProperties extends ThemeableProperties, HasColumn, HasSortDetail, HasSortEvent { }
 
+export const HeaderCellBase = ThemeableMixin(RegistryMixin(WidgetBase));
+
 @theme(headerCellClasses)
-class HeaderCell extends ThemeableMixin(RegistryMixin(WidgetBase))<HeaderCellProperties> {
+class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 	onSortRequest(): void {
 		const {
 			key = '',
