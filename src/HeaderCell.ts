@@ -35,21 +35,13 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 			sortDetail
 		} = this.properties;
 
-		const classes = [ headerCellClasses.cell ];
-		if (column.sortable !== false) {
-			classes.push(headerCellClasses.sortable);
-		}
+		const classes = [ headerCellClasses.headerCell, column.sortable !== false ? headerCellClasses.sortable : null ];
 
-		const sortClasses: string[] = [];
-		if (sortDetail) {
-			sortClasses.push(headerCellClasses.sortArrow);
-			if (sortDetail.descending) {
-				sortClasses.push(headerCellClasses.sortArrowDown);
-			}
-			else {
-				sortClasses.push(headerCellClasses.sortArrowUp);
-			}
-		}
+		const sortClasses = [
+			sortDetail ? headerCellClasses.sortArrow : null,
+			sortDetail && sortDetail.descending ? headerCellClasses.sortArrowDown : null,
+			sortDetail && !sortDetail.descending ? headerCellClasses.sortArrowUp : null
+		];
 
 		return v('th', {
 			role: 'columnheader',

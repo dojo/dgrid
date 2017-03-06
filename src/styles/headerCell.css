@@ -1,5 +1,6 @@
-.cell {
+.headerCell {
     composes: cell from './shared/cell.css';
+    position: relative;
 }
 
 .sortable {
@@ -7,19 +8,18 @@
 }
 
 .sortArrow {
-    width: 16px;
-    height: 16px;
-    background-image: url('images/ui-icons_222222_256x240.png');
-    background-position: -64px -16px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 4px;
+}
+
+.sortArrowUp:after {
+    content: '▲';
     display: block;
-    float: right;
-    margin: 0 4px 0 5px;
-    height: 12px;
 }
 
-.sortArrowUp {
-    background-position: 0px -16px;
-}
-
-.sortArrowDown {
+.sortArrowDown:after {
+    content: '▼';
+    display: block;
 }
