@@ -15,24 +15,22 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 	onSortRequest(): void {
 		const {
 			key = '',
-			column,
 			sortDetail,
 			onSortRequest
 		} = this.properties;
 
-		if (onSortRequest && (column.sortable || !column.hasOwnProperty('sortable'))) {
-			onSortRequest({
-				columnId: key,
-				descending: Boolean(sortDetail && sortDetail.columnId === key && !sortDetail.descending)
-			});
-		}
+		onSortRequest({
+			columnId: key,
+			descending: Boolean(sortDetail && sortDetail.columnId === key && !sortDetail.descending)
+		});
 	}
 
 	render() {
 		const {
 			key,
 			column,
-			sortDetail
+			sortDetail,
+			onSortRequest
 		} = this.properties;
 
 		const classes = [ headerCellClasses.headerCell, column.sortable !== false ? headerCellClasses.sortable : null ];
@@ -43,9 +41,11 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 			sortDetail && !sortDetail.descending ? headerCellClasses.sortArrowUp : null
 		];
 
+		const onclick = (onSortRequest && (column.sortable || !column.hasOwnProperty('sortable'))) ? { onclick: this.onSortRequest } : {};
+
 		return v('th', {
 			role: 'columnheader',
-			onclick: this.onSortRequest,
+			...onclick,
 			classes: this.classes(...classes)
 		}, [
 			v('span', [ column.label || column.id ]),
