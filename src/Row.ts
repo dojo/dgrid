@@ -1,18 +1,18 @@
-import { WidgetProperties } from '@dojo/widget-core/interfaces';
-import WidgetBase from '@dojo/widget-core/WidgetBase';
-import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
 import { v, w } from '@dojo/widget-core/d';
-import { HasColumns } from './interfaces';
-import { CellProperties } from './Cell';
+import { WidgetProperties } from '@dojo/widget-core/interfaces';
+import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin } from '@dojo/widget-core/mixins/Themeable';
+import WidgetBase from '@dojo/widget-core/WidgetBase';
+import { CellProperties } from './Cell';
+import { HasColumns, ItemProperties } from './interfaces';
 
 import * as rowClasses from './styles/row.css';
 
-export interface RowProperties extends WidgetProperties, HasColumns, RegistryMixinProperties {
-	item: any;
-}
-
 export const RowBase = ThemeableMixin(RegistryMixin(WidgetBase));
+
+export interface RowProperties extends WidgetProperties, HasColumns, RegistryMixinProperties {
+	item: ItemProperties<any>;
+}
 
 @theme(rowClasses)
 class Row extends RowBase<RowProperties> {
