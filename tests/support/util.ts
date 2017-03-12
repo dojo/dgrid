@@ -16,7 +16,7 @@ export function isEventuallyRejected<T>(promise: Thenable<T>): Thenable<boolean>
 	});
 }
 
-export function throwImmediatly() {
+export function throwImmediately() {
 	throw new Error('unexpected code path');
 }
 
