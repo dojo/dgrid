@@ -8,7 +8,7 @@ import * as headerCellClasses from './styles/headerCell.css';
 
 export const HeaderCellBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-export interface HeaderCellProperties extends ThemeableProperties, HasColumn, HasSortDetail, HasSortEvent { }
+export interface HeaderCellProperties extends ThemeableProperties, HasColumn, HasSortDetail, HasSortEvent {}
 
 @theme(headerCellClasses)
 class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
@@ -35,13 +35,12 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 
 		const classes = [ headerCellClasses.headerCell, column.sortable !== false ? headerCellClasses.sortable : null ];
 
-		const sortClasses = [
-			sortDetail ? headerCellClasses.sortArrow : null,
-			sortDetail && sortDetail.descending ? headerCellClasses.sortArrowDown : null,
-			sortDetail && !sortDetail.descending ? headerCellClasses.sortArrowUp : null
-		];
+		const sortClasses = sortDetail ? [
+			headerCellClasses.sortArrow,
+			sortDetail.descending ? headerCellClasses.sortArrowDown : headerCellClasses.sortArrowUp
+		] : [];
 
-		const onclick = (onSortRequest && (column.sortable || !column.hasOwnProperty('sortable'))) ? { onclick: this.onSortRequest } : {};
+		const onclick = (onSortRequest && column.sortable !== false) ? { onclick: this.onSortRequest } : {};
 
 		return v('th', {
 			role: 'columnheader',
