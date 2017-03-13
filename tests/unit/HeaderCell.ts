@@ -1,6 +1,7 @@
-import * as registerSuite from 'intern/lib/interfaces/object';
-import { assert } from 'chai';
 import { VNode } from '@dojo/interfaces/vdom';
+import FactoryRegistry from '@dojo/widget-core/FactoryRegistry';
+import { assert } from 'chai';
+import * as registerSuite from 'intern/lib/interfaces/object';
 import HeaderCell from '../../src/HeaderCell';
 
 registerSuite({
@@ -9,6 +10,7 @@ registerSuite({
 		'renders sortable header cell with descending direction'() {
 			let clicked = false;
 			const properties = {
+				registry: new FactoryRegistry(),
 				onSortRequest() { clicked = true; },
 				column: {
 					id: 'id',
@@ -40,6 +42,7 @@ registerSuite({
 		'renders sortable header cell with ascending direction'() {
 			let clicked = false;
 			const properties = {
+				registry: new FactoryRegistry(),
 				onSortRequest() { clicked = true; },
 				column: {
 					id: 'id',
