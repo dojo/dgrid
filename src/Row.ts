@@ -1,7 +1,7 @@
 import { v, w } from '@dojo/widget-core/d';
 import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
-import { theme, ThemeableMixin } from '@dojo/widget-core/mixins/Themeable';
+import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { CellProperties } from './Cell';
 import { HasColumns, ItemProperties } from './interfaces';
@@ -10,7 +10,7 @@ import * as rowClasses from './styles/row.css';
 
 export const RowBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-export interface RowProperties extends WidgetProperties, HasColumns, RegistryMixinProperties {
+export interface RowProperties extends WidgetProperties, HasColumns, RegistryMixinProperties, ThemeableProperties {
 	item: ItemProperties<any>;
 }
 
@@ -31,11 +31,14 @@ class Row extends RowBase<RowProperties> {
 				role: 'presentation',
 				classes: this.classes(rowClasses.rowTable)
 			}, [
-				v('tr', columns.map(({ id, field }) => {
-					return w('cell', <CellProperties> {
+				v('tr', columns.map((column) => {
+					const { id, field } = column;
+
+					return w<CellProperties>('cell', {
 						registry,
 						key: id,
-						item: item,
+						column,
+						item,
 						value: item.data[ field || id ]
 					});
 				}))
