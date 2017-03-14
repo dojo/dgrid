@@ -1,0 +1,25 @@
+.headerCell {
+    composes: cell from './shared/cell.css';
+    position: relative;
+}
+
+.sortable {
+    cursor: pointer;
+}
+
+.sortArrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 4px;
+}
+
+.sortArrowUp:after {
+    content: '▲';
+    display: block;
+}
+
+.sortArrowDown:after {
+    content: '▼';
+    display: block;
+}
