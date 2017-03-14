@@ -15,6 +15,10 @@ export interface Column<T> {
 	sortable?: boolean; // default true
 }
 
+export interface HasColumns {
+	columns: Column<any>[];
+}
+
 export interface HasColumn {
 	column: Column<any>;
 }
