@@ -1,0 +1,13 @@
+.scroller {
+    overflow-x: auto;
+    overflow-y: scroll;
+    position: absolute;
+    top: 0px;
+    margin-top: 25px; /* this will be adjusted programmatically to fit below the header bottom: 0px; */
+    width: 100%;
+}
+
+.content {
+    position: relative;
+    height: 99%;
+}

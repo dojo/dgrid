@@ -35,6 +35,10 @@ export interface HasItem {
 	item: ItemProperties<any>;
 }
 
+export interface HasItems {
+	items: ItemProperties<any>[];
+}
+
 export interface HasValue {
 	value: string;
 }
