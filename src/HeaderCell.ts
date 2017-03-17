@@ -2,6 +2,7 @@ import { v } from '@dojo/widget-core/d';
 import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
 import { ThemeableMixin, theme, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
+import { DNode } from '@dojo/widget-core/interfaces';
 import { HasColumn, HasSortDetail, HasSortEvent } from './interfaces';
 
 import * as headerCellClasses from './styles/headerCell.css';
@@ -25,7 +26,7 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 		});
 	}
 
-	render() {
+	render(): DNode {
 		const {
 			key,
 			column,

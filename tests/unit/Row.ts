@@ -1,14 +1,13 @@
 import { VNode } from '@dojo/interfaces/vdom';
-import FactoryRegistry from '@dojo/widget-core/FactoryRegistry';
+import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { assert } from 'chai';
 import * as registerSuite from 'intern/lib/interfaces/object';
 import { spy, stub, SinonSpy } from 'sinon';
-import { CellProperties } from '../../src/Cell';
 import Row from '../../src/Row';
-import { spyOnWidget, cleanProperties } from '../support/util';
+import { spyOnWidget } from '../support/util';
 
-let mockRegistry: FactoryRegistry;
+let mockRegistry: WidgetRegistry;
 let setProperties: SinonSpy | null = null;
 let widgetBaseSpy: SinonSpy;
 
@@ -33,6 +32,7 @@ registerSuite({
 				{ id: 'foo', label: 'foo' }
 			],
 			item: {
+				id: '1',
 				data: { foo: 'bar' }
 			}
 		};
@@ -52,14 +52,6 @@ registerSuite({
 
 		assert.isTrue(widgetBaseSpy.calledOnce, 'WidgetBase called once');
 		assert.isTrue(widgetBaseSpy.calledWithNew(), 'WidgetBase called with new');
-		assert.isNotNull(setProperties);
-		assert.isTrue(setProperties!.calledOnce, 'setProperties called once');
-		const cellProperties = cleanProperties<CellProperties>(setProperties!.getCall(0).args[0]);
-		assert.deepEqual(cellProperties, {
-			value: properties.item.data.foo,
-			item: properties.item,
-			key: properties.columns[0].id
-		});
 	},
 	'render with no columns'() {
 		const properties: any = {
