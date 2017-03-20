@@ -3,6 +3,7 @@ import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
+import { DNode } from '@dojo/widget-core/interfaces';
 import { CellProperties } from './Cell';
 import { HasColumns, ItemProperties } from './interfaces';
 
@@ -16,7 +17,7 @@ export interface RowProperties extends WidgetProperties, HasColumns, RegistryMix
 
 @theme(rowClasses)
 class Row extends RowBase<RowProperties> {
-	render() {
+	render(): DNode {
 		const {
 			registry,
 			item,
