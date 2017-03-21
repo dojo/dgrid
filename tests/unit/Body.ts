@@ -1,14 +1,14 @@
 import { VNode } from '@dojo/interfaces/vdom';
-import FactoryRegistry from '@dojo/widget-core/FactoryRegistry';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
-import * as registerSuite from 'intern/lib/interfaces/object';
+import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
 import { assert } from 'chai';
-import { spy, stub, SinonSpy } from 'sinon';
-import { spyOnWidget, cleanProperties } from '../support/util';
+import * as registerSuite from 'intern/lib/interfaces/object';
+import { SinonSpy, spy, stub } from 'sinon';
+import { cleanProperties, spyOnWidget } from '../support/util';
 import Body, { BodyProperties } from '../../src/Body';
 import { RowProperties } from '../../src/Row';
 
-let mockRegistry: FactoryRegistry;
+let mockRegistry: WidgetRegistry;
 let setProperties: SinonSpy | null = null;
 let widgetBaseSpy: SinonSpy;
 
