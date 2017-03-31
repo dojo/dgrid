@@ -1,6 +1,0 @@
-.row {
-}
-
-.rowTable {
-    composes: rowTable from './shared/rowTable.css';
-}
