@@ -5,7 +5,7 @@ import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { DNode } from '@dojo/widget-core/interfaces';
 import { HasColumn, HasSortDetail, HasSortEvent } from './interfaces';
 
-import * as headerCellClasses from './styles/headerCell.css';
+import * as headerCellClasses from './styles/headerCell.m.css';
 
 export const HeaderCellBase = ThemeableMixin(RegistryMixin(WidgetBase));
 

@@ -7,7 +7,7 @@ import { DNode } from '@dojo/widget-core/interfaces';
 import { CellProperties } from './Cell';
 import { HasColumns, ItemProperties } from './interfaces';
 
-import * as rowClasses from './styles/row.css';
+import * as rowClasses from './styles/row.m.css';
 
 export const RowBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
