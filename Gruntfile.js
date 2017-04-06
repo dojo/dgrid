@@ -1,8 +1,4 @@
-var tsconfig = require('./tsconfig.json');
-
 module.exports = function (grunt) {
-    var createProcessors = require('grunt-dojo2/tasks/util/postcss').createProcessors;
-
     require('grunt-dojo2').initConfig(grunt, {
         copy: {
             devStyles: {
