@@ -5,13 +5,14 @@ import { DNode } from '@dojo/widget-core/interfaces';
 import { HasValue, HasColumn, HasItem } from './interfaces';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 
-import * as cellClasses from './styles/cell.m.css';
+import * as css from './styles/cell.m.css';
+import * as cellCss from './styles/shared/cell.m.css';
 
 export interface CellProperties extends ThemeableProperties, HasValue, HasColumn, HasItem, RegistryMixinProperties { }
 
 export const CellBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-@theme(cellClasses)
+@theme(css)
 class Cell extends CellBase<CellProperties> {
 	render(): DNode {
 		const {
@@ -20,7 +21,7 @@ class Cell extends CellBase<CellProperties> {
 
 		return v('td', {
 			role: 'gridcell',
-			classes: this.classes(cellClasses.cell)
+			classes: this.classes(cellCss.cell, css.rowCell)
 		}, [
 			String(value)
 		]);

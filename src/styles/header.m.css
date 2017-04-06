@@ -2,9 +2,8 @@
     background-color: #eee;
 }
 
-.row {
+.headerRow {
 }
 
-.rowTable {
-    composes: rowTable from 'shared/rowTable.m.css';
+.headerTable {
 }

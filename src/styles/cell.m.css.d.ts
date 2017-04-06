@@ -1,1 +1,1 @@
-export const cell: string;
+export const rowCell: string;
