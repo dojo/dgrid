@@ -1,1 +1,1 @@
-export const rowTable: string;
+export const table: string;
