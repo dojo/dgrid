@@ -1,15 +1,10 @@
-module.exports = function (grunt) {
+var tsconfig = require('./tsconfig.json');
 
-    var staticFiles = [ 'src/**/*.html', 'src/**/*.png' ];
+module.exports = function (grunt) {
+    var createProcessors = require('grunt-dojo2/tasks/util/postcss').createProcessors;
 
     require('grunt-dojo2').initConfig(grunt, {
         copy: {
-            staticFiles: {
-                expand: true,
-                cwd: '.',
-                src: staticFiles,
-                dest: '<%= devDirectory %>'
-            },
             devStyles: {
                 expand: true,
                 cwd: '.',
@@ -18,16 +13,14 @@ module.exports = function (grunt) {
             },
             distStyles: {
                 expand: true,
-                cwd: '.',
-                src: 'src/styles/dgrid.css',
+                cwd: 'src',
+                src: 'styles/dgrid.css',
                 dest: '<%= distDirectory %>'
             }
         }
     });
 
     grunt.registerTask('dev', grunt.config.get('devTasks').concat([
-        'copy:staticFiles',
-        'copy:staticTestFiles',
         'postcss:modules-dev',
         'copy:devStyles'
     ]));
