@@ -24,7 +24,11 @@ export interface HasColumn {
 }
 
 export interface HasSortDetail {
-	sortDetail: SortDetails;
+	sortDetail?: SortDetails;
+}
+
+export interface HasSortDetails {
+	sortDetails: SortDetails[];
 }
 
 export interface HasSortEvent {

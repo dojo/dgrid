@@ -1,3 +1,2 @@
-.cell {
-    composes: cell from './shared/cell.m.css';
+.rowCell {
 }

@@ -5,13 +5,15 @@ import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { DNode } from '@dojo/widget-core/interfaces';
 import { HasColumn, HasSortDetail, HasSortEvent } from './interfaces';
 
-import * as headerCellClasses from './styles/headerCell.m.css';
+import * as css from './styles/headerCell.m.css';
+import * as cellCss from './styles/shared/cell.m.css';
 
 export const HeaderCellBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
 export interface HeaderCellProperties extends ThemeableProperties, HasColumn, HasSortDetail, HasSortEvent, RegistryMixinProperties {}
 
-@theme(headerCellClasses)
+@theme(cellCss)
+@theme(css)
 class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 	onSortRequest(): void {
 		const {
@@ -34,11 +36,11 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 			onSortRequest
 		} = this.properties;
 
-		const classes = [ headerCellClasses.headerCell, column.sortable !== false ? headerCellClasses.sortable : null ];
+		const classes = [ cellCss.cell, css.headerCell, column.sortable !== false ? css.sortable : null ];
 
 		const sortClasses = sortDetail ? [
-			headerCellClasses.sortArrow,
-			sortDetail.descending ? headerCellClasses.sortArrowDown : headerCellClasses.sortArrowUp
+			css.sortArrow,
+			sortDetail.descending ? css.sortArrowDown : css.sortArrowUp
 		] : [];
 
 		const onclick = (onSortRequest && column.sortable !== false) ? { onclick: this.onSortRequest } : {};

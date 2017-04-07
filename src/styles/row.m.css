@@ -2,5 +2,4 @@
 }
 
 .rowTable {
-    composes: rowTable from './shared/rowTable.m.css';
 }
