@@ -5,7 +5,7 @@ import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { HasColumns, HasItems } from './interfaces';
 import { RowProperties } from './Row';
 
-import * as bodyClasses from './styles/body.css';
+import * as bodyClasses from './styles/body.m.css';
 
 export const BodyBase = ThemeableMixin(RegistryMixin(WidgetBase));
 

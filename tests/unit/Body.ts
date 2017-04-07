@@ -1,7 +1,7 @@
+import { assert } from 'chai';
 import { VNode } from '@dojo/interfaces/vdom';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
-import { assert } from 'chai';
 import * as registerSuite from 'intern/lib/interfaces/object';
 import { SinonSpy, spy, stub } from 'sinon';
 import { cleanProperties, spyOnWidget } from '../support/util';
