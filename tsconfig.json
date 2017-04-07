@@ -1,5 +1,4 @@
 {
-	"version": "rc",
 	"compilerOptions": {
 		"declaration": false,
 		"emitDecoratorMetadata": true,

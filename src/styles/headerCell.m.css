@@ -1,5 +1,4 @@
 .headerCell {
-    composes: cell from './shared/cell.css';
     position: relative;
 }
 

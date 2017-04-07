@@ -7,7 +7,8 @@ import { DNode } from '@dojo/widget-core/interfaces';
 import { CellProperties } from './Cell';
 import { HasColumns, ItemProperties } from './interfaces';
 
-import * as rowClasses from './styles/row.css';
+import * as css from './styles/row.m.css';
+import * as tableCss from './styles/shared/table.m.css';
 
 export const RowBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
@@ -15,7 +16,8 @@ export interface RowProperties extends WidgetProperties, HasColumns, RegistryMix
 	item: ItemProperties<any>;
 }
 
-@theme(rowClasses)
+@theme(tableCss)
+@theme(css)
 class Row extends RowBase<RowProperties> {
 	render(): DNode {
 		const {
@@ -26,11 +28,11 @@ class Row extends RowBase<RowProperties> {
 
 		return v('div', {
 			role: 'row',
-			classes: this.classes(rowClasses.row)
+			classes: this.classes(css.row)
 		}, [
 			v('table', {
 				role: 'presentation',
-				classes: this.classes(rowClasses.rowTable)
+				classes: this.classes(tableCss.table, css.rowTable)
 			}, [
 				v('tr', columns.map((column) => {
 					const { id, field } = column;
