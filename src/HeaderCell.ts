@@ -12,6 +12,7 @@ export const HeaderCellBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
 export interface HeaderCellProperties extends ThemeableProperties, HasColumn, HasSortDetail, HasSortEvent, RegistryMixinProperties {}
 
+@theme(cellCss)
 @theme(css)
 class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 	onSortRequest(): void {

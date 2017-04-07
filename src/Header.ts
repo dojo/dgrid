@@ -13,6 +13,7 @@ export const HeaderBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
 export interface HeaderProperties extends ThemeableProperties, HasColumns, HasSortDetails, HasSortEvent, RegistryMixinProperties { }
 
+@theme(tableCss)
 @theme(css)
 class Header extends HeaderBase<HeaderProperties> {
 	render(): DNode {

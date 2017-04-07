@@ -16,6 +16,7 @@ export interface RowProperties extends WidgetProperties, HasColumns, RegistryMix
 	item: ItemProperties<any>;
 }
 
+@theme(tableCss)
 @theme(css)
 class Row extends RowBase<RowProperties> {
 	render(): DNode {
