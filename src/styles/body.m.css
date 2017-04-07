@@ -1,0 +1,9 @@
+.scroller {
+    overflow-x: auto;
+    overflow-y: scroll;
+    padding-bottom: 0px;
+}
+
+.content {
+    position: relative;
+}
