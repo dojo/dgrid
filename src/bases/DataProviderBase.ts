@@ -1,13 +1,18 @@
 import { Observable, Observer } from '@dojo/core/Observable';
 import { DataProperties, SortDetails } from '../interfaces';
 
+export interface DataProviderConfiguration {
+	sort?: SortDetails | SortDetails[];
+}
+
 export interface Options {
 	[option: string]: any;
+	configuration?: DataProviderConfiguration;
 }
 
 export interface DataProviderState<O extends Options> {
 	options: O;
-	sort: SortDetails[];
+	sort?: SortDetails[];
 }
 
 abstract class DataProviderBase<T, O extends Options> {
@@ -18,9 +23,15 @@ abstract class DataProviderBase<T, O extends Options> {
 	observers: Observer<DataProperties<T>>[];
 
 	constructor(options: O) {
+		const {
+			configuration: {
+				sort = []
+			} = {}
+		} = options;
+
 		this.state = {
 			options: options || {},
-			sort: []
+			sort: Array.isArray(sort) ? sort : [ sort ]
 		};
 		this.observers = [];
 		this.observable = new Observable((observer: Observer<DataProperties<T>>) => {
@@ -29,13 +40,11 @@ abstract class DataProviderBase<T, O extends Options> {
 				observer.next(this.data);
 			}
 		});
-
-		this.updateData();
 	}
 
 	protected abstract buildData(state: DataProviderState<O>): DataProperties<T>;
 
-	configure({ sort }: { sort: SortDetails | SortDetails[] }) {
+	configure({ sort = [] }: DataProviderConfiguration) {
 		this.state.sort = Array.isArray(sort) ? sort : [ sort ];
 		this.updateData();
 	}
