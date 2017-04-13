@@ -6,7 +6,8 @@ export interface ArrayDataProviderOptions<T> extends Options {
 	data: T[];
 }
 
-function expand(items: any[], idProperty: string, array = <ItemProperties<any>[]> []) {
+function expand(items: any[], idProperty: string) {
+	const array: ItemProperties<any>[] = [];
 	for (const item of items) {
 		const id = String(item[idProperty]);
 		array.push({
@@ -22,12 +23,12 @@ class ArrayDataProvider<T> extends DataProviderBase<T, ArrayDataProviderOptions<
 		const {
 			options: {
 				idProperty = 'id',
-				data = []
+				data
 			},
-			sort = []
+			sort
 		} = state;
 		let items = data;
-		if (sort.length) {
+		if (sort && sort.length) {
 			items = items.sort((a: any, b: any) => {
 				for (let field of sort) {
 					const aValue = a[field.columnId];

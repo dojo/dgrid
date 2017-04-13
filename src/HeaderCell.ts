@@ -10,14 +10,16 @@ import * as cellCss from './styles/shared/cell.m.css';
 
 export const HeaderCellBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-export interface HeaderCellProperties extends ThemeableProperties, HasColumn, HasSortDetail, HasSortEvent, RegistryMixinProperties {}
+export interface HeaderCellProperties extends ThemeableProperties, HasColumn, HasSortDetail, HasSortEvent, RegistryMixinProperties {
+	key: string;
+}
 
 @theme(cellCss)
 @theme(css)
 class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 	onSortRequest(): void {
 		const {
-			key = '',
+			key,
 			sortDetail,
 			onSortRequest
 		} = this.properties;

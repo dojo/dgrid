@@ -30,9 +30,11 @@ abstract class DataProviderBase<T, O extends Options> {
 		} = options;
 
 		this.state = {
-			options: options || {},
-			sort: Array.isArray(sort) ? sort : [ sort ]
+			options
 		};
+		if (sort) {
+			this.state.sort = Array.isArray(sort) ? sort : [ sort ];
+		}
 		this.observers = [];
 		this.observable = new Observable((observer: Observer<DataProperties<T>>) => {
 			this.observers.push(observer);
@@ -44,9 +46,21 @@ abstract class DataProviderBase<T, O extends Options> {
 
 	protected abstract buildData(state: DataProviderState<O>): DataProperties<T>;
 
-	configure({ sort = [] }: DataProviderConfiguration) {
-		this.state.sort = Array.isArray(sort) ? sort : [ sort ];
+	configure({ sort }: DataProviderConfiguration) {
+		if (sort) {
+			this.state.sort = Array.isArray(sort) ? sort : [ sort ];
+		}
 		this.updateData();
+	}
+
+	notify() {
+		let data = this.data;
+		if (!data) {
+			data = this.data = this.buildData(this.state);
+		}
+		this.observers.forEach((observer) => {
+			observer.next(data);
+		});
 	}
 
 	observe() {
@@ -64,10 +78,8 @@ abstract class DataProviderBase<T, O extends Options> {
 	}
 
 	protected updateData() {
-		const data = this.data = this.buildData(this.state);
-		this.observers.forEach((observer) => {
-			observer.next(data);
-		});
+		this.data = this.buildData(this.state);
+		this.notify();
 	}
 }
 

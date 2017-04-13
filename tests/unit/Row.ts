@@ -27,14 +27,15 @@ registerSuite({
 	},
 	render() {
 		const properties = {
-			registry: mockRegistry,
 			columns: [
 				{ id: 'foo', label: 'foo' }
 			],
+			key: '1',
 			item: {
 				id: '1',
 				data: { foo: 'bar' }
-			}
+			},
+			registry: mockRegistry
 		};
 
 		const row = new Row();
