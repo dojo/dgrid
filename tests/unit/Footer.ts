@@ -19,16 +19,14 @@ registerSuite({
 
 		'footer with children'() {
 			const footer = new Footer();
-			footer.setProperties(<any> {
-				children: [
-					v('div', [
-						'test child1'
-					]),
-					v('div', [
-						'test child2'
-					])
-				]
-			});
+			footer.setChildren([
+				v('div', [
+					'test child1'
+				]),
+				v('div', [
+					'test child2'
+				])
+			]);
 			const vnode = <VNode> footer.__render__();
 
 			assert.strictEqual(vnode.children![0]!.vnodeSelector, 'div');
