@@ -1,5 +1,7 @@
+@import './shared/variables.css';
+
 .header {
-    background-color: #eee;
+    background-color: var(--header-background-color);
 }
 
 .headerRow {
