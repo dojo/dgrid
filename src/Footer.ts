@@ -8,20 +8,14 @@ import * as css from './styles/footer.m.css';
 
 export const FooterBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-export interface FooterProperties extends ThemeableProperties, RegistryMixinProperties {
-	children?: DNode[];
-}
+export interface FooterProperties extends ThemeableProperties, RegistryMixinProperties {}
 
 @theme(css)
 class Footer extends FooterBase<FooterProperties> {
 	render(): DNode {
-		const {
-			children
-		} = this.properties;
-
 		return v('div', {
 			classes: this.classes(css.footer)
-		}, children);
+		}, this.children);
 	}
 }
 
