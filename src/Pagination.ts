@@ -1,15 +1,14 @@
 import { ItemProperties } from './interfaces';
 import { v, w } from '@dojo/widget-core/d';
 import { DNode } from '@dojo/widget-core/interfaces';
-import { RegistryMixin, RegistryMixinProperties }  from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 
 import * as css from './styles/pagination.m.css';
 
-export const PaginationBase = ThemeableMixin(RegistryMixin(WidgetBase));
+export const PaginationBase = ThemeableMixin(WidgetBase);
 
-export interface PaginationProperties extends ThemeableProperties/*, RegistryMixinProperties*/ {
+export interface PaginationProperties extends ThemeableProperties {
 	items: ItemProperties<any>[];
 	onRequestPagination?: (pageNumber: number) => void;
 	pagination: {
