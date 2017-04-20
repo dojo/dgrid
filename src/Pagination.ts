@@ -9,8 +9,9 @@ import * as css from './styles/pagination.m.css';
 
 export const PaginationBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-export interface PaginationProperties extends ThemeableProperties, RegistryMixinProperties {
+export interface PaginationProperties extends ThemeableProperties/*, RegistryMixinProperties*/ {
 	items: ItemProperties<any>[];
+	onRequestPagination?: (pageNumber: number) => void;
 	pagination: {
 		itemsPerPage: number
 	};
@@ -26,11 +27,23 @@ class Pagination extends PaginationBase<PaginationProperties> {
 		if (visible) {
 			return v('span', {
 				classes: this.classes(css.pageLink, disabled ? css.disabled : null),
-				page
-			});
+				onclick: this.onClick,
+				page,
+				tabindex: disabled ? '-1' : '0'
+			}, [ String(page) ]);
 		}
 
 		return null;
+	}
+
+	onClick (event: any) {
+		if (event.target.className.indexOf(css.disabled) !== -1) {
+			return;
+		}
+
+		const requestedPage = parseInt(event.target.getAttribute('page'), 10);
+
+		this.properties.onRequestPagination && this.properties.onRequestPagination(requestedPage);
 	}
 
 	render (): DNode {
@@ -59,14 +72,19 @@ class Pagination extends PaginationBase<PaginationProperties> {
 				classes: this.classes(css.navigation)
 			}, [
 				v('span', {
-					classes: this.classes(css.pageLink, css.previous, currentPageNumber === 1 ? css.disabled : null)
+					classes: this.classes(css.pageLink, css.previous, currentPageNumber === 1 ? css.disabled : null),
+					onclick: this.onClick,
+					page: String(currentPageNumber - 1),
+					tabindex: currentPageNumber === 1 ? '-1' : '0'
 				}, ['‹']),
 				v('span', {
 					classes: this.classes(css.pageLinks)
 				}, [
 					v('span', {
 						classes: this.classes(css.pageLink, currentPageNumber === 1 ? css.disabled : null),
-						page: '1'
+						onclick: this.onClick,
+						page: '1',
+						tabindex: currentPageNumber === 1 ? '-1' : '0'
 					}, [ '1' ]),
 					currentPageNumber > 3 ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
 					this.createPageLink(String(currentPageNumber - 2), Boolean(currentPageNumber - 2 > 1), false),
@@ -77,11 +95,16 @@ class Pagination extends PaginationBase<PaginationProperties> {
 					currentPageNumber !== totalPages ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
 					v('span', {
 						classes: this.classes(css.pageLink, currentPageNumber === totalPages ? css.disabled : null),
-						page: String(totalPages)
+						onclick: this.onClick,
+						page: String(totalPages),
+						tabindex: currentPageNumber === totalPages ? '-1' : '0'
 					}, [ String(totalPages) ])
 				]),
 				v('span', {
-					classes: this.classes(css.pageLink, css.next, currentPageNumber * itemsPerPage >= totalLength ? css.disabled : null)
+					classes: this.classes(css.pageLink, css.next, currentPageNumber * itemsPerPage >= totalLength ? css.disabled : null),
+					onclick: this.onClick,
+					page: String(currentPageNumber + 1),
+					tabindex: currentPageNumber * itemsPerPage >= totalLength ? '-1' : '0'
 				}, ['›'])
 			]));
 		}
