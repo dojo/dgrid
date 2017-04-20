@@ -2,7 +2,5 @@
 
 .footer {
 	background-color: var(--header-background-color);
-	bottom: 0;
-	position: absolute;
 	width: 100%;
 }
