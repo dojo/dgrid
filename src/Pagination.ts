@@ -58,6 +58,8 @@ class Pagination extends PaginationBase<PaginationProperties> {
 		} = this.properties;
 		const totalPages = Math.ceil(totalLength / itemsPerPage);
 		const currentPageNumber = Math.round(startingIndex / itemsPerPage) + 1;
+		const isFirstPage = currentPageNumber === 1;
+		const isLastPage = currentPageNumber === totalPages;
 		const children = [
 			v('div', {
 				classes: this.classes(css.status)
@@ -71,19 +73,19 @@ class Pagination extends PaginationBase<PaginationProperties> {
 				classes: this.classes(css.navigation)
 			}, [
 				v('span', {
-					classes: this.classes(css.pageLink, css.previous, currentPageNumber === 1 ? css.disabled : null),
+					classes: this.classes(css.pageLink, css.previous, isFirstPage ? css.disabled : null),
 					onclick: this.onClick,
 					page: String(currentPageNumber - 1),
-					tabindex: currentPageNumber === 1 ? '-1' : '0'
+					tabindex: isFirstPage ? '-1' : '0'
 				}, ['‹']),
 				v('span', {
 					classes: this.classes(css.pageLinks)
 				}, [
 					v('span', {
-						classes: this.classes(css.pageLink, currentPageNumber === 1 ? css.disabled : null),
+						classes: this.classes(css.pageLink, isFirstPage ? css.disabled : null),
 						onclick: this.onClick,
 						page: '1',
-						tabindex: currentPageNumber === 1 ? '-1' : '0'
+						tabindex: isFirstPage ? '-1' : '0'
 					}, [ '1' ]),
 					currentPageNumber > 4 ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
 					this.createPageLink(String(currentPageNumber - 2), Boolean(currentPageNumber - 2 > 1), false),
@@ -93,17 +95,17 @@ class Pagination extends PaginationBase<PaginationProperties> {
 					this.createPageLink(String(currentPageNumber + 2), Boolean(currentPageNumber + 2 < totalPages), false),
 					currentPageNumber < (totalPages - 3) ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
 					v('span', {
-						classes: this.classes(css.pageLink, currentPageNumber === totalPages ? css.disabled : null),
+						classes: this.classes(css.pageLink, isLastPage ? css.disabled : null),
 						onclick: this.onClick,
 						page: String(totalPages),
-						tabindex: currentPageNumber === totalPages ? '-1' : '0'
+						tabindex: isLastPage ? '-1' : '0'
 					}, [ String(totalPages) ])
 				]),
 				v('span', {
-					classes: this.classes(css.pageLink, css.next, currentPageNumber * itemsPerPage >= totalLength ? css.disabled : null),
+					classes: this.classes(css.pageLink, css.next, isLastPage ? css.disabled : null),
 					onclick: this.onClick,
 					page: String(currentPageNumber + 1),
-					tabindex: currentPageNumber * itemsPerPage >= totalLength ? '-1' : '0'
+					tabindex: isLastPage ? '-1' : '0'
 				}, ['›'])
 			]));
 		}
