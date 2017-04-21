@@ -66,7 +66,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 			])
 		];
 
-		if (totalLength > items.length) {
+		if (totalLength > items.length || items.length > itemsPerPage) {
 			children.push(v('div', {
 				classes: this.classes(css.navigation)
 			}, [

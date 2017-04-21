@@ -7,3 +7,4 @@ import './Body';
 import './Row';
 import './Cell';
 import './Footer';
+import './Pagination';
