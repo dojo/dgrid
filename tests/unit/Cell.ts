@@ -1,33 +1,77 @@
-import * as registerSuite from 'intern/lib/interfaces/object';
-import { assert } from 'chai';
-import { VNode } from '@dojo/interfaces/vdom';
-import Cell from '../../src/Cell';
+import * as registerSuite from 'intern!object';
+
+import harness, { Harness } from '@dojo/test-extras/harness';
+import { registry, v } from '@dojo/widget-core/d';
+
+import Cell, { CellProperties } from '../../src/Cell';
+import { Column, ItemProperties } from '../../src/interfaces';
+import * as cellCss from '../../src/styles/shared/cell.m.css';
+import * as css from '../../src/styles/cell.m.css';
+
+const column: Column<any> = {
+	id: 'column'
+};
+const item: ItemProperties<any> = {
+	id: 'item',
+	data: {}
+};
+let widget: Harness<CellProperties, typeof Cell>;
 
 registerSuite({
 	name: 'Cell',
-	render: {
-		'data property used as cell text node'() {
-			const cell = new Cell();
-			cell.setProperties(<any> { value: 'Hello, World!' });
 
-			const vnode = <VNode> cell.__render__();
-			assert.strictEqual(vnode.vnodeSelector, 'td');
-			assert.strictEqual(vnode.text, 'Hello, World!');
-		},
-		'null is returned when no data property'() {
-			const cell = new Cell();
+	beforeEach() {
+		widget = harness(Cell);
+	},
 
-			const vnode = <VNode> cell.__render__();
-			assert.strictEqual(vnode.vnodeSelector, 'td');
-			assert.isUndefined(vnode.text);
-		},
-		'cell data is stringified'() {
-			const cell = new Cell();
-			cell.setProperties(<any> { value: <any> 1234 });
+	afterEach() {
+		widget.destroy();
+	},
 
-			const vnode = <VNode> cell.__render__();
-			assert.strictEqual(vnode.vnodeSelector, 'td');
-			assert.strictEqual(vnode.text, '1234');
-		}
+	'Cell value used for child node'() {
+		widget.setProperties({
+			column,
+			item,
+			registry,
+			value: 'Hello, World!'
+		});
+
+		widget.expectRender(v('td', {
+			role: 'gridcell',
+			classes: widget.classes(cellCss.cell, css.rowCell)
+		}, [
+			'Hello, World!'
+		]));
+	},
+
+	'Cell value missing'() {
+		widget.setProperties(<any> {
+			column,
+			item,
+			registry
+		});
+
+		widget.expectRender(v('td', {
+			role: 'gridcell',
+			classes: widget.classes(cellCss.cell, css.rowCell)
+		}, [
+			''
+		]));
+	},
+
+	'Cell value is stringified'() {
+		widget.setProperties({
+			column,
+			item,
+			registry,
+			value: <any> 1234
+		});
+
+		widget.expectRender(v('td', {
+			role: 'gridcell',
+			classes: widget.classes(cellCss.cell, css.rowCell)
+		}, [
+			'1234'
+		]));
 	}
 });

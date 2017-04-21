@@ -1,3 +1,4 @@
+import '@dojo/test-extras/support/loadJsdom';
 import './Header';
 import './HeaderCell';
 import './Body';

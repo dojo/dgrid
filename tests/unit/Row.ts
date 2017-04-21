@@ -1,76 +1,72 @@
-import { VNode } from '@dojo/interfaces/vdom';
-import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
-import WidgetBase from '@dojo/widget-core/WidgetBase';
-import { assert } from 'chai';
-import * as registerSuite from 'intern/lib/interfaces/object';
-import { spy, stub, SinonSpy } from 'sinon';
-import Row from '../../src/Row';
-import { spyOnWidget } from '../support/util';
+import * as registerSuite from 'intern!object';
 
-let mockRegistry: WidgetRegistry;
-let setProperties: SinonSpy | null = null;
-let widgetBaseSpy: SinonSpy;
+import harness, { Harness } from '@dojo/test-extras/harness';
+import { registry, v, w } from '@dojo/widget-core/d';
+
+import { CellProperties } from '../../src/Cell';
+import { ItemProperties } from '../../src/interfaces';
+import Row, { RowProperties } from '../../src/Row';
+import * as css from '../../src/styles/row.m.css';
+import * as tableCss from '../../src/styles/shared/table.m.css';
+
+let widget: Harness<RowProperties, typeof Row>;
 
 registerSuite({
 	name: 'Row',
+
 	beforeEach() {
-		setProperties = null;
-		widgetBaseSpy = spyOnWidget(WidgetBase, (prototype) => {
-			setProperties = spy(prototype, 'setProperties');
-		});
-		mockRegistry = <any> {
-			get: stub().withArgs('cell').returns(widgetBaseSpy),
-			has() {
-				return true;
+		widget = harness(Row);
+	},
+
+	afterEach() {
+		widget.destroy();
+	},
+
+	'Simple columns'() {
+		const item: ItemProperties<any> = {
+			id: '1',
+			data: {
+				id: 1,
+				foo: 'foo',
+				bar: 'bar'
 			}
 		};
-	},
-	render() {
-		const properties = {
-			registry: mockRegistry,
+		widget.setProperties({
 			columns: [
-				{ id: 'foo', label: 'foo' }
+				{ id: 'foo' },
+				{ id: 'bar' }
 			],
-			item: {
-				id: '1',
-				data: { foo: 'bar' }
-			}
-		};
+			item,
+			registry
+		});
 
-		const row = new Row();
-		row.setProperties(properties);
-		const vnode = <VNode> row.__render__();
-
-		assert.strictEqual(vnode.vnodeSelector, 'div');
-		assert.strictEqual(vnode.properties!['role'], 'row');
-		assert.lengthOf(vnode.children, 1);
-
-		const table = vnode.children![0];
-		assert.strictEqual(table.vnodeSelector, 'table');
-		assert.strictEqual(table.properties!['role'], 'presentation');
-		assert.lengthOf(table.children, 1);
-
-		assert.isTrue(widgetBaseSpy.calledOnce, 'WidgetBase called once');
-		assert.isTrue(widgetBaseSpy.calledWithNew(), 'WidgetBase called with new');
-	},
-	'render with no columns'() {
-		const properties: any = {
-			registry: mockRegistry,
-			item: { foo: 'bar' }
-		};
-
-		const row = new Row();
-		row.setProperties(properties);
-		const vnode = <VNode> row.__render__();
-
-		assert.strictEqual(vnode.vnodeSelector, 'div');
-		assert.lengthOf(vnode.children, 1);
-
-		const table = vnode.children![0];
-		assert.lengthOf(table.children, 1);
-
-		const tr = table.children![0];
-		assert.lengthOf(tr.children, 0);
-		assert.isTrue(widgetBaseSpy.notCalled);
+		widget.expectRender(v('div', {
+			classes: widget.classes(css.row),
+			role: 'row'
+		}, [
+			v('table', {
+				role: 'presentation',
+				classes: widget.classes(tableCss.table, css.rowTable)
+			}, [
+				v('tr', [
+					w<CellProperties>('cell', {
+						column: { id: 'foo' },
+						item,
+						key: 'foo',
+						registry,
+						theme: undefined,
+						value: 'foo'
+					}),
+					w<CellProperties>('cell', {
+						column: { id: 'bar' },
+						item,
+						key: 'bar',
+						registry,
+						theme: undefined,
+						value: 'bar'
+					})
+				])
+			])
+		]));
 	}
 });

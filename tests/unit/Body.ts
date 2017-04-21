@@ -1,92 +1,59 @@
-import { assert } from 'chai';
-import { VNode } from '@dojo/interfaces/vdom';
-import WidgetBase from '@dojo/widget-core/WidgetBase';
-import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
-import * as registerSuite from 'intern/lib/interfaces/object';
-import { SinonSpy, spy, stub } from 'sinon';
-import { cleanProperties, spyOnWidget } from '../support/util';
-import Body, { BodyProperties } from '../../src/Body';
-import { RowProperties } from '../../src/Row';
+import * as registerSuite from 'intern!object';
 
-let mockRegistry: WidgetRegistry;
-let setProperties: SinonSpy | null = null;
-let widgetBaseSpy: SinonSpy;
+import harness, { Harness } from '@dojo/test-extras/harness';
+import { registry, v, w } from '@dojo/widget-core/d';
+
+import Body, { BodyProperties } from '../../src/Body';
+import { ItemProperties, Column } from '../../src/interfaces';
+import { RowProperties } from '../../src/Row';
+import * as css from '../../src/styles/body.m.css';
+
+let widget: Harness<BodyProperties, typeof Body>;
 
 registerSuite({
 	name: 'Body',
+
 	beforeEach() {
-		setProperties = null;
-		widgetBaseSpy = spyOnWidget(WidgetBase, (prototype) => {
-			setProperties = spy(prototype, 'setProperties');
-		});
-		mockRegistry = <any> {
-			get: stub().withArgs('row').returns(widgetBaseSpy),
-			has() {
-				return true;
-			}
-		};
+		widget = harness(Body);
 	},
-	'render with items'() {
-		const items = [
-			{
-				id: 'id',
-				data: { id: 'id', foo: 'bar' }
-			}
+
+	afterEach() {
+		widget.destroy();
+	},
+
+	'Simple item'() {
+		const columns: Column<any>[] = [
+			{ id: 'foo' },
+			{ id: 'bar' }
 		];
-		const properties: BodyProperties = {
-			registry: mockRegistry,
-			items,
-			columns: [
-				{ id: 'foo', label: 'foo' }
-			]
+		const item: ItemProperties<any> = {
+			id: '1',
+			data: {
+				id: 1,
+				foo: 'foo',
+				bar: 'bar'
+			}
 		};
-
-		const body = new Body();
-		body.setProperties(properties);
-		const promise = new Promise((resolve) => setTimeout(resolve, 10));
-
-		return promise.then(() => {
-			const vnode = <VNode> body.__render__();
-
-			assert.strictEqual(vnode.vnodeSelector, 'div');
-			assert.lengthOf(vnode.children, 1);
-			assert.equal(vnode.children![0].vnodeSelector, 'div');
-			assert.lengthOf(vnode.children![0].children, 1);
-			assert.isTrue(widgetBaseSpy.calledOnce, 'WidgetBase called once');
-			assert.isTrue(widgetBaseSpy.calledWithNew(), 'WidgetBase called with new');
-			assert.isNotNull(setProperties);
-			assert.isTrue(setProperties!.calledOnce, 'setProperties called once');
-			const rowProperties = cleanProperties<RowProperties>(setProperties!.getCall(0).args[0]);
-			assert.deepEqual(rowProperties, {
-				key: 'id',
-				theme: undefined,
-				columns: properties.columns,
-				item: properties.items[0]
-			});
+		widget.setProperties({
+			columns,
+			items: [ item ],
+			registry
 		});
-	},
-	'render with no items'() {
-		const items: any[] = [];
-		const properties: BodyProperties = {
-			registry: mockRegistry,
-			items,
-			columns: [
-				{ id: 'foo', label: 'foo' }
-			]
-		};
 
-		const row = new Body();
-		row.setProperties(properties);
-		const promise = new Promise((resolve) => setTimeout(resolve, 10));
-
-		return promise.then(() => {
-			const vnode = <VNode> row.__render__();
-
-			assert.strictEqual(vnode.vnodeSelector, 'div');
-			assert.lengthOf(vnode.children, 1);
-			assert.equal(vnode.children![0].vnodeSelector, 'div');
-			assert.lengthOf(vnode.children![0].children, 0);
-			assert.isTrue(widgetBaseSpy.notCalled);
-		});
+		widget.expectRender(v('div', {
+			classes: widget.classes(css.scroller)
+		}, [
+			v('div', {
+				classes: widget.classes(css.content)
+			}, [
+				w<RowProperties>('row', {
+					columns,
+					item,
+					key: item.id,
+					registry,
+					theme: undefined
+				})
+			])
+		]));
 	}
 });

@@ -21,9 +21,10 @@ export interface RowProperties extends WidgetProperties, HasColumns, RegistryMix
 class Row extends RowBase<RowProperties> {
 	render(): DNode {
 		const {
-			registry,
+			columns,
 			item,
-			columns = []
+			registry,
+			theme
 		} = this.properties;
 
 		return v('div', {
@@ -38,10 +39,11 @@ class Row extends RowBase<RowProperties> {
 					const { id, field } = column;
 
 					return w<CellProperties>('cell', {
-						registry,
-						key: id,
 						column,
 						item,
+						key: id,
+						registry,
+						theme,
 						value: item.data[ field || id ]
 					});
 				}))
