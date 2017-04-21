@@ -56,7 +56,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 				totalLength
 			}
 		} = this.properties;
-		const totalPages = totalLength / itemsPerPage;
+		const totalPages = Math.ceil(totalLength / itemsPerPage);
 		const currentPageNumber = Math.round(startingIndex / itemsPerPage) + 1;
 		const children = [
 			v('div', {
@@ -85,13 +85,13 @@ class Pagination extends PaginationBase<PaginationProperties> {
 						page: '1',
 						tabindex: currentPageNumber === 1 ? '-1' : '0'
 					}, [ '1' ]),
-					currentPageNumber > 3 ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
+					currentPageNumber > 4 ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
 					this.createPageLink(String(currentPageNumber - 2), Boolean(currentPageNumber - 2 > 1), false),
 					this.createPageLink(String(currentPageNumber - 1), Boolean(currentPageNumber - 1 > 1), false),
 					this.createPageLink(String(currentPageNumber), Boolean(currentPageNumber !== 1 && currentPageNumber !== totalPages), true),
 					this.createPageLink(String(currentPageNumber + 1), Boolean(currentPageNumber + 1 < totalPages), false),
 					this.createPageLink(String(currentPageNumber + 2), Boolean(currentPageNumber + 2 < totalPages), false),
-					currentPageNumber !== totalPages ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
+					currentPageNumber < (totalPages - 3) ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
 					v('span', {
 						classes: this.classes(css.pageLink, currentPageNumber === totalPages ? css.disabled : null),
 						onclick: this.onClick,
