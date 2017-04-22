@@ -111,31 +111,26 @@ registerSuite({
 			assert.notOk(pageLinks.children![1].properties!.classes![paginationCss.pageLink]);
 			assert.isTrue(pageLinks.children![1].properties!.classes![paginationCss.pageSkip]);
 
-			assert.strictEqual(pageLinks.children![2].properties!.page, '3');
 			assert.strictEqual(pageLinks.children![2].properties!.tabindex, '0');
 			assert.strictEqual(pageLinks.children![2].text, '3');
 			assert.isTrue(pageLinks.children![2].properties!.classes![paginationCss.pageLink]);
 			assert.notOk(pageLinks.children![2].properties!.classes![paginationCss.disabled]);
 
-			assert.strictEqual(pageLinks.children![3].properties!.page, '4');
 			assert.strictEqual(pageLinks.children![3].properties!.tabindex, '0');
 			assert.strictEqual(pageLinks.children![3].text, '4');
 			assert.isTrue(pageLinks.children![3].properties!.classes![paginationCss.pageLink]);
 			assert.notOk(pageLinks.children![3].properties!.classes![paginationCss.disabled]);
 
-			assert.strictEqual(pageLinks.children![4].properties!.page, '5');
 			assert.strictEqual(pageLinks.children![4].properties!.tabindex, '-1');
 			assert.strictEqual(pageLinks.children![4].text, '5');
 			assert.isTrue(pageLinks.children![4].properties!.classes![paginationCss.pageLink]);
 			assert.isTrue(pageLinks.children![4].properties!.classes![paginationCss.disabled]);
 
-			assert.strictEqual(pageLinks.children![5].properties!.page, '6');
 			assert.strictEqual(pageLinks.children![5].properties!.tabindex, '0');
 			assert.strictEqual(pageLinks.children![5].text, '6');
 			assert.isTrue(pageLinks.children![5].properties!.classes![paginationCss.pageLink]);
 			assert.notOk(pageLinks.children![5].properties!.classes![paginationCss.disabled]);
 
-			assert.strictEqual(pageLinks.children![6].properties!.page, '7');
 			assert.strictEqual(pageLinks.children![6].properties!.tabindex, '0');
 			assert.strictEqual(pageLinks.children![6].text, '7');
 			assert.isTrue(pageLinks.children![6].properties!.classes![paginationCss.pageLink]);

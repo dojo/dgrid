@@ -3,6 +3,7 @@ import { v, w } from '@dojo/widget-core/d';
 import { DNode } from '@dojo/widget-core/interfaces';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
+import PageLink from './pagination/PageLink';
 
 import * as css from './styles/pagination.m.css';
 
@@ -88,11 +89,21 @@ class Pagination extends PaginationBase<PaginationProperties> {
 						tabindex: isFirstPage ? '-1' : '0'
 					}, [ '1' ]),
 					currentPageNumber > 4 ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
-					this.createPageLink(String(currentPageNumber - 2), Boolean(currentPageNumber - 2 > 1), false),
-					this.createPageLink(String(currentPageNumber - 1), Boolean(currentPageNumber - 1 > 1), false),
-					this.createPageLink(String(currentPageNumber), Boolean(currentPageNumber !== 1 && currentPageNumber !== totalPages), true),
-					this.createPageLink(String(currentPageNumber + 1), Boolean(currentPageNumber + 1 < totalPages), false),
-					this.createPageLink(String(currentPageNumber + 2), Boolean(currentPageNumber + 2 < totalPages), false),
+					currentPageNumber - 2 > 1 ?
+						w(PageLink, { key: '1', disabled: false, page: currentPageNumber - 2 }) :
+						null,
+					currentPageNumber - 1 > 1 ?
+						w(PageLink, { key: '2', disabled: false, page: currentPageNumber - 1 }) :
+						null,
+					currentPageNumber !== 1 && currentPageNumber !== totalPages ?
+						w(PageLink, { key: '3', disabled: true, page: currentPageNumber }) :
+						null,
+					currentPageNumber + 1 < totalPages ?
+						w(PageLink, { key: '4', disabled: false, page: currentPageNumber + 1 }) :
+						null,
+					currentPageNumber + 2 < totalPages ?
+						w(PageLink, { key: '5', disabled: false, page: currentPageNumber + 2 }) :
+						null,
 					currentPageNumber < (totalPages - 3) ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
 					v('span', {
 						classes: this.classes(css.pageLink, isLastPage ? css.disabled : null),
