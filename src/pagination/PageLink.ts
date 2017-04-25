@@ -9,6 +9,8 @@ export const PageLinkBase = ThemeableMixin(WidgetBase);
 
 export interface PageLinkProperties extends ThemeableProperties {
 	disabled: boolean;
+	isArrow?: boolean;
+	label?: string;
 	page: number;
 	onRequestPagination?: (pageNumber: number) => void;
 }
@@ -22,15 +24,16 @@ class PageLink extends PageLinkBase<PageLinkProperties> {
 	render (): DNode {
 		const {
 			disabled,
-			page
+			isArrow = false,
+			label = String(this.properties.page)
 		} = this.properties;
 		const onclick = disabled ? {} : { onclick: this.onClick };
 
 		return v('span', {
-			classes: this.classes(css.pageLink, disabled ? css.disabled : null),
+			classes: this.classes(css.pageLink, disabled ? css.disabled : null, isArrow ? css.arrow : null),
 			...onclick,
 			tabindex: disabled ? '-1' : '0'
-		}, [ String(page) ]);
+		}, [ label ]);
 	}
 }
 

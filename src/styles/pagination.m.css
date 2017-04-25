@@ -6,7 +6,7 @@
 	top: 0;
 }
 
-.next {
+.arrow {
 }
 
 .pageLink {
@@ -23,9 +23,6 @@
 
 .pagination {
 	position: relative;
-}
-
-.previous {
 }
 
 .status {

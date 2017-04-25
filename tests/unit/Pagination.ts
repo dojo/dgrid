@@ -69,7 +69,7 @@ registerSuite({
 
 			const previousLink = navigationNode.children![0];
 			assert.isTrue(previousLink.properties!.classes![paginationCss.pageLink]);
-			assert.isTrue(previousLink.properties!.classes![paginationCss.previous]);
+			assert.isTrue(previousLink.properties!.classes![paginationCss.arrow]);
 			assert.strictEqual(previousLink.text, '‹');
 
 			const pageLinks = navigationNode.children![1];
@@ -78,7 +78,7 @@ registerSuite({
 
 			const nextLink = navigationNode.children![2];
 			assert.isTrue(nextLink.properties!.classes![paginationCss.pageLink]);
-			assert.isTrue(nextLink.properties!.classes![paginationCss.next]);
+			assert.isTrue(nextLink.properties!.classes![paginationCss.arrow]);
 			assert.strictEqual(nextLink.text, '›');
 		},
 
@@ -101,7 +101,6 @@ registerSuite({
 			const pageLinks = vnode.children![1].children![1];
 			assert.strictEqual(pageLinks.children!.length, 9, 'pageLinks node should have 9 children');
 
-			assert.strictEqual(pageLinks.children![0].properties!.page, '1');
 			assert.strictEqual(pageLinks.children![0].properties!.tabindex, '0');
 			assert.strictEqual(pageLinks.children![0].text, '1');
 			assert.isTrue(pageLinks.children![0].properties!.classes![paginationCss.pageLink]);
@@ -140,7 +139,6 @@ registerSuite({
 			assert.notOk(pageLinks.children![7].properties!.classes![paginationCss.pageLink]);
 			assert.isTrue(pageLinks.children![7].properties!.classes![paginationCss.pageSkip]);
 
-			assert.strictEqual(pageLinks.children![8].properties!.page, '10');
 			assert.strictEqual(pageLinks.children![8].properties!.tabindex, '0');
 			assert.strictEqual(pageLinks.children![8].text, '10');
 			assert.isTrue(pageLinks.children![8].properties!.classes![paginationCss.pageLink]);

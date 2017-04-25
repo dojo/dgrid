@@ -73,51 +73,47 @@ class Pagination extends PaginationBase<PaginationProperties> {
 			children.push(v('div', {
 				classes: this.classes(css.navigation)
 			}, [
-				v('span', {
-					classes: this.classes(css.pageLink, css.previous, isFirstPage ? css.disabled : null),
-					onclick: this.onClick,
-					page: String(currentPageNumber - 1),
-					tabindex: isFirstPage ? '-1' : '0'
-				}, ['‹']),
+				w(PageLink, {
+					key: 'previous',
+					disabled: isFirstPage,
+					isArrow: true,
+					page: currentPageNumber - 1,
+					label: '‹'
+				}),
 				v('span', {
 					classes: this.classes(css.pageLinks)
 				}, [
-					v('span', {
-						classes: this.classes(css.pageLink, isFirstPage ? css.disabled : null),
-						onclick: this.onClick,
-						page: '1',
-						tabindex: isFirstPage ? '-1' : '0'
-					}, [ '1' ]),
-					currentPageNumber > 4 ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
+					w(PageLink, { key: '1', disabled: isFirstPage, page: 1 }),
+					currentPageNumber > 4 ?
+						v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) :
+						null,
 					currentPageNumber - 2 > 1 ?
-						w(PageLink, { key: '1', disabled: false, page: currentPageNumber - 2 }) :
+						w(PageLink, { key: '2', disabled: false, page: currentPageNumber - 2 }) :
 						null,
 					currentPageNumber - 1 > 1 ?
-						w(PageLink, { key: '2', disabled: false, page: currentPageNumber - 1 }) :
+						w(PageLink, { key: '3', disabled: false, page: currentPageNumber - 1 }) :
 						null,
 					currentPageNumber !== 1 && currentPageNumber !== totalPages ?
-						w(PageLink, { key: '3', disabled: true, page: currentPageNumber }) :
+						w(PageLink, { key: '4', disabled: true, page: currentPageNumber }) :
 						null,
 					currentPageNumber + 1 < totalPages ?
-						w(PageLink, { key: '4', disabled: false, page: currentPageNumber + 1 }) :
+						w(PageLink, { key: '5', disabled: false, page: currentPageNumber + 1 }) :
 						null,
 					currentPageNumber + 2 < totalPages ?
-						w(PageLink, { key: '5', disabled: false, page: currentPageNumber + 2 }) :
+						w(PageLink, { key: '6', disabled: false, page: currentPageNumber + 2 }) :
 						null,
-					currentPageNumber < (totalPages - 3) ? v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) : null,
-					v('span', {
-						classes: this.classes(css.pageLink, isLastPage ? css.disabled : null),
-						onclick: this.onClick,
-						page: String(totalPages),
-						tabindex: isLastPage ? '-1' : '0'
-					}, [ String(totalPages) ])
+					currentPageNumber < (totalPages - 3) ?
+						v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) :
+						null,
+					w(PageLink, { key: 'last', disabled: isLastPage, page: totalPages })
 				]),
-				v('span', {
-					classes: this.classes(css.pageLink, css.next, isLastPage ? css.disabled : null),
-					onclick: this.onClick,
-					page: String(currentPageNumber + 1),
-					tabindex: isLastPage ? '-1' : '0'
-				}, ['›'])
+				w(PageLink, {
+					key: 'next',
+					disabled: isLastPage,
+					isArrow: true,
+					page: currentPageNumber + 1,
+					label: '›'
+				})
 			]));
 		}
 
