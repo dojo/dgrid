@@ -8,7 +8,7 @@ import * as css from '../styles/pagination.m.css';
 export const PageLinkBase = ThemeableMixin(WidgetBase);
 
 export interface PageLinkProperties extends ThemeableProperties {
-	disabled: boolean;
+	disabled?: boolean;
 	isArrow?: boolean;
 	label?: string;
 	page: number;
@@ -23,7 +23,7 @@ class PageLink extends PageLinkBase<PageLinkProperties> {
 
 	render (): DNode {
 		const {
-			disabled,
+			disabled = false,
 			isArrow = false,
 			label = String(this.properties.page)
 		} = this.properties;
