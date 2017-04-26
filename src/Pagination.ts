@@ -3,116 +3,90 @@ import { v, w } from '@dojo/widget-core/d';
 import { DNode } from '@dojo/widget-core/interfaces';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
-import PageLink from './pagination/PageLink';
+import PageLink, { PageLinkProperties } from './pagination/PageLink';
 
 import * as css from './styles/pagination.m.css';
 
 export const PaginationBase = ThemeableMixin(WidgetBase);
 
 export interface PaginationProperties extends ThemeableProperties {
-	items: ItemProperties<any>[];
-	onRequestPagination?: (pageNumber: number) => void;
-	pagination: {
-		itemsPerPage: number
-	};
-	size: {
-		start: number;
-		totalLength: number;
-	};
+	page: number;
+	pages: number;
+	statusMessage: string;
+	onPageRequest?: (pageNumber: number) => void;
 }
 
 @theme(css)
 class Pagination extends PaginationBase<PaginationProperties> {
-	createPageLink (page: string, visible: boolean, disabled: boolean): DNode {
-		if (visible) {
-			return v('span', {
-				classes: this.classes(css.pageLink, disabled ? css.disabled : null),
-				onclick: this.onClick,
-				page,
-				tabindex: disabled ? '-1' : '0'
-			}, [ String(page) ]);
-		}
-
-		return null;
-	}
-
-	onClick (event: any) {
-		if (event.target.className.indexOf(css.disabled) !== -1) {
-			return;
-		}
-
-		const requestedPage = parseInt(event.target.getAttribute('page'), 10);
-
-		this.properties.onRequestPagination && this.properties.onRequestPagination(requestedPage);
-	}
-
 	render (): DNode {
 		const {
-			items,
-			pagination: {
-				itemsPerPage
-			},
-			size: {
-				start: startingIndex,
-				totalLength
-			}
+			onPageRequest,
+			page,
+			pages,
+			statusMessage
 		} = this.properties;
-		const totalPages = Math.ceil(totalLength / itemsPerPage);
-		const currentPageNumber = Math.round(startingIndex / itemsPerPage) + 1;
-		const isFirstPage = currentPageNumber === 1;
-		const isLastPage = currentPageNumber === totalPages;
+		const isFirstPage = page === 1;
+		const isLastPage = page === pages;
 		const children = [
 			v('div', {
 				classes: this.classes(css.status)
 			}, [
-				`${startingIndex + 1} - ${Math.min(startingIndex + items.length, currentPageNumber * itemsPerPage)} of ${totalLength} results`
+				statusMessage
 			])
 		];
+		const onclick = onPageRequest ? { onPageRequest } : {};
 
-		if (totalLength > items.length || items.length > itemsPerPage) {
+		if (pages > 1) {
 			children.push(v('div', {
 				classes: this.classes(css.navigation)
 			}, [
-				w(PageLink, {
+				w(PageLink, <PageLinkProperties> {
 					key: 'previous',
 					disabled: isFirstPage,
 					isArrow: true,
-					page: currentPageNumber - 1,
-					label: '‹'
+					page: page - 1,
+					label: '‹',
+					...onclick
 				}),
 				v('span', {
 					classes: this.classes(css.pageLinks)
 				}, [
-					w(PageLink, { key: '1', disabled: isFirstPage, page: 1 }),
-					currentPageNumber > 4 ?
+					w(PageLink, <PageLinkProperties> { key: '1', disabled: isFirstPage, page: 1, ...onclick }),
+					page > 4 ?
 						v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) :
 						null,
-					currentPageNumber - 2 > 1 ?
-						w(PageLink, { key: '2', page: currentPageNumber - 2 }) :
+					page > 3 ?
+						w(PageLink, <PageLinkProperties> { key: '2', page: page - 2, ...onclick }) :
 						null,
-					currentPageNumber - 1 > 1 ?
-						w(PageLink, { key: '3', page: currentPageNumber - 1 }) :
+					page > 2 ?
+						w(PageLink, <PageLinkProperties> { key: '3', page: page - 1, ...onclick }) :
 						null,
-					currentPageNumber !== 1 && currentPageNumber !== totalPages ?
-						w(PageLink, { key: '4', disabled: true, page: currentPageNumber }) :
+					page !== 1 && page !== pages ?
+						w(PageLink, <PageLinkProperties> { key: '4', disabled: true, page: page, ...onclick }) :
 						null,
-					currentPageNumber + 1 < totalPages ?
-						w(PageLink, { key: '5', page: currentPageNumber + 1 }) :
+					page + 1 < pages ?
+						w(PageLink, <PageLinkProperties> { key: '5', page: page + 1, ...onclick }) :
 						null,
-					currentPageNumber + 2 < totalPages ?
-						w(PageLink, { key: '6', page: currentPageNumber + 2 }) :
+					page + 2 < pages ?
+						w(PageLink, <PageLinkProperties> { key: '6', page: page + 2, ...onclick }) :
 						null,
-					currentPageNumber < (totalPages - 3) ?
+					page < (pages - 3) ?
 						v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) :
 						null,
-					w(PageLink, { key: String(totalPages), disabled: isLastPage, page: totalPages })
+					w(PageLink, <PageLinkProperties> {
+						key: String(pages),
+						disabled: isLastPage,
+						page: pages,
+						...onclick
+					})
 				]),
-				w(PageLink, {
+				w(PageLink, <PageLinkProperties> {
 					key: 'next',
 					disabled: isLastPage,
 					isArrow: true,
-					page: currentPageNumber + 1,
-					label: '›'
+					page: page + 1,
+					label: '›',
+					...onclick
 				})
 			]));
 		}
