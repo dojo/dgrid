@@ -88,24 +88,24 @@ class Pagination extends PaginationBase<PaginationProperties> {
 						v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) :
 						null,
 					currentPageNumber - 2 > 1 ?
-						w(PageLink, { key: '2', disabled: false, page: currentPageNumber - 2 }) :
+						w(PageLink, { key: '2', page: currentPageNumber - 2 }) :
 						null,
 					currentPageNumber - 1 > 1 ?
-						w(PageLink, { key: '3', disabled: false, page: currentPageNumber - 1 }) :
+						w(PageLink, { key: '3', page: currentPageNumber - 1 }) :
 						null,
 					currentPageNumber !== 1 && currentPageNumber !== totalPages ?
 						w(PageLink, { key: '4', disabled: true, page: currentPageNumber }) :
 						null,
 					currentPageNumber + 1 < totalPages ?
-						w(PageLink, { key: '5', disabled: false, page: currentPageNumber + 1 }) :
+						w(PageLink, { key: '5', page: currentPageNumber + 1 }) :
 						null,
 					currentPageNumber + 2 < totalPages ?
-						w(PageLink, { key: '6', disabled: false, page: currentPageNumber + 2 }) :
+						w(PageLink, { key: '6', page: currentPageNumber + 2 }) :
 						null,
 					currentPageNumber < (totalPages - 3) ?
 						v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) :
 						null,
-					w(PageLink, { key: 'last', disabled: isLastPage, page: totalPages })
+					w(PageLink, { key: String(totalPages), disabled: isLastPage, page: totalPages })
 				]),
 				w(PageLink, {
 					key: 'next',

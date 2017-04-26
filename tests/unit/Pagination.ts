@@ -1,8 +1,9 @@
 import { assert } from 'chai';
 import harness, { assignProperties, assignChildProperties, Harness, replaceChild } from '@dojo/test-extras/harness';
-import { v } from '@dojo/widget-core/d';
+import { v, w } from '@dojo/widget-core/d';
 import { VNode } from '@dojo/interfaces/vdom';
 import * as registerSuite from 'intern/lib/interfaces/object';
+import PageLink from '../../src/pagination/PageLink';
 import Pagination, { PaginationProperties } from '../../src/Pagination';
 import * as css from '../../src/styles/pagination.m.css';
 
@@ -24,7 +25,7 @@ let widget: Harness<PaginationProperties, typeof Pagination>;
 registerSuite({
 	name: 'Pagination',
 
-	beforEach() {
+	beforeEach() {
 		widget = harness(Pagination);
 	},
 
@@ -77,19 +78,21 @@ registerSuite({
 				v('span', {
 					classes: widget.classes(css.navigation)
 				}, [
-					v('span', {
-						classes: widget.classes(css.pageLink, css.arrow)
-					}, [ '‹' ]),
+					w(PageLink, {
+						isArrow: true,
+						label: '‹',
+						page: 4
+					}),
 					v('span', {
 						classes: widget.classes(css.pageLinks)
 					}), // TODO: children
-					v('span', {
-						classes: widget.classes(css.pageLink, css.arrow)
-					}, [ '›' ])
+					w(PageLink, {
+						isArrow: true,
+						label: '›',
+						page: items.length
+					})
 				])
 			]));
-
-			// assert.strictEqual(pageLinks.children!.length, 2, 'pageLinks node should have 2 children');
 		},
 
 		'middle page'() {
