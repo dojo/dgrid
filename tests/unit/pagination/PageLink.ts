@@ -76,7 +76,7 @@ registerSuite({
 
 			widget.setProperties({
 				page,
-				onRequestPagination: function (page: number) {
+				onPageRequest: function (page: number) {
 					pageRequested = page;
 				}
 			});

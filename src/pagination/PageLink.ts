@@ -12,13 +12,13 @@ export interface PageLinkProperties extends ThemeableProperties {
 	isArrow?: boolean;
 	label?: string;
 	page: number;
-	onRequestPagination?: (pageNumber: number) => void;
+	onPageRequest?: (page: number) => void;
 }
 
 @theme(css)
 class PageLink extends PageLinkBase<PageLinkProperties> {
 	onClick (event: any) {
-		this.properties.onRequestPagination && this.properties.onRequestPagination(this.properties.page);
+		this.properties.onPageRequest && this.properties.onPageRequest(this.properties.page);
 	}
 
 	render (): DNode {
