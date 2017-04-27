@@ -70,7 +70,7 @@ registerSuite({
 			}, [ 'a' ]));
 		},
 
-		onRequestPagination() {
+		onPageRequest() {
 			const page = 5;
 			let pageRequested = 0;
 
