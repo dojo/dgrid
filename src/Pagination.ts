@@ -37,6 +37,39 @@ class Pagination extends PaginationBase<PaginationProperties> {
 		const onclick = onPageRequest ? { onPageRequest } : {};
 
 		if (pages > 1) {
+			const pageLinks = [];
+
+			pageLinks.push(w(PageLink, <PageLinkProperties> { key: '1', disabled: isFirstPage, page: 1, ...onclick }));
+
+			if (page > 4) {
+				pageLinks.push(v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]));
+			}
+			if (page > 3) {
+				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '2', page: page - 2, ...onclick }));
+			}
+			if (page > 2) {
+				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '3', page: page - 1, ...onclick }));
+			}
+			if (page !== 1 && page !== pages) {
+				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '4', disabled: true, page: page, ...onclick }));
+			}
+			if (page + 1 < pages) {
+				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '5', page: page + 1, ...onclick }));
+			}
+			if (page + 2 < pages) {
+				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '6', page: page + 2, ...onclick }));
+			}
+			if (page < (pages - 3)) {
+				pageLinks.push(v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]));
+			}
+
+			pageLinks.push(w(PageLink, <PageLinkProperties> {
+				key: String(pages),
+				disabled: isLastPage,
+				page: pages,
+				...onclick
+			}));
+
 			children.push(v('div', {
 				classes: this.classes(css.navigation)
 			}, [
@@ -50,36 +83,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 				}),
 				v('span', {
 					classes: this.classes(css.pageLinks)
-				}, [
-					w(PageLink, <PageLinkProperties> { key: '1', disabled: isFirstPage, page: 1, ...onclick }),
-					page > 4 ?
-						v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) :
-						null,
-					page > 3 ?
-						w(PageLink, <PageLinkProperties> { key: '2', page: page - 2, ...onclick }) :
-						null,
-					page > 2 ?
-						w(PageLink, <PageLinkProperties> { key: '3', page: page - 1, ...onclick }) :
-						null,
-					page !== 1 && page !== pages ?
-						w(PageLink, <PageLinkProperties> { key: '4', disabled: true, page: page, ...onclick }) :
-						null,
-					page + 1 < pages ?
-						w(PageLink, <PageLinkProperties> { key: '5', page: page + 1, ...onclick }) :
-						null,
-					page + 2 < pages ?
-						w(PageLink, <PageLinkProperties> { key: '6', page: page + 2, ...onclick }) :
-						null,
-					page < (pages - 3) ?
-						v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]) :
-						null,
-					w(PageLink, <PageLinkProperties> {
-						key: String(pages),
-						disabled: isLastPage,
-						page: pages,
-						...onclick
-					})
-				]),
+				}, pageLinks),
 				w(PageLink, <PageLinkProperties> {
 					key: 'next',
 					disabled: isLastPage,

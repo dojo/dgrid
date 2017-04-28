@@ -79,13 +79,6 @@ registerSuite({
 							disabled: true,
 							page: 1
 						}),
-						null,
-						null,
-						null,
-						null,
-						null,
-						null,
-						null,
 						w(PageLink, {
 							key: '2',
 							disabled: false,
@@ -101,7 +94,7 @@ registerSuite({
 					})
 				])
 			]));
-/*		},
+		}/*,
 
 		'middle page'() {
 			const itemsPerPage = 1;
@@ -171,7 +164,7 @@ registerSuite({
 						classes: widget.classes(css.pageLink, css.arrow)
 					}, [ '›' ])
 				])
-			]));*/
-		}
+			]));
+		}*/
 	}
 });
