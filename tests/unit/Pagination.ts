@@ -27,7 +27,7 @@ registerSuite({
 			const props = {
 				page: 1,
 				pages: 1,
-				statusMessage: 'test message'
+				status: 'test message'
 			};
 
 			widget.setProperties(props);
@@ -37,7 +37,7 @@ registerSuite({
 			}, [
 				v('div', {
 					classes: childClasses
-				}, [ props.statusMessage ])
+				}, [ props.status ])
 			]));
 		},
 
@@ -50,7 +50,7 @@ registerSuite({
 			const props = {
 				page: 1,
 				pages: 2,
-				statusMessage: 'test message'
+				status: 'test message'
 			};
 
 			widget.setProperties(props);
@@ -60,7 +60,7 @@ registerSuite({
 			}, [
 				v('div', {
 					classes: statusClass
-				}, [ props.statusMessage ]),
+				}, [ props.status ]),
 				v('div', {
 					classes: navigationClass
 				}, [
@@ -106,7 +106,7 @@ registerSuite({
 			const props = {
 				page: 5,
 				pages: 10,
-				statusMessage: 'test message'
+				status: 'test message'
 			};
 
 			widget.setProperties(props);
@@ -116,7 +116,7 @@ registerSuite({
 			}, [
 				v('div', {
 					classes: statusClass
-				}, [ props.statusMessage ]),
+				}, [ props.status ]),
 				v('div', {
 					classes: navigationClass
 				}, [

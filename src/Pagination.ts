@@ -12,7 +12,7 @@ export const PaginationBase = ThemeableMixin(WidgetBase);
 export interface PaginationProperties extends ThemeableProperties {
 	page: number;
 	pages: number;
-	statusMessage: string;
+	status: string;
 	onPageRequest?: (pageNumber: number) => void;
 }
 
@@ -23,7 +23,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 			onPageRequest,
 			page,
 			pages,
-			statusMessage
+			status
 		} = this.properties;
 		const isFirstPage = page === 1;
 		const isLastPage = page === pages;
@@ -31,7 +31,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 			v('div', {
 				classes: this.classes(css.status)
 			}, [
-				statusMessage
+				status
 			])
 		];
 		const onclick = onPageRequest ? { onPageRequest } : {};
