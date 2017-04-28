@@ -24,7 +24,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('dev', grunt.config.get('devTasks').concat([
         'postcss:modules-dev',
-        'copy:devStyles'
+        'copy:devStyles',
+        'copy:examples'
     ]));
 
     grunt.registerTask('dist', grunt.config.get('distTasks').concat([
