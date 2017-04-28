@@ -26,7 +26,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 		} = this.properties;
 		const isFirstPage = page === 1;
 		const isLastPage = page === pages;
-		const children = [
+		const children: DNode[] = [
 			v('div', {
 				classes: this.classes(css.status)
 			}, [
@@ -36,33 +36,33 @@ class Pagination extends PaginationBase<PaginationProperties> {
 		const onclick = onPageRequest ? { onPageRequest } : {};
 
 		if (pages > 1) {
-			const pageLinks = [];
+			const pageLinks: DNode[] = [];
 
-			pageLinks.push(w(PageLink, <PageLinkProperties> { key: '1', disabled: isFirstPage, page: 1, ...onclick }));
+			pageLinks.push(w<PageLinkProperties>(PageLink, { key: '1', disabled: isFirstPage, page: 1, ...onclick }));
 
 			if (page > 4) {
-				pageLinks.push(v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]));
+				pageLinks.push(v('span', { key: 'skip1', classes: this.classes(css.pageSkip) }, [ '...' ]));
 			}
 			if (page > 3) {
-				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '2', page: page - 2, ...onclick }));
+				pageLinks.push(w<PageLinkProperties>(PageLink, { key: String(page - 2), page: page - 2, ...onclick }));
 			}
 			if (page > 2) {
-				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '3', page: page - 1, ...onclick }));
+				pageLinks.push(w<PageLinkProperties>(PageLink, { key: String(page - 1), page: page - 1, ...onclick }));
 			}
 			if (page !== 1 && page !== pages) {
-				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '4', disabled: true, page: page, ...onclick }));
+				pageLinks.push(w<PageLinkProperties>(PageLink, { key: String(page), disabled: true, page: page, ...onclick }));
 			}
 			if (page + 1 < pages) {
-				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '5', page: page + 1, ...onclick }));
+				pageLinks.push(w<PageLinkProperties>(PageLink, { key: String(page + 1), page: page + 1, ...onclick }));
 			}
 			if (page + 2 < pages) {
-				pageLinks.push(w(PageLink, <PageLinkProperties> { key: '6', page: page + 2, ...onclick }));
+				pageLinks.push(w<PageLinkProperties>(PageLink, { key: String(page + 2), page: page + 2, ...onclick }));
 			}
 			if (page < (pages - 3)) {
-				pageLinks.push(v('span', { classes: this.classes(css.pageSkip) }, [ '...' ]));
+				pageLinks.push(v('span', { key: 'skip2', classes: this.classes(css.pageSkip) }, [ '...' ]));
 			}
 
-			pageLinks.push(w(PageLink, <PageLinkProperties> {
+			pageLinks.push(w<PageLinkProperties>(PageLink, {
 				key: String(pages),
 				disabled: isLastPage,
 				page: pages,
@@ -72,7 +72,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 			children.push(v('div', {
 				classes: this.classes(css.navigation)
 			}, [
-				w(PageLink, <PageLinkProperties> {
+				w<PageLinkProperties>(PageLink, {
 					key: 'previous',
 					disabled: isFirstPage,
 					isArrow: true,
@@ -83,7 +83,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 				v('span', {
 					classes: this.classes(css.pageLinks)
 				}, pageLinks),
-				w(PageLink, <PageLinkProperties> {
+				w<PageLinkProperties>(PageLink, {
 					key: 'next',
 					disabled: isLastPage,
 					isArrow: true,

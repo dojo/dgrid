@@ -134,30 +134,36 @@ registerSuite({
 							page: 1
 						}),
 						v('span', {
+							afterCreate: widget.listener,
+							afterUpdate: widget.listener,
+							key: 'skip1',
 							classes: pageSkipClass
 						}, [ '...' ]),
 						w(PageLink, {
-							key: '2',
+							key: '3',
 							page: 3
 						}),
 						w(PageLink, {
-							key: '3',
+							key: '4',
 							page: 4
 						}),
 						w(PageLink, {
-							key: '4',
+							key: '5',
 							disabled: true,
 							page: 5
 						}),
 						w(PageLink, {
-							key: '5',
+							key: '6',
 							page: 6
 						}),
 						w(PageLink, {
-							key: '6',
+							key: '7',
 							page: 7
 						}),
 						v('span', {
+							afterCreate: widget.listener,
+							afterUpdate: widget.listener,
+							key: 'skip2',
 							classes: pageSkipClass
 						}, [ '...' ]),
 						w(PageLink, {
