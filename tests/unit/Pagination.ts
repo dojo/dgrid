@@ -94,77 +94,89 @@ registerSuite({
 					})
 				])
 			]));
-		}/*,
+		},
 
 		'middle page'() {
-			const itemsPerPage = 1;
+			// TODO: move `widget.classes` call inline when test-extras is fixed
+			const statusClass = widget.classes(css.status);
+			const pageSkipClass = widget.classes(css.pageSkip);
+			const navigationClass = widget.classes(css.navigation);
+			const pageLinksClass = widget.classes(css.pageLinks);
+			const paginationClass = widget.classes(css.pagination);
+			const props = {
+				page: 5,
+				pages: 10,
+				statusMessage: 'test message'
+			};
 
-			widget.setProperties({
-				items,
-				pagination: {
-					itemsPerPage
-				},
-				size: {
-					start: 4,
-					totalLength: items.length
-				}
-			});
+			widget.setProperties(props);
 
 			widget.expectRender(v('div', {
-				classes: widget.classes(css.pagination)
+				classes: paginationClass
 			}, [
-				v('span', {
-					classes: widget.classes(css.status)
-				}, [ `1 - ${itemsPerPage} of ${items.length} results` ]),
-				v('span', {
-					classes: widget.classes(css.navigation)
+				v('div', {
+					classes: statusClass
+				}, [ props.statusMessage ]),
+				v('div', {
+					classes: navigationClass
 				}, [
+					w(PageLink, {
+						key: 'previous',
+						disabled: false,
+						isArrow: true,
+						label: '‹',
+						page: 4
+					}),
 					v('span', {
-						classes: widget.classes(css.pageLink, css.arrow)
-					}, [ '‹' ]),
-					v('span', {
-						classes: widget.classes(css.pageLinks)
+						classes: pageLinksClass
 					}, [
+						w(PageLink, {
+							key: '1',
+							disabled: false,
+							page: 1
+						}),
 						v('span', {
-							classes: widget.classes(css.pageLink),
-							tabIndex: 0
-						}, [ '1' ]),
-						v('span', {
-							classes: widget.classes(css.pageSkip)
+							classes: pageSkipClass
 						}, [ '...' ]),
+						w(PageLink, {
+							key: '2',
+							page: 3
+						}),
+						w(PageLink, {
+							key: '3',
+							page: 4
+						}),
+						w(PageLink, {
+							key: '4',
+							disabled: true,
+							page: 5
+						}),
+						w(PageLink, {
+							key: '5',
+							page: 6
+						}),
+						w(PageLink, {
+							key: '6',
+							page: 7
+						}),
 						v('span', {
-							classes: widget.classes(css.pageLink),
-							tabIndex: 0
-						}, [ '3' ]),
-						v('span', {
-							classes: widget.classes(css.pageLink),
-							tabIndex: 0
-						}, [ '4' ]),
-						v('span', {
-							classes: widget.classes(css.pageLink),
-							tabIndex: -1
-						}, [ '5' ]),
-						v('span', {
-							classes: widget.classes(css.pageLink),
-							tabIndex: 0
-						}, [ '6' ]),
-						v('span', {
-							classes: widget.classes(css.pageLink),
-							tabIndex: 0
-						}, [ '7' ]),
-						v('span', {
-							classes: widget.classes(css.pageSkip)
+							classes: pageSkipClass
 						}, [ '...' ]),
-						v('span', {
-							classes: widget.classes(css.pageLink),
-							tabIndex: 0
-						}, [ '10' ])
+						w(PageLink, {
+							disabled: false,
+							key: '10',
+							page: 10
+						})
 					]),
-					v('span', {
-						classes: widget.classes(css.pageLink, css.arrow)
-					}, [ '›' ])
+					w(PageLink, {
+						key: 'next',
+						disabled: false,
+						isArrow: true,
+						label: '›',
+						page: 6
+					})
 				])
 			]));
-		}*/
+		}
 	}
 });
