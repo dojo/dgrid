@@ -14,6 +14,7 @@ export const RowBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
 export interface RowProperties extends WidgetProperties, HasColumns, RegistryMixinProperties, ThemeableProperties {
 	item: ItemProperties<any>;
+	key: string;
 }
 
 @theme(tableCss)

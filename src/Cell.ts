@@ -8,7 +8,9 @@ import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mi
 import * as cellCss from './styles/shared/cell.m.css';
 import * as css from './styles/cell.m.css';
 
-export interface CellProperties extends ThemeableProperties, HasValue, HasColumn, HasItem, RegistryMixinProperties { }
+export interface CellProperties extends HasColumn, HasItem, HasValue, RegistryMixinProperties, ThemeableProperties {
+	key: string;
+}
 
 export const CellBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
