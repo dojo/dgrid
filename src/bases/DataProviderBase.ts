@@ -1,26 +1,43 @@
 import { Observable, Observer } from '@dojo/core/Observable';
 import { DataProperties, SortDetails } from '../interfaces';
 
+/**
+ * Used in the constructor and {@link DataProviderBase#configure}
+ * to make batched state changes to the data provider.
+ */
 export interface DataProviderConfiguration {
 	sort?: SortDetails | SortDetails[];
 }
 
+/**
+ * Used by subclasses to add properties
+ * required for their backing data.
+ */
 export interface Options {
 	[option: string]: any;
 	configuration?: DataProviderConfiguration;
 }
 
+/**
+ * Passed to {@link DataProviderBase#buildData}
+ * to provide state to subclasses.
+ */
 export interface DataProviderState<O extends Options> {
 	options: O;
 	sort?: SortDetails[];
 }
 
+/**
+ * Main base for all data providers to extend.
+ *
+ * Subclasses should be able to provide functionality by
+ * implementing {@link DataProviderBase#buildData}.
+ */
 abstract class DataProviderBase<T, O extends Options> {
-	private data: DataProperties<T>;
-	private state: DataProviderState<O>;
-
-	observable: Observable<DataProperties<T>>;
-	observers: Observer<DataProperties<T>>[];
+	private _data: DataProperties<T>;
+	private _state: DataProviderState<O>;
+	private _observable: Observable<DataProperties<T>>;
+	private _observers: Observer<DataProperties<T>>[] = [];
 
 	constructor(options: O) {
 		const {
@@ -29,46 +46,66 @@ abstract class DataProviderBase<T, O extends Options> {
 			} = {}
 		} = options;
 
-		this.state = {
+		this._state = {
 			options
 		};
-		if (sort) {
-			this.state.sort = Array.isArray(sort) ? sort : [ sort ];
-		}
-		this.observers = [];
-		this.observable = new Observable((observer: Observer<DataProperties<T>>) => {
-			this.observers.push(observer);
-			if (this.data) {
-				observer.next(this.data);
+		this._state.sort = Array.isArray(sort) ? sort : [ sort ];
+		this._observable = new Observable((observer: Observer<DataProperties<T>>) => {
+			this._observers.push(observer);
+			if (this._data) {
+				observer.next(this._data);
 			}
 		});
 	}
 
+	/**
+	 * Subclasses must implement this method and use
+	 * the current state to structure their backing data.
+	 *
+	 * @param state - The state (e.g. sorting) to apply to backing data
+	 */
 	protected abstract buildData(state: DataProviderState<O>): DataProperties<T>;
 
-	configure({ sort }: DataProviderConfiguration) {
+	/**
+	 * Perform a batch of state changes at once.
+	 *
+	 * @param configuration - State changes to make
+	 */
+	configure({ sort }: DataProviderConfiguration): void {
 		if (sort) {
-			this.state.sort = Array.isArray(sort) ? sort : [ sort ];
+			this._state.sort = Array.isArray(sort) ? sort : [ sort ];
 		}
 		this.updateData();
 	}
 
-	notify() {
-		let data = this.data;
+	/**
+	 * Notifies all observers with the latest structured data.
+	 */
+	notify(): void {
+		let { _data: data } = this;
 		if (!data) {
-			data = this.data = this.buildData(this.state);
+			data = this._data = this.buildData(this._state);
 		}
-		this.observers.forEach((observer) => {
+		this._observers.forEach((observer) => {
 			observer.next(data);
 		});
 	}
 
-	observe() {
-		return this.observable;
+	/**
+	 * Listen for new structured data created by state changes.
+	 */
+	observe(): Observable<DataProperties<T>> {
+		return this._observable;
 	}
 
-	sort(sort: SortDetails | SortDetails[]) {
-		this.state.sort = (Array.isArray(sort) ? sort : [ sort ]).map((sortDetail) => {
+	/**
+	 * Apply a sort to the backing data. Can also be assigned
+	 * from {@link DataProviderBase#configure}.
+	 *
+	 * @param sort - What column(s) to sort and in what direction
+	 */
+	sort(sort: SortDetails | SortDetails[]): void {
+		this._state.sort = (Array.isArray(sort) ? sort : [ sort ]).map((sortDetail) => {
 			if (!sortDetail.direction) {
 				sortDetail.direction = 'asc';
 			}
@@ -77,8 +114,11 @@ abstract class DataProviderBase<T, O extends Options> {
 		this.updateData();
 	}
 
-	protected updateData() {
-		this.data = this.buildData(this.state);
+	/**
+	 * Automatically called after state changes are made.
+	 */
+	protected updateData(): void {
+		this._data = this.buildData(this._state);
 		this.notify();
 	}
 }

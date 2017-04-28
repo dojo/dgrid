@@ -47,9 +47,12 @@ export interface ItemProperties<T> {
 	data: T;
 }
 
-export type SortDirection = 'asc' | 'desc' | undefined;
+export type SortDirection = 'asc' | 'desc';
 
 export interface SortDetails {
 	columnId: string;
+	/**
+	 * @default 'asc'
+	 */
 	direction?: SortDirection;
 }
