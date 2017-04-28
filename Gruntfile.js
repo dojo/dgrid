@@ -12,6 +12,12 @@ module.exports = function (grunt) {
                 cwd: 'src',
                 src: 'styles/dgrid.css',
                 dest: '<%= distDirectory %>'
+            },
+            examples: {
+                expand: true,
+                cwd: '.',
+                src: 'examples/**/*.{html,css,json,xml,js,txt}',
+                dest: '<%= devDirectory %>'
             }
         }
     });
