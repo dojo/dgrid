@@ -1,7 +1,5 @@
-import { assert } from 'chai';
-import harness, { assignProperties, assignChildProperties, Harness, replaceChild } from '@dojo/test-extras/harness';
+import harness, { Harness } from '@dojo/test-extras/harness';
 import { v, w } from '@dojo/widget-core/d';
-import { VNode } from '@dojo/interfaces/vdom';
 import * as registerSuite from 'intern/lib/interfaces/object';
 import PageLink from '../../src/pagination/PageLink';
 import Pagination, { PaginationProperties } from '../../src/Pagination';

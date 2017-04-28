@@ -1,7 +1,6 @@
 import { assert } from 'chai';
 import harness, { Harness } from '@dojo/test-extras/harness';
 import { v } from '@dojo/widget-core/d';
-import { VNode } from '@dojo/interfaces/vdom';
 import * as registerSuite from 'intern/lib/interfaces/object';
 import PageLink, { PageLinkProperties } from '../../../src/pagination/PageLink';
 import * as css from '../../../src/styles/pagination.m.css';
