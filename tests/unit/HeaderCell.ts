@@ -103,8 +103,8 @@ registerSuite({
 			onSortRequest(updatedSortDetail: SortDetails) {
 				sorted = true;
 				assert.equal(updatedSortDetail.columnId, 'id');
-				assert.isTrue(updatedSortDetail.descending);
-				sortDetail.descending = updatedSortDetail.descending;
+				assert.equal(updatedSortDetail.direction, 'desc');
+				sortDetail.direction = updatedSortDetail.direction;
 			},
 			registry,
 			sortDetail
@@ -144,7 +144,7 @@ registerSuite({
 		let sorted = false;
 		const sortDetail: SortDetails = {
 			columnId: 'id',
-			descending: false
+			direction: 'asc'
 		};
 		widget.setProperties({
 			column: {
@@ -156,8 +156,8 @@ registerSuite({
 			onSortRequest(updatedSortDetail: SortDetails) {
 				sorted = true;
 				assert.equal(updatedSortDetail.columnId, 'id');
-				assert.isTrue(updatedSortDetail.descending);
-				sortDetail.descending = updatedSortDetail.descending;
+				assert.equal(updatedSortDetail.direction, 'desc');
+				sortDetail.direction = updatedSortDetail.direction;
 			},
 			registry,
 			sortDetail
@@ -197,7 +197,7 @@ registerSuite({
 		let clicked = false;
 		const sortDetail: SortDetails = {
 			columnId: 'id',
-			descending: true
+			direction: 'desc'
 		};
 		widget.setProperties({
 			column: {
@@ -209,8 +209,8 @@ registerSuite({
 			onSortRequest(updatedSortDetail: SortDetails) {
 				clicked = true;
 				assert.equal(updatedSortDetail.columnId, 'id');
-				assert.isFalse(updatedSortDetail.descending);
-				sortDetail.descending = updatedSortDetail.descending;
+				assert.equal(updatedSortDetail.direction, 'asc');
+				sortDetail.direction = updatedSortDetail.direction;
 			},
 			registry,
 			sortDetail

@@ -31,6 +31,7 @@ registerSuite({
 	'Cell value used for child node'() {
 		widget.setProperties({
 			column,
+			key: column.id,
 			item,
 			registry,
 			value: 'Hello, World!'
@@ -62,6 +63,7 @@ registerSuite({
 	'Cell value is stringified'() {
 		widget.setProperties({
 			column,
+			key: column.id,
 			item,
 			registry,
 			value: <any> 1234

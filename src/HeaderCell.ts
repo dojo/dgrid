@@ -26,7 +26,7 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 
 		onSortRequest({
 			columnId: key,
-			direction: (sortDetail && sortDetail.direction === 'asc') ? 'desc' : 'asc'
+			direction: (sortDetail && sortDetail.direction === 'desc') ? 'asc' : 'desc'
 		});
 	}
 
@@ -42,7 +42,7 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 
 		const sortClasses = sortDetail ? [
 			css.sortArrow,
-			sortDetail.direction === 'asc' ? css.sortArrowUp : css.sortArrowDown
+			sortDetail.direction === 'desc' ? css.sortArrowDown : css.sortArrowUp
 			] : [];
 
 		const onclick = (onSortRequest && column.sortable !== false) ? { onclick: this.onSortRequest } : {};

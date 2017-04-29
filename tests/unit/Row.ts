@@ -32,6 +32,7 @@ registerSuite({
 			}
 		};
 		widget.setProperties({
+			key: '1',
 			columns: [
 				{ id: 'foo' },
 				{ id: 'bar' }
