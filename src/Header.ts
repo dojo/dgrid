@@ -11,7 +11,7 @@ import * as tableCss from './styles/shared/table.m.css';
 
 export const HeaderBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-export interface HeaderProperties extends ThemeableProperties, HasColumns, HasSortDetails, HasSortEvent, RegistryMixinProperties { }
+export interface HeaderProperties extends ThemeableProperties, HasColumns, HasSortDetails, HasSortEvent, RegistryMixinProperties {}
 
 @theme(tableCss)
 @theme(css)

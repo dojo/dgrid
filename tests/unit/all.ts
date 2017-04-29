@@ -1,4 +1,4 @@
-import '@dojo/test-extras/support/loadJsdom';
+import './ArrayDataProvider';
 import './Header';
 import './HeaderCell';
 import './Body';

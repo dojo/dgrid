@@ -1,26 +1,21 @@
-export interface SortDetails {
-	columnId: string;
-	descending?: boolean;
-}
-
-export interface ItemProperties<T> {
-	id: string;
-	data: T;
-}
-
 export interface Column<T> {
+	field?: keyof T;
 	id: string;
 	label?: string;
-	field?: string;
 	sortable?: boolean; // default true
 }
 
-export interface HasColumns {
-	columns: Column<any>[];
+export interface DataProperties<T> {
+	items: ItemProperties<T>[];
+	sort?: SortDetails[];
 }
 
 export interface HasColumn {
 	column: Column<any>;
+}
+
+export interface HasColumns {
+	columns: Column<any>[];
 }
 
 export interface HasSortDetail {
@@ -45,4 +40,19 @@ export interface HasItems {
 
 export interface HasValue {
 	value: string;
+}
+
+export interface ItemProperties<T> {
+	id: string;
+	data: T;
+}
+
+export type SortDirection = 'asc' | 'desc';
+
+export interface SortDetails {
+	columnId: string;
+	/**
+	 * @default 'asc'
+	 */
+	direction?: SortDirection;
 }
