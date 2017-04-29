@@ -1,0 +1,6 @@
+@import './shared/variables.css';
+
+.footer {
+	background-color: var(--header-background-color);
+	width: 100%;
+}
