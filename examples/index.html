@@ -1,0 +1,56 @@
+<!doctype html>
+<html>
+<head>
+	<title>dgrid test page</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../src/styles/dgrid.css">
+	<style>
+		body {
+			font-family: Myriad, Tahoma, Helvetica, Arial, sans-serif;
+		}
+	</style>
+</head>
+
+<body>
+	<ul id="links">
+		<!-- <li><a href="?module=pagination">Pagination</a></li> -->
+	</ul>
+
+	<script src="../../node_modules/@dojo/loader/loader.min.js"></script>
+
+	<script>
+		require.config({
+			baseUrl: '..',
+			packages: [
+				{ name: 'tests', location: 'tests' },
+				{ name: 'dgrid', location: 'src' },
+				{ name: 'examples', location: 'examples' },
+				{ name: '@dojo', location: '../node_modules/@dojo' },
+				{ name: 'pepjs', location: '../node_modules/pepjs/dist', main: 'pep' },
+				{ name: 'maquette', location: '../node_modules/maquette/dist', main: 'maquette' }
+			]
+		});
+
+		(function () {
+			var query = window.location.search.substring(1).split('&');
+			var module;
+			var pair;
+			var i;
+
+			for (i = 0; i < query.length; i++) {
+				pair = query[i].split('=');
+
+				if (pair[0].toLowerCase() === 'module') {
+					module = pair[1].toLowerCase();
+					break;
+				}
+			}
+
+			if (module) {
+				document.getElementById('links').remove();
+				require([ 'examples/' + module ], function () {});
+			}
+		})();
+	</script>
+</body>
+</html>
