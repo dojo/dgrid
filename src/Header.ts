@@ -21,7 +21,7 @@ class Header extends HeaderBase<HeaderProperties> {
 			columns,
 			onSortRequest,
 			registry,
-			sortDetails = [],
+			sortDetails,
 			theme
 		} = this.properties;
 

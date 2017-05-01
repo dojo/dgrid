@@ -11,8 +11,8 @@ export const proxyUrl = 'http://localhost:9000/';
 // automatically
 export const capabilities = {
 	'browserstack.debug': false,
-	project: '@dojo/dgrid',
-	name: '@dojo/dgrid'
+	project: 'Dojo 2',
+	name: 'dojo-dgrid'
 };
 
 // Browsers to run integration testing against. Note that version numbers must be strings if used with Sauce
@@ -56,13 +56,14 @@ export const loaderOptions = {
 		{ name: 'dojo', location: 'node_modules/intern/browser_modules/dojo' },
 		{ name: '@dojo', location: 'node_modules/@dojo' },
 		{ name: 'grunt-dojo2', location: 'node_modules/grunt-dojo2'},
+		{ name: 'pepjs', location: 'node_modules/pepjs/dist', main: 'pep' },
 		{ name: 'maquette', location: 'node_modules/maquette/dist', main: 'maquette' },
 		{ name: 'sinon', location: 'node_modules/sinon/pkg', main: 'sinon' }
 	]
 };
 
 // Non-functional test suite(s) to run in each browser
-export const suites = [ 'tests/unit/all' ];
+export const suites = [ '@dojo/test-extras/support/loadJsdom', 'tests/unit/all' ];
 
 // Functional test suite(s) to run in each browser once non-functional tests are completed
 export const functionalSuites = [ 'tests/functional/all' ];
