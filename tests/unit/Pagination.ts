@@ -7,6 +7,8 @@ import * as css from '../../src/styles/pagination.m.css';
 
 let widget: Harness<PaginationProperties, typeof Pagination>;
 
+function noop() {}
+
 registerSuite({
 	name: 'Pagination',
 
@@ -25,7 +27,8 @@ registerSuite({
 			const props = {
 				page: 1,
 				pages: 1,
-				status: 'test message'
+				status: 'test message',
+				onPageRequest: noop
 			};
 
 			widget.setProperties(props);
@@ -48,7 +51,8 @@ registerSuite({
 			const props = {
 				page: 1,
 				pages: 2,
-				status: 'test message'
+				status: 'test message',
+				onPageRequest: noop
 			};
 
 			widget.setProperties(props);
@@ -67,7 +71,8 @@ registerSuite({
 						disabled: true,
 						isArrow: true,
 						label: '‹',
-						page: 0
+						page: 0,
+						onPageRequest: widget.listener
 					}),
 					v('span', {
 						classes: pageLinksClass
@@ -75,12 +80,14 @@ registerSuite({
 						w(PageLink, {
 							key: '1',
 							disabled: true,
-							page: 1
+							page: 1,
+							onPageRequest: widget.listener
 						}),
 						w(PageLink, {
 							key: '2',
 							disabled: false,
-							page: 2
+							page: 2,
+							onPageRequest: widget.listener
 						})
 					]),
 					w(PageLink, {
@@ -88,7 +95,8 @@ registerSuite({
 						disabled: false,
 						isArrow: true,
 						label: '›',
-						page: props.pages
+						page: props.pages,
+						onPageRequest: widget.listener
 					})
 				])
 			]));
@@ -104,7 +112,8 @@ registerSuite({
 			const props = {
 				page: 5,
 				pages: 10,
-				status: 'test message'
+				status: 'test message',
+				onPageRequest: noop
 			};
 
 			widget.setProperties(props);
@@ -123,7 +132,8 @@ registerSuite({
 						disabled: false,
 						isArrow: true,
 						label: '‹',
-						page: 4
+						page: 4,
+						onPageRequest: widget.listener
 					}),
 					v('span', {
 						classes: pageLinksClass
@@ -131,7 +141,8 @@ registerSuite({
 						w(PageLink, {
 							key: '1',
 							disabled: false,
-							page: 1
+							page: 1,
+							onPageRequest: widget.listener
 						}),
 						v('span', {
 							afterCreate: widget.listener,
@@ -141,24 +152,29 @@ registerSuite({
 						}, [ '...' ]),
 						w(PageLink, {
 							key: '3',
-							page: 3
+							page: 3,
+							onPageRequest: widget.listener
 						}),
 						w(PageLink, {
 							key: '4',
-							page: 4
+							page: 4,
+							onPageRequest: widget.listener
 						}),
 						w(PageLink, {
 							key: '5',
 							disabled: true,
-							page: 5
+							page: 5,
+							onPageRequest: widget.listener
 						}),
 						w(PageLink, {
 							key: '6',
-							page: 6
+							page: 6,
+							onPageRequest: widget.listener
 						}),
 						w(PageLink, {
 							key: '7',
-							page: 7
+							page: 7,
+							onPageRequest: widget.listener
 						}),
 						v('span', {
 							afterCreate: widget.listener,
@@ -169,7 +185,8 @@ registerSuite({
 						w(PageLink, {
 							disabled: false,
 							key: '10',
-							page: 10
+							page: 10,
+							onPageRequest: widget.listener
 						})
 					]),
 					w(PageLink, {
@@ -177,7 +194,8 @@ registerSuite({
 						disabled: false,
 						isArrow: true,
 						label: '›',
-						page: 6
+						page: 6,
+						onPageRequest: widget.listener
 					})
 				])
 			]));
