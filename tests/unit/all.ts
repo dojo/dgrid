@@ -1,4 +1,5 @@
 import './ArrayDataProvider';
+import './Grid';
 import './Header';
 import './HeaderCell';
 import './Body';
