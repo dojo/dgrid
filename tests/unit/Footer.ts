@@ -1,38 +1,46 @@
-import { assert } from 'chai';
+import * as registerSuite from 'intern!object';
+
+import harness, { Harness } from '@dojo/test-extras/harness';
 import { v } from '@dojo/widget-core/d';
-import { VNode } from '@dojo/interfaces/vdom';
-import * as registerSuite from 'intern/lib/interfaces/object';
+import { HNode } from '@dojo/widget-core/interfaces';
+
 import Footer, { FooterProperties } from '../../src/Footer';
-import * as footerCss from '../../src/styles/footer.m.css';
+import * as css from '../../src/styles/footer.m.css';
+
+let widget: Harness<FooterProperties, typeof Footer>;
 
 registerSuite({
 	name: 'Footer',
 
+	beforeEach() {
+		widget = harness(Footer);
+	},
+
+	afterEach() {
+		widget.destroy();
+	},
+
 	render: {
 		'empty footer'() {
-			const footer = new Footer();
-			const vnode = <VNode> footer.__render__();
-
-			assert.strictEqual(vnode.vnodeSelector, 'div');
-			assert.isTrue(vnode.properties!.classes![footerCss.footer]);
+			widget.expectRender(v('div', {
+				classes: widget.classes(css.footer)
+			}));
 		},
 
 		'footer with children'() {
-			const footer = new Footer();
-			footer.setChildren([
+			const children: HNode[] = [
 				v('div', [
 					'test child1'
 				]),
 				v('div', [
 					'test child2'
 				])
-			]);
-			const vnode = <VNode> footer.__render__();
+			];
 
-			assert.strictEqual(vnode.children![0]!.vnodeSelector, 'div');
-			assert.strictEqual(vnode.children![0]!.text, 'test child1');
-			assert.strictEqual(vnode.children![1]!.vnodeSelector, 'div');
-			assert.strictEqual(vnode.children![1]!.text, 'test child2');
+			widget.setChildren(children);
+			widget.expectRender(v('div', {
+				classes: widget.classes(css.footer)
+			}, children));
 		}
 	}
 });
