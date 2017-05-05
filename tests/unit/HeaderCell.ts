@@ -131,11 +131,11 @@ registerSuite({
 
 		assert.isTrue(sorted);
 
-		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
-		});
 		assignChildProperties(expected, 1, {
 			classes: widget.classes(css.sortArrow, css.sortArrowDown)
+		});
+		assignProperties(expected, {
+			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
 
 		widget.expectRender(expected);
@@ -184,11 +184,11 @@ registerSuite({
 
 		assert.isTrue(sorted);
 
-		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
-		});
 		assignChildProperties(expected, 1, {
 			classes: widget.classes(css.sortArrow, css.sortArrowDown)
+		});
+		assignProperties(expected, {
+			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
 
 		widget.expectRender(expected);
@@ -237,11 +237,11 @@ registerSuite({
 
 		assert.isTrue(clicked);
 
-		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
-		});
 		assignChildProperties(expected, 1, {
 			classes: widget.classes(css.sortArrow, css.sortArrowUp)
+		});
+		assignProperties(expected, {
+			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
 
 		widget.expectRender(expected);
