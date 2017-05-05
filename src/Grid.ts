@@ -1,20 +1,22 @@
+import { includes } from '@dojo/shim/array';
 import { Subscription } from '@dojo/shim/Observable';
 import { v, w } from '@dojo/widget-core/d';
-import { DNode, PropertyChangeRecord, WidgetBaseConstructor } from '@dojo/widget-core/interfaces';
+import { DNode, PropertyChangeRecord, PropertiesChangeEvent } from '@dojo/widget-core/interfaces';
 import { RegistryMixin }  from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
-import WidgetBase, { diffProperty } from '@dojo/widget-core/WidgetBase';
-import DataProviderBase from './bases/DataProviderBase';
+import WidgetBase, { diffProperty, onPropertiesChanged } from '@dojo/widget-core/WidgetBase';
+import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
+import DataProviderBase, { Options } from './bases/DataProviderBase';
 import Body from './Body';
-import GridRegistry, { gridRegistry } from './GridRegistry';
+import Cell from './Cell';
 import Header from './Header';
-import { DataProperties, HasColumns, SortRequestListener } from './interfaces';
+import HeaderCell from './HeaderCell';
+import { DataProperties, HasColumns } from './interfaces';
+import Row from './Row';
 
 import * as css from './styles/grid.m.css';
 
 export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
-
-export type GridInterface = WidgetBaseConstructor<GridProperties>;
 
 /**
  * @type GridProperties
@@ -25,15 +27,21 @@ export type GridInterface = WidgetBaseConstructor<GridProperties>;
  * @property dataProvider	An observable object that responds to events and returns {@link DataProperties}
  */
 export interface GridProperties extends ThemeableProperties, HasColumns {
-	registry?: GridRegistry;
-	dataProvider: DataProviderBase;
+	registry?: WidgetRegistry;
+	dataProvider: DataProviderBase<any, Options>;
 }
+
+const gridRegistry = new WidgetRegistry();
+gridRegistry.define('header', Header);
+gridRegistry.define('header-cell', HeaderCell);
+gridRegistry.define('body', Body);
+gridRegistry.define('row', Row);
+gridRegistry.define('cell', Cell);
 
 @theme(css)
 class Grid extends GridBase<GridProperties> {
-	private _data: DataProperties<object> = <DataProperties<object>> {};
+	private _data: DataProperties<any>;
 	private _subscription: Subscription;
-	private _sortRequestListener: SortRequestListener;
 
 	constructor() {
 		super();
@@ -42,24 +50,21 @@ class Grid extends GridBase<GridProperties> {
 	}
 
 	@diffProperty('dataProvider')
-	protected diffPropertyDataProvider(previousDataProvider: DataProviderBase, dataProvider: DataProviderBase): PropertyChangeRecord {
-		const changed = (previousDataProvider !== dataProvider);
-		if (changed) {
-			this._sortRequestListener = dataProvider.sort.bind(dataProvider);
+	protected diffPropertyDataProvider(previousValue: DataProviderBase<any, Options>, value: DataProviderBase<any, Options>): PropertyChangeRecord {
+		if (this._subscription) {
+			this._subscription.unsubscribe();
+		}
 
-			this._subscription && this._subscription.unsubscribe();
-			this._subscription = dataProvider.observe().subscribe((data) => {
-				this._data = (data || {});
-				// TODO: Remove setTimeout when invalidation loop is adjusted (https://github.com/dojo/widget-core/pull/494/files)
-				setTimeout(this.invalidate.bind(this));
+		if (value) {
+			this._subscription = value.observe().subscribe((data) => {
+				this._data = data;
+				this.invalidate();
 			});
-			// TODO: Remove notify when on demand scrolling (https://github.com/dojo/dgrid/issues/21 Initialization) is added
-			dataProvider.notify();
 		}
 
 		return {
-			changed,
-			value: dataProvider
+			changed: (previousValue !== value),
+			value
 		};
 	}
 
@@ -67,15 +72,18 @@ class Grid extends GridBase<GridProperties> {
 		const {
 			_data: {
 				items = [],
-				sort: sortDetails = []
-			},
-			_sortRequestListener: onSortRequest,
+				sort = []
+			} = {},
 			properties: {
 				columns,
-				theme,
-				registry = gridRegistry
+				dataProvider,
+				theme
 			}
 		} = this;
+		const {
+			sort: onSortRequest
+		} = dataProvider;
+		const registry: WidgetRegistry = <any> this.registries;
 
 		return v('div', {
 			classes: this.classes(css.grid),
@@ -84,9 +92,9 @@ class Grid extends GridBase<GridProperties> {
 			w<Header>('header', {
 				columns,
 				registry,
-				sortDetails,
+				sortDetails: sort,
 				theme,
-				onSortRequest
+				onSortRequest: onSortRequest && onSortRequest.bind(dataProvider)
 			}),
 			w<Body>('body', {
 				columns,
