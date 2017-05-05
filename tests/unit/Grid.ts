@@ -1,15 +1,15 @@
 import * as registerSuite from 'intern!object';
 
-import { VNode } from '@dojo/interfaces/vdom';
+import { compareProperty } from '@dojo/test-extras/support/d';
 import harness, { Harness } from '@dojo/test-extras/harness';
-import assertRender from '@dojo/test-extras/support/assertRender';
 import { v, w } from '@dojo/widget-core/d';
+import RegistryHandler from '@dojo/widget-core/RegistryHandler';
 import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
 
-import Body, { BodyProperties } from '../../src/Body';
+import Body from '../../src/Body';
 import Cell from '../../src/Cell';
 import Grid, { GridProperties } from '../../src/Grid';
-import Header, { HeaderProperties } from '../../src/Header';
+import Header from '../../src/Header';
 import HeaderCell from '../../src/HeaderCell';
 import { Column } from '../../src/interfaces';
 import Row from '../../src/Row';
@@ -17,6 +17,17 @@ import ArrayDataProvider from '../../src/providers/ArrayDataProvider';
 import * as css from '../../src/styles/grid.m.css';
 
 let widget: Harness<GridProperties, typeof Grid>;
+
+const compareRegistryProperty: WidgetRegistry = <any> compareProperty((value) => {
+	if (value instanceof RegistryHandler) {
+		return value.has('header') &&
+			value.has('header-cell') &&
+			value.has('body') &&
+			value.has('row') &&
+			value.has('cell');
+	}
+	return false;
+});
 
 const columns: Column<any>[] = [
 	{ id: 'foo', label: 'foo' }
@@ -30,7 +41,7 @@ registry.define('row', Row);
 registry.define('cell', Cell);
 
 registerSuite({
-	name: 'Body',
+	name: 'Grid',
 
 	beforeEach() {
 		widget = harness(Grid);
@@ -48,25 +59,21 @@ registerSuite({
 			columns
 		});
 
-		const actual = <any> widget.getRender();
-		actual!.children!.forEach((child: any) => {
-			child.registry = registry;
-		});
-		assertRender(actual, v('div', {
+		widget.expectRender(v('div', {
 			classes: widget.classes(css.grid),
 			role: 'grid'
 		}, [
-			w<HeaderProperties>('header', {
+			w<Header>('header', {
 				columns,
-				registry,
+				registry: compareRegistryProperty,
 				sortDetails: [],
 				theme: undefined,
 				onSortRequest: widget.listener
 			}),
-			w<BodyProperties>('body', {
+			w<Body>('body', {
 				columns,
 				items: [],
-				registry,
+				registry: compareRegistryProperty,
 				theme: undefined
 			})
 		]));

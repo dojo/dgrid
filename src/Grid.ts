@@ -1,20 +1,22 @@
+import { includes } from '@dojo/shim/array';
 import { Subscription } from '@dojo/shim/Observable';
 import { v, w } from '@dojo/widget-core/d';
-import { DNode, PropertyChangeRecord } from '@dojo/widget-core/interfaces';
+import { DNode, PropertyChangeRecord, PropertiesChangeEvent } from '@dojo/widget-core/interfaces';
+import { RegistryMixin }  from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
-import WidgetBase, { diffProperty } from '@dojo/widget-core/WidgetBase';
+import WidgetBase, { diffProperty, onPropertiesChanged } from '@dojo/widget-core/WidgetBase';
 import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
 import DataProviderBase, { Options } from './bases/DataProviderBase';
-import Body, { BodyProperties } from './Body';
+import Body from './Body';
 import Cell from './Cell';
-import Header, { HeaderProperties } from './Header';
+import Header from './Header';
 import HeaderCell from './HeaderCell';
 import { DataProperties, HasColumns } from './interfaces';
 import Row from './Row';
 
 import * as css from './styles/grid.m.css';
 
-export const GridBase = ThemeableMixin(WidgetBase);
+export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
 /**
  * @type GridProperties
@@ -29,29 +31,22 @@ export interface GridProperties extends ThemeableProperties, HasColumns {
 	dataProvider: DataProviderBase<any, Options>;
 }
 
-function createRegistry(registry?: WidgetRegistry) {
-	if (!registry) {
-		registry = new WidgetRegistry();
-	}
-	!registry.has('header') && registry.define('header', Header);
-	!registry.has('header-cell') && registry.define('header-cell', HeaderCell);
-	!registry.has('body') && registry.define('body', Body);
-	!registry.has('row') && registry.define('row', Row);
-	!registry.has('cell') && registry.define('cell', Cell);
-	return registry;
-}
+const gridRegistry = new WidgetRegistry();
+gridRegistry.define('header', Header);
+gridRegistry.define('header-cell', HeaderCell);
+gridRegistry.define('body', Body);
+gridRegistry.define('row', Row);
+gridRegistry.define('cell', Cell);
 
 @theme(css)
 class Grid extends GridBase<GridProperties> {
 	private _data: DataProperties<any>;
 	private _subscription: Subscription;
 
-	protected registry: WidgetRegistry;
-
 	constructor() {
 		super();
 
-		this.registry = createRegistry();
+		this.registries.add(gridRegistry);
 	}
 
 	@diffProperty('dataProvider')
@@ -73,16 +68,6 @@ class Grid extends GridBase<GridProperties> {
 		};
 	}
 
-	@diffProperty('registry')
-	public diffPropertyRegistry(previousValue: WidgetRegistry, value: WidgetRegistry): PropertyChangeRecord {
-		this.registry = createRegistry(value);
-
-		return {
-			changed: (previousValue !== value),
-			value
-		};
-	}
-
 	render(): DNode {
 		const {
 			_data: {
@@ -93,25 +78,25 @@ class Grid extends GridBase<GridProperties> {
 				columns,
 				dataProvider,
 				theme
-			},
-			registry
+			}
 		} = this;
 		const {
 			sort: onSortRequest
 		} = dataProvider;
+		const registry: WidgetRegistry = <any> this.registries;
 
 		return v('div', {
 			classes: this.classes(css.grid),
 			role: 'grid'
 		}, [
-			w<HeaderProperties>('header', {
+			w<Header>('header', {
 				columns,
 				registry,
 				sortDetails: sort,
 				theme,
 				onSortRequest: onSortRequest && onSortRequest.bind(dataProvider)
 			}),
-			w<BodyProperties>('body', {
+			w<Body>('body', {
 				columns,
 				items,
 				registry,
