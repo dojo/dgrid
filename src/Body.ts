@@ -3,7 +3,7 @@ import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { HasColumns, HasItems } from './interfaces';
-import { RowProperties } from './Row';
+import Row from './Row';
 
 import * as bodyClasses from './styles/body.m.css';
 
@@ -29,7 +29,7 @@ class Body extends BodyBase<BodyProperties> {
 					classes: this.classes(bodyClasses.content)
 				},
 				items.map((item) => {
-					return w<RowProperties>('row', {
+					return w<Row>('row', {
 						columns,
 						item,
 						key: item.id,

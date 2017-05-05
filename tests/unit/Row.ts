@@ -3,7 +3,7 @@ import * as registerSuite from 'intern!object';
 import harness, { Harness } from '@dojo/test-extras/harness';
 import { registry, v, w } from '@dojo/widget-core/d';
 
-import { CellProperties } from '../../src/Cell';
+import Cell from '../../src/Cell';
 import { ItemProperties } from '../../src/interfaces';
 import Row, { RowProperties } from '../../src/Row';
 import * as css from '../../src/styles/row.m.css';
@@ -50,7 +50,7 @@ registerSuite({
 				classes: widget.classes(tableCss.table, css.rowTable)
 			}, [
 				v('tr', [
-					w<CellProperties>('cell', {
+					w<Cell>('cell', {
 						column: { id: 'foo' },
 						item,
 						key: 'foo',
@@ -58,7 +58,7 @@ registerSuite({
 						theme: undefined,
 						value: 'foo'
 					}),
-					w<CellProperties>('cell', {
+					w<Cell>('cell', {
 						column: { id: 'bar' },
 						item,
 						key: 'bar',

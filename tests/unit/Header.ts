@@ -4,7 +4,7 @@ import harness, { Harness } from '@dojo/test-extras/harness';
 import { registry, v, w } from '@dojo/widget-core/d';
 
 import Header, { HeaderProperties } from '../../src/Header';
-import { HeaderCellProperties } from '../../src/HeaderCell';
+import HeaderCell from '../../src/HeaderCell';
 import * as css from '../../src/styles/header.m.css';
 import * as tableCss from '../../src/styles/shared/table.m.css';
 
@@ -41,7 +41,7 @@ registerSuite({
 				classes: widget.classes(tableCss.table, css.headerTable)
 			}, [
 				v('tr', [
-					w<HeaderCellProperties>('header-cell', {
+					w<HeaderCell>('header-cell', {
 						column: { id: 'foo' },
 						key: 'foo',
 						onSortRequest: widget.listener,
@@ -49,7 +49,7 @@ registerSuite({
 						registry,
 						theme: undefined
 					}),
-					w<HeaderCellProperties>('header-cell', {
+					w<HeaderCell>('header-cell', {
 						column: { id: 'bar' },
 						key: 'bar',
 						onSortRequest: widget.listener,
@@ -84,7 +84,7 @@ registerSuite({
 				classes: widget.classes(tableCss.table, css.headerTable)
 			}, [
 				v('tr', [
-					w<HeaderCellProperties>('header-cell', {
+					w<HeaderCell>('header-cell', {
 						column: { id: 'foo' },
 						key: 'foo',
 						onSortRequest: widget.listener,
@@ -94,7 +94,7 @@ registerSuite({
 						registry,
 						theme: undefined
 					}),
-					w<HeaderCellProperties>('header-cell', {
+					w<HeaderCell>('header-cell', {
 						column: { id: 'bar' },
 						key: 'bar',
 						onSortRequest: widget.listener,

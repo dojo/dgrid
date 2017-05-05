@@ -1,7 +1,8 @@
 import * as registerSuite from 'intern!object';
 import * as assert from 'intern/chai!assert';
 
-import harness, { assignChildProperties, assignProperties, Harness } from '@dojo/test-extras/harness';
+import harness, { Harness } from '@dojo/test-extras/harness';
+import { assignChildProperties, assignProperties } from '@dojo/test-extras/support/d';
 import { registry, v } from '@dojo/widget-core/d';
 
 import HeaderCell, { HeaderCellProperties } from '../../src/HeaderCell';

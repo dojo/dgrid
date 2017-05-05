@@ -3,7 +3,7 @@ import { DNode } from '@dojo/widget-core/interfaces';
 import { RegistryMixin, RegistryMixinProperties }  from '@dojo/widget-core/mixins/Registry';
 import { ThemeableMixin, theme, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
-import { HeaderCellProperties } from './HeaderCell';
+import HeaderCell from './HeaderCell';
 import { HasColumns, HasSortDetails, HasSortEvent } from './interfaces';
 
 import * as css from './styles/header.m.css';
@@ -42,7 +42,7 @@ class Header extends HeaderBase<HeaderProperties> {
 						}
 					}
 
-					return w<HeaderCellProperties>('header-cell', {
+					return w<HeaderCell>('header-cell', {
 						column,
 						key: column.id,
 						onSortRequest,

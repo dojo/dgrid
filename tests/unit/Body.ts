@@ -5,7 +5,7 @@ import { registry, v, w } from '@dojo/widget-core/d';
 
 import Body, { BodyProperties } from '../../src/Body';
 import { ItemProperties, Column } from '../../src/interfaces';
-import { RowProperties } from '../../src/Row';
+import Row from '../../src/Row';
 import * as css from '../../src/styles/body.m.css';
 
 let widget: Harness<BodyProperties, typeof Body>;
@@ -46,7 +46,7 @@ registerSuite({
 			v('div', {
 				classes: widget.classes(css.content)
 			}, [
-				w<RowProperties>('row', {
+				w<Row>('row', {
 					columns,
 					item,
 					key: item.id,
