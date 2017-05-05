@@ -1,4 +1,4 @@
-import { WidgetConstructor, WidgetProperties } from '@dojo/widget-core/interfaces';
+import { WidgetBaseConstructor, WidgetProperties } from '@dojo/widget-core/interfaces';
 import { spy } from 'sinon';
 
 /**
@@ -20,7 +20,7 @@ export function throwImmediately() {
 	throw new Error('unexpected code path');
 }
 
-export function spyOnWidget<C extends WidgetConstructor>(constructor: C, addSpies: (prototype: any) => void) {
+export function spyOnWidget<C extends WidgetBaseConstructor>(constructor: C, addSpies: (prototype: any) => void) {
 	const constructorSpy = spy(function(this: C) {
 		constructor.apply(this, arguments);
 	});

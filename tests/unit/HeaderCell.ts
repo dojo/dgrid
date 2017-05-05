@@ -1,7 +1,8 @@
 import * as registerSuite from 'intern!object';
 import * as assert from 'intern/chai!assert';
 
-import harness, { assignChildProperties, assignProperties, Harness } from '@dojo/test-extras/harness';
+import harness, { Harness } from '@dojo/test-extras/harness';
+import { assignChildProperties, assignProperties } from '@dojo/test-extras/support/d';
 import { registry, v } from '@dojo/widget-core/d';
 
 import HeaderCell, { HeaderCellProperties } from '../../src/HeaderCell';
@@ -130,11 +131,11 @@ registerSuite({
 
 		assert.isTrue(sorted);
 
-		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
-		});
 		assignChildProperties(expected, 1, {
 			classes: widget.classes(css.sortArrow, css.sortArrowDown)
+		});
+		assignProperties(expected, {
+			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
 
 		widget.expectRender(expected);
@@ -183,11 +184,11 @@ registerSuite({
 
 		assert.isTrue(sorted);
 
-		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
-		});
 		assignChildProperties(expected, 1, {
 			classes: widget.classes(css.sortArrow, css.sortArrowDown)
+		});
+		assignProperties(expected, {
+			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
 
 		widget.expectRender(expected);
@@ -236,11 +237,11 @@ registerSuite({
 
 		assert.isTrue(clicked);
 
-		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
-		});
 		assignChildProperties(expected, 1, {
 			classes: widget.classes(css.sortArrow, css.sortArrowUp)
+		});
+		assignProperties(expected, {
+			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
 
 		widget.expectRender(expected);
