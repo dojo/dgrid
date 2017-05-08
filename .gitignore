@@ -12,3 +12,5 @@ coverage-final.json
 coverage-final.lcov
 npm-debug.log
 yarn.lock
+/src/styles/dgrid.css.d.ts
+/src/styles/shared/variables.css.d.ts
