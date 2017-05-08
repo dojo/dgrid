@@ -24,9 +24,13 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 			onSortRequest
 		} = this.properties;
 
+		// sortDetail: undefined => 'asc'
+		// sortDetail: { columnId: string } => 'desc'
+		// sortDetail: { columnId: string, direction: 'asc' } => 'desc'
+		// sortDetail: { columnId: string, direction: 'desc' } => 'asc'
 		onSortRequest({
 			columnId: key,
-			direction: (sortDetail && sortDetail.direction === 'desc') ? 'asc' : 'desc'
+			direction: (!sortDetail || sortDetail.direction === 'desc') ? 'asc' : 'desc'
 		});
 	}
 

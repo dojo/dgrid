@@ -1,18 +1,15 @@
 import * as registerSuite from 'intern!object';
 
-import { compareProperty } from '@dojo/test-extras/support/d';
 import harness, { Harness } from '@dojo/test-extras/harness';
+import { assignChildProperties, compareProperty } from '@dojo/test-extras/support/d';
 import { v, w } from '@dojo/widget-core/d';
 import RegistryHandler from '@dojo/widget-core/RegistryHandler';
 import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
 
 import Body from '../../src/Body';
-import Cell from '../../src/Cell';
 import Grid, { GridProperties } from '../../src/Grid';
 import Header from '../../src/Header';
-import HeaderCell from '../../src/HeaderCell';
-import { Column } from '../../src/interfaces';
-import Row from '../../src/Row';
+import { Column, ItemProperties, SortDetails } from '../../src/interfaces';
 import ArrayDataProvider from '../../src/providers/ArrayDataProvider';
 import * as css from '../../src/styles/grid.m.css';
 
@@ -30,15 +27,52 @@ const compareRegistryProperty: WidgetRegistry = <any> compareProperty((value) =>
 });
 
 const columns: Column<any>[] = [
-	{ id: 'foo', label: 'foo' }
+	{ id: 'name', label: 'Name' }
 ];
 
-const registry = new WidgetRegistry();
-registry.define('header', Header);
-registry.define('header-cell', HeaderCell);
-registry.define('body', Body);
-registry.define('row', Row);
-registry.define('cell', Cell);
+const items = [
+	{
+		id: 1,
+		name: 'One'
+	},
+	{
+		id: 2,
+		name: 'Two'
+	}
+];
+
+const itemProperties: ItemProperties<any>[] = [
+	{
+		id: '1',
+		data: items[0]
+	},
+	{
+		id: '2',
+		data: items[1]
+	}
+];
+
+const items2 = [
+	{
+		id: 3,
+		name: 'Three'
+	},
+	{
+		id: 4,
+		name: 'Four'
+	}
+];
+
+const itemProperties2: ItemProperties<any>[] = [
+	{
+		id: '3',
+		data: items2[0]
+	},
+	{
+		id: '4',
+		data: items2[1]
+	}
+];
 
 registerSuite({
 	name: 'Grid',
@@ -54,7 +88,7 @@ registerSuite({
 	'dgrid'() {
 		widget.setProperties({
 			dataProvider: new ArrayDataProvider({
-				data: []
+				data: items
 			}),
 			columns
 		});
@@ -72,7 +106,7 @@ registerSuite({
 			}),
 			w<Body>('body', {
 				columns,
-				items: [],
+				items: itemProperties,
 				registry: compareRegistryProperty,
 				theme: undefined
 			})
@@ -81,34 +115,95 @@ registerSuite({
 	'sort'() {
 		const properties: GridProperties = {
 			dataProvider: new ArrayDataProvider({
-				data: []
+				data: items
 			}),
-			columns: [
-				{ id: 'foo', label: 'foo' }
-			]
+			columns
 		};
 
-		properties.dataProvider.sort({
-			columnId: 'foo',
+		widget.setProperties(properties);
+
+		const expected = v('div', {
+			classes: widget.classes(css.grid),
+			role: 'grid'
+		}, [
+			w<Header>('header', {
+				columns,
+				registry: compareRegistryProperty,
+				sortDetails: [],
+				theme: undefined,
+				onSortRequest: widget.listener
+			}),
+			w<Body>('body', {
+				columns,
+				items: itemProperties,
+				registry: compareRegistryProperty,
+				theme: undefined
+			})
+		]);
+
+		widget.expectRender(expected);
+
+		const sortDetails: SortDetails = {
+			columnId: 'name',
 			direction: 'desc'
+		};
+
+		properties.dataProvider.sort(sortDetails);
+
+		assignChildProperties(expected, 0, {
+			sortDetails: [ sortDetails ]
 		});
 
+		assignChildProperties(expected, 1, {
+			items: [ itemProperties[1], itemProperties[0] ]
+		});
+
+		widget.expectRender(expected);
 	},
 	'reassign dataProvider'() {
 		let properties: GridProperties = {
 			dataProvider: new ArrayDataProvider({
-				data: []
+				data: items
 			}),
-			columns: [
-				{ id: 'foo', label: 'foo' }
-			]
+			columns
 		};
+
+		widget.setProperties(properties);
+
+		const expected = v('div', {
+			classes: widget.classes(css.grid),
+			role: 'grid'
+		}, [
+			w<Header>('header', {
+				columns,
+				registry: compareRegistryProperty,
+				sortDetails: [],
+				theme: undefined,
+				onSortRequest: widget.listener
+			}),
+			w<Body>('body', {
+				columns,
+				items: itemProperties,
+				registry: compareRegistryProperty,
+				theme: undefined
+			})
+		]);
+
+		widget.expectRender(expected);
 
 		properties = {
 			...properties,
 			dataProvider: new ArrayDataProvider({
-				data: []
+				data: items2
 			})
 		};
+
+		assignChildProperties(expected, 1, {
+			items: itemProperties2
+		});
+
+		widget.setProperties(properties);
+
+		widget.expectRender(expected);
 	}
 });

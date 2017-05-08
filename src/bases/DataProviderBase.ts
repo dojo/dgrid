@@ -55,6 +55,14 @@ abstract class DataProviderBase<T, O extends Options> {
 			if (this._data) {
 				observer.next(this._data);
 			}
+			return {
+				unsubscribe: () => {
+					const index = this._observers.indexOf(observer);
+					if (index !== -1) {
+						this._observers.slice(index, 1);
+					}
+				}
+			};
 		});
 	}
 

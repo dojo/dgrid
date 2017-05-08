@@ -29,7 +29,7 @@ class ArrayDataProvider<T> extends DataProviderBase<T, ArrayDataProviderOptions<
 		} = state;
 		let items = data;
 		if (sort && sort.length) {
-			items = items.sort((a: any, b: any) => {
+			items = [ ...items].sort((a: any, b: any) => {
 				for (let field of sort) {
 					const aValue = a[field.columnId];
 					const bValue = b[field.columnId];

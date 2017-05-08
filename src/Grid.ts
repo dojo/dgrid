@@ -1,10 +1,9 @@
-import { includes } from '@dojo/shim/array';
 import { Subscription } from '@dojo/shim/Observable';
 import { v, w } from '@dojo/widget-core/d';
-import { DNode, PropertyChangeRecord, PropertiesChangeEvent } from '@dojo/widget-core/interfaces';
+import { DNode, PropertyChangeRecord } from '@dojo/widget-core/interfaces';
 import { RegistryMixin }  from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
-import WidgetBase, { diffProperty, onPropertiesChanged } from '@dojo/widget-core/WidgetBase';
+import WidgetBase, { diffProperty } from '@dojo/widget-core/WidgetBase';
 import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
 import DataProviderBase, { Options } from './bases/DataProviderBase';
 import Body from './Body';
@@ -60,6 +59,8 @@ class Grid extends GridBase<GridProperties> {
 				this._data = data;
 				this.invalidate();
 			});
+			// TODO: Other areas of code will populate data moving forward
+			value.notify();
 		}
 
 		return {

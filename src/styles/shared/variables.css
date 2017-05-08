@@ -1,3 +1,5 @@
 :root {
+	--grid-border-color: rgb(221, 221, 221);
 	--header-background-color: rgb(238, 238, 238);
+	--cell-border-color: rgb(221, 221, 221);
 }
