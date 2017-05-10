@@ -10,7 +10,7 @@ import Body from './Body';
 import Cell from './Cell';
 import Header from './Header';
 import HeaderCell from './HeaderCell';
-import { DataProperties, HasColumns } from './interfaces';
+import { DataProperties, HasColumns, OnSortRequest } from './interfaces';
 import Row from './Row';
 
 import * as css from './styles/grid.m.css';
@@ -41,6 +41,7 @@ gridRegistry.define('cell', Cell);
 class Grid extends GridBase<GridProperties> {
 	private _data: DataProperties<any>;
 	private _subscription: Subscription;
+	private _onSortRequest: OnSortRequest;
 
 	constructor() {
 		super();
@@ -49,23 +50,23 @@ class Grid extends GridBase<GridProperties> {
 	}
 
 	@diffProperty('dataProvider')
-	protected diffPropertyDataProvider(previousValue: DataProviderBase<any, Options>, value: DataProviderBase<any, Options>): PropertyChangeRecord {
-		if (this._subscription) {
-			this._subscription.unsubscribe();
-		}
+	protected diffPropertyDataProvider(previousDataProvider: DataProviderBase<any, Options>, dataProvider: DataProviderBase<any, Options>): PropertyChangeRecord {
+		const changed = (previousDataProvider !== dataProvider);
+		if (changed) {
+			this._onSortRequest = dataProvider.sort.bind(dataProvider);
 
-		if (value) {
-			this._subscription = value.observe().subscribe((data) => {
+			this._subscription && this._subscription.unsubscribe();
+			this._subscription = dataProvider.observe().subscribe((data) => {
 				this._data = data;
-				this.invalidate();
+				setTimeout(this.invalidate.bind(this));
 			});
-			// TODO: Other areas of code will populate data moving forward
-			value.notify();
+			// TODO: Remove notify when on demand scrolling (https://github.com/dojo/dgrid/issues/21 Initialization) is added
+			dataProvider.notify();
 		}
 
 		return {
-			changed: (previousValue !== value),
-			value
+			changed,
+			value: dataProvider
 		};
 	}
 
@@ -73,18 +74,15 @@ class Grid extends GridBase<GridProperties> {
 		const {
 			_data: {
 				items = [],
-				sort = []
-			} = {},
+				sort: sortDetails = []
+			},
+			_onSortRequest: onSortRequest,
 			properties: {
 				columns,
-				dataProvider,
 				theme
 			}
 		} = this;
-		const {
-			sort: onSortRequest
-		} = dataProvider;
-		const registry: WidgetRegistry = <any> this.registries;
+		const registry: WidgetRegistry = <any> this.registries; // Pass down combined gridRegistry/properties.registry
 
 		return v('div', {
 			classes: this.classes(css.grid),
@@ -93,9 +91,9 @@ class Grid extends GridBase<GridProperties> {
 			w<Header>('header', {
 				columns,
 				registry,
-				sortDetails: sort,
+				sortDetails,
 				theme,
-				onSortRequest: onSortRequest && onSortRequest.bind(dataProvider)
+				onSortRequest
 			}),
 			w<Body>('body', {
 				columns,
