@@ -2,7 +2,7 @@ import { w } from '@dojo/widget-core/d';
 import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { ProjectorMixin } from '@dojo/widget-core/mixins/Projector';
 import { WidgetBase } from '@dojo/widget-core/WidgetBase';
-import Grid, { GridProperties } from '../src/Grid';
+import Grid from '../src/Grid';
 import ArrayDataProvider from '../src/providers/ArrayDataProvider';
 
 const data = [
@@ -41,7 +41,7 @@ const ProjectorBase = ProjectorMixin(WidgetBase);
 
 class Projector extends ProjectorBase<WidgetProperties> {
 	render() {
-		return w(Grid, <GridProperties> {
+		return w(Grid, {
 			dataProvider,
 			columns
 		});
