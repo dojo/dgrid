@@ -58,6 +58,7 @@ class Grid extends GridBase<GridProperties> {
 			this._subscription && this._subscription.unsubscribe();
 			this._subscription = dataProvider.observe().subscribe((data) => {
 				this._data = data;
+				// TODO: Remove setTimeout when invalidation loop is adjusted (https://github.com/dojo/widget-core/pull/494/files)
 				setTimeout(this.invalidate.bind(this));
 			});
 			// TODO: Remove notify when on demand scrolling (https://github.com/dojo/dgrid/issues/21 Initialization) is added
