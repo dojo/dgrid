@@ -12,8 +12,7 @@ import Header from '../../src/Header';
 import { Column, ItemProperties, SortDetails } from '../../src/interfaces';
 import ArrayDataProvider from '../../src/providers/ArrayDataProvider';
 import * as css from '../../src/styles/grid.m.css';
-
-let widget: Harness<GridProperties, typeof Grid>;
+import DataProviderBase from '../../src/bases/DataProviderBase';
 
 const compareRegistryProperty: WidgetRegistry = <any> compareProperty((value) => {
 	if (value instanceof RegistryHandler) {
@@ -74,6 +73,8 @@ const itemProperties2: ItemProperties<any>[] = [
 	}
 ];
 
+let widget: Harness<GridProperties, typeof Grid>;
+
 registerSuite({
 	name: 'Grid',
 
@@ -112,6 +113,34 @@ registerSuite({
 			})
 		]));
 	},
+
+	'dgrid no dataProvider'() {
+		widget.setProperties({
+			dataProvider: new (class extends DataProviderBase {
+			})({}),
+			columns
+		});
+
+		widget.expectRender(v('div', {
+			classes: widget.classes(css.grid),
+			role: 'grid'
+		}, [
+			w<Header>('header', {
+				columns,
+				registry: compareRegistryProperty,
+				sortDetails: [],
+				theme: undefined,
+				onSortRequest: widget.listener
+			}),
+			w<Body>('body', {
+				columns,
+				items: [],
+				registry: compareRegistryProperty,
+				theme: undefined
+			})
+		]));
+	},
+
 	'sort'() {
 		const properties: GridProperties = {
 			dataProvider: new ArrayDataProvider({
@@ -160,6 +189,7 @@ registerSuite({
 
 		widget.expectRender(expected);
 	},
+
 	'reassign dataProvider'() {
 		let properties: GridProperties = {
 			dataProvider: new ArrayDataProvider({
