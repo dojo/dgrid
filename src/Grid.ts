@@ -5,12 +5,12 @@ import { RegistryMixin }  from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase, { diffProperty } from '@dojo/widget-core/WidgetBase';
 import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
-import DataProviderBase, { Options } from './bases/DataProviderBase';
+import DataProviderBase from './bases/DataProviderBase';
 import Body from './Body';
 import Cell from './Cell';
 import Header from './Header';
 import HeaderCell from './HeaderCell';
-import { DataProperties, HasColumns, OnSortRequest } from './interfaces';
+import { DataProperties, HasColumns, SortRequestListener } from './interfaces';
 import Row from './Row';
 
 import * as css from './styles/grid.m.css';
@@ -27,7 +27,7 @@ export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
  */
 export interface GridProperties extends ThemeableProperties, HasColumns {
 	registry?: WidgetRegistry;
-	dataProvider: DataProviderBase<any, Options>;
+	dataProvider: DataProviderBase;
 }
 
 const gridRegistry = new WidgetRegistry();
@@ -39,9 +39,9 @@ gridRegistry.define('cell', Cell);
 
 @theme(css)
 class Grid extends GridBase<GridProperties> {
-	private _data: DataProperties<any>;
+	private _data: DataProperties<object> = <DataProperties<object>> {};
 	private _subscription: Subscription;
-	private _onSortRequest: OnSortRequest;
+	private _sortRequestListener: SortRequestListener;
 
 	constructor() {
 		super();
@@ -50,14 +50,14 @@ class Grid extends GridBase<GridProperties> {
 	}
 
 	@diffProperty('dataProvider')
-	protected diffPropertyDataProvider(previousDataProvider: DataProviderBase<any, Options>, dataProvider: DataProviderBase<any, Options>): PropertyChangeRecord {
+	protected diffPropertyDataProvider(previousDataProvider: DataProviderBase, dataProvider: DataProviderBase): PropertyChangeRecord {
 		const changed = (previousDataProvider !== dataProvider);
 		if (changed) {
-			this._onSortRequest = dataProvider.sort.bind(dataProvider);
+			this._sortRequestListener = dataProvider.sort.bind(dataProvider);
 
 			this._subscription && this._subscription.unsubscribe();
 			this._subscription = dataProvider.observe().subscribe((data) => {
-				this._data = data;
+				this._data = (data || {});
 				// TODO: Remove setTimeout when invalidation loop is adjusted (https://github.com/dojo/widget-core/pull/494/files)
 				setTimeout(this.invalidate.bind(this));
 			});
@@ -77,7 +77,7 @@ class Grid extends GridBase<GridProperties> {
 				items = [],
 				sort: sortDetails = []
 			},
-			_onSortRequest: onSortRequest,
+			_sortRequestListener: onSortRequest,
 			properties: {
 				columns,
 				theme
