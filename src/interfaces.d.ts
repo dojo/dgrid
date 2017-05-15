@@ -26,12 +26,12 @@ export interface HasSortDetails {
 	sortDetails: SortDetails[];
 }
 
-export interface OnSortRequest {
+export interface SortRequestListener {
 	(sortDetail: SortDetails): void;
 }
 
 export interface HasSortEvent {
-	onSortRequest: OnSortRequest;
+	onSortRequest: SortRequestListener;
 }
 
 export interface HasItem {
