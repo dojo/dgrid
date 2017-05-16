@@ -83,13 +83,11 @@ abstract class DataProviderBase<T = object, O extends DataProviderOptions = Data
 	 * Notifies all observers with the latest structured data.
 	 */
 	notify(): void {
-		let { data: data } = this;
-		if (!data) {
+		if (!this.data) {
 			this.buildData();
-			data = this.data;
 		}
 		this._observers.forEach((observer) => {
-			observer.next(data);
+			observer.next(this.data);
 		});
 	}
 
