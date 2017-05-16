@@ -35,7 +35,7 @@ abstract class DataProviderBase<T = object, O extends DataProviderOptions = Data
 
 	protected data: DataProperties<T>;
 	protected options: O;
-	protected state: DataProviderState = <DataProviderState> {};
+	protected state: DataProviderState = {};
 
 	constructor(options: O, configuration?: C) {
 		this.options = options;
