@@ -1,41 +1,46 @@
 import { WidgetBaseConstructor } from '@dojo/widget-core/interfaces';
 import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
-import Body from './Body';
-import Cell from './Cell';
-import Header from './Header';
-import HeaderCell from './HeaderCell';
-import Row from './Row';
+import Body, { BodyInterface } from './Body';
+import Cell, { CellInterface } from './Cell';
+import Footer, { FooterInterface } from './Footer';
+import Header, { HeaderInterface } from './Header';
+import HeaderCell, { HeaderCellInterface } from './HeaderCell';
+import Row, { RowInterface } from './Row';
 
 export interface GridRegistered {
 	[key: string]: WidgetBaseConstructor;
-	header: typeof Header;
-	'header-cell': typeof HeaderCell;
-	body: typeof Body;
-	row: typeof Row;
-	cell: typeof Cell;
+	body: BodyInterface;
+	cell: CellInterface;
+	footer: FooterInterface;
+	header: HeaderInterface;
+	'header-cell': HeaderCellInterface;
+	row: RowInterface;
 }
 
 export default class GridRegistry<T extends GridRegistered = GridRegistered> extends WidgetRegistry {
+	private _overrides: WidgetRegistry = new WidgetRegistry();
+
 	constructor() {
 		super();
 
-		this.define('header', Header);
-		this.define('header-cell', HeaderCell);
-		this.define('body', Body);
-		this.define('row', Row);
-		this.define('cell', Cell);
+		super.define('body', Body);
+		super.define('cell', Cell);
+		super.define('footer', Footer);
+		super.define('header', Header);
+		super.define('header-cell', HeaderCell);
+		super.define('row', Row);
 	}
 
 	define<K extends keyof T>(widgetLabel: K, registryItem: T[K]): void {
-		super.define(widgetLabel, registryItem);
+		this._overrides.define(widgetLabel, registryItem);
 	}
 
 	get<K extends keyof T>(widgetLabel: K): T[K] {
-		return <WidgetBaseConstructor> super.get(widgetLabel);
+		return <WidgetBaseConstructor> this._overrides.get(widgetLabel) || super.get(widgetLabel);
 	}
 
 	has<K extends keyof T>(widgetLabel: K): boolean {
-		return super.has(widgetLabel);
+		return this._overrides.has(widgetLabel) || super.has(widgetLabel);
 	}
 }
 

@@ -3,24 +3,24 @@ import * as registerSuite from 'intern!object';
 import harness, { Harness } from '@dojo/test-extras/harness';
 import { assignChildProperties, compareProperty } from '@dojo/test-extras/support/d';
 import { v, w } from '@dojo/widget-core/d';
-import RegistryHandler from '@dojo/widget-core/RegistryHandler';
-import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
 
 import Body from '../../src/Body';
 import Grid, { GridProperties } from '../../src/Grid';
+import GridRegistry, { gridRegistry } from '../../src/GridRegistry';
 import Header from '../../src/Header';
 import { Column, ItemProperties, SortDetails } from '../../src/interfaces';
 import ArrayDataProvider from '../../src/providers/ArrayDataProvider';
 import * as css from '../../src/styles/grid.m.css';
 import DataProviderBase from '../../src/bases/DataProviderBase';
 
-const compareRegistryProperty: WidgetRegistry = <any> compareProperty((value) => {
-	if (value instanceof RegistryHandler) {
-		return value.has('header') &&
+const compareRegistryProperty: GridRegistry = <any> compareProperty((value) => {
+	if (value instanceof GridRegistry) {
+		return value.has('body') &&
+			value.has('cell') &&
+			value.has('footer') &&
+			value.has('header') &&
 			value.has('header-cell') &&
-			value.has('body') &&
-			value.has('row') &&
-			value.has('cell');
+			value.has('row');
 	}
 	return false;
 });
@@ -116,9 +116,9 @@ registerSuite({
 
 	'dgrid no dataProvider'() {
 		widget.setProperties({
-			dataProvider: new (class extends DataProviderBase {
-			})({}),
-			columns
+			dataProvider: new (class extends DataProviderBase {})({}),
+			columns,
+			registry: gridRegistry
 		});
 
 		widget.expectRender(v('div', {

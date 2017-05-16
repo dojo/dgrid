@@ -1,7 +1,7 @@
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { RegistryMixin, RegistryMixinProperties }  from '@dojo/widget-core/mixins/Registry';
 import { v } from '@dojo/widget-core/d';
-import { DNode } from '@dojo/widget-core/interfaces';
+import { DNode, WidgetBaseConstructor } from '@dojo/widget-core/interfaces';
 import { HasValue, HasColumn, HasItem } from './interfaces';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 
@@ -11,6 +11,8 @@ import * as css from './styles/cell.m.css';
 export interface CellProperties extends HasColumn, HasItem, HasValue, RegistryMixinProperties, ThemeableProperties {
 	key: string;
 }
+
+export type CellInterface = WidgetBaseConstructor<CellProperties>;
 
 export const CellBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
