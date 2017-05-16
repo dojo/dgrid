@@ -35,6 +35,12 @@ class Grid extends GridBase<GridProperties> {
 	private _subscription: Subscription;
 	private _sortRequestListener: SortRequestListener;
 
+	constructor() {
+		super();
+
+		this.registries.add(gridRegistry);
+	}
+
 	@diffProperty('dataProvider')
 	protected diffPropertyDataProvider(previousDataProvider: DataProviderBase, dataProvider: DataProviderBase): PropertyChangeRecord {
 		const changed = (previousDataProvider !== dataProvider);
