@@ -49,16 +49,8 @@ registerSuite({
 		]);
 
 		widget.expectRender(expected);
-
 		widget.sendEvent('click');
-
 		assert.isFalse(sorted);
-
-		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell)
-		});
-
-		widget.expectRender(expected);
 	},
 
 	'Renders sortable header cell when column.sortable not explicitly false'() {
@@ -94,7 +86,7 @@ registerSuite({
 		const sortDetail: SortDetails = {
 			columnId: 'id'
 		};
-		widget.setProperties({
+		const properties = {
 			column: {
 				id: 'id',
 				label: 'foo',
@@ -105,11 +97,11 @@ registerSuite({
 				sorted = true;
 				assert.equal(updatedSortDetail.columnId, 'id');
 				assert.equal(updatedSortDetail.direction, 'desc');
-				sortDetail.direction = updatedSortDetail.direction;
 			},
 			registry,
 			sortDetail
-		});
+		};
+		widget.setProperties(properties);
 
 		const expected = v('th', {
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
@@ -137,6 +129,9 @@ registerSuite({
 		assignProperties(expected, {
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
+
+		properties.sortDetail = { ...properties.sortDetail, direction: 'desc' };
+		widget.setProperties(properties);
 
 		widget.expectRender(expected);
 	},
@@ -147,7 +142,7 @@ registerSuite({
 			columnId: 'id',
 			direction: 'asc'
 		};
-		widget.setProperties({
+		const properties = {
 			column: {
 				id: 'id',
 				label: 'foo',
@@ -158,11 +153,11 @@ registerSuite({
 				sorted = true;
 				assert.equal(updatedSortDetail.columnId, 'id');
 				assert.equal(updatedSortDetail.direction, 'desc');
-				sortDetail.direction = updatedSortDetail.direction;
 			},
 			registry,
 			sortDetail
-		});
+		};
+		widget.setProperties(properties);
 
 		const expected = v('th', {
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
@@ -191,6 +186,9 @@ registerSuite({
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
 
+		properties.sortDetail = { ...properties.sortDetail, direction: 'desc' };
+		widget.setProperties(properties);
+
 		widget.expectRender(expected);
 	},
 
@@ -200,7 +198,7 @@ registerSuite({
 			columnId: 'id',
 			direction: 'desc'
 		};
-		widget.setProperties({
+		const properties = {
 			column: {
 				id: 'id',
 				label: 'foo',
@@ -211,11 +209,11 @@ registerSuite({
 				clicked = true;
 				assert.equal(updatedSortDetail.columnId, 'id');
 				assert.equal(updatedSortDetail.direction, 'asc');
-				sortDetail.direction = updatedSortDetail.direction;
 			},
 			registry,
 			sortDetail
-		});
+		};
+		widget.setProperties(properties);
 
 		const expected = v('th', {
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
@@ -243,6 +241,9 @@ registerSuite({
 		assignProperties(expected, {
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
+
+		properties.sortDetail = { ...properties.sortDetail, direction: 'asc' };
+		widget.setProperties(properties);
 
 		widget.expectRender(expected);
 	}

@@ -31,7 +31,6 @@ export function spyOnWidget<C extends WidgetBaseConstructor>(constructor: C, add
 }
 
 export function cleanProperties<P extends WidgetProperties>(properties: Partial<P>): Partial<P> {
-	delete properties.bind;
 	delete (<any> properties).registry;
 	return properties;
 }
