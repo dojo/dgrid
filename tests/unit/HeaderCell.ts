@@ -49,32 +49,28 @@ registerSuite({
 		]);
 
 		widget.expectRender(expected);
-
 		widget.sendEvent('click');
-
 		assert.isFalse(sorted);
-
-		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell)
-		});
-
-		widget.expectRender(expected);
 	},
 
-	'Renders sortable header cell when column.sortable not explicitly false'() {
-		widget.setProperties({
+	'Renders sortable header cell when column.sortable not explicitly false and adds arrows when clicked'() {
+		let sorted = false;
+		const properties: HeaderCellProperties = {
 			column: {
 				id: 'foo'
 			},
 			key: 'foo',
-			onSortRequest() {},
-			registry,
-			sortDetail: {
-				columnId: 'foo'
-			}
-		});
+			onSortRequest(updatedSortDetail: SortDetails) {
+				sorted = true;
+				properties.sortDetail = updatedSortDetail;
+				assert.equal(updatedSortDetail.columnId, 'foo');
+				assert.equal(updatedSortDetail.direction, 'asc');
+			},
+			registry
+		};
+		widget.setProperties(properties);
 
-		widget.expectRender(v('th', {
+		const expected = v('th', {
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
 			onclick: widget.listener,
 			role: 'columnheader'
@@ -82,11 +78,29 @@ registerSuite({
 			v('span', [
 				'foo'
 			]),
+			null
+		]);
+
+		widget.expectRender(expected);
+
+		widget.sendEvent('click');
+
+		assert.isTrue(sorted);
+
+		expected.children = [
+			v('span', [
+				'foo'
+			]),
 			v('div', {
 				role: 'presentation',
 				classes: widget.classes(css.sortArrow, css.sortArrowUp)
 			})
-		]));
+		];
+		assignProperties(expected, {
+			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
+		});
+
+		widget.expectRender(expected);
 	},
 
 	'Renders sortable header cell with default (undefined) ascending direction'() {
@@ -94,7 +108,7 @@ registerSuite({
 		const sortDetail: SortDetails = {
 			columnId: 'id'
 		};
-		widget.setProperties({
+		const properties: HeaderCellProperties = {
 			column: {
 				id: 'id',
 				label: 'foo',
@@ -103,13 +117,14 @@ registerSuite({
 			key: 'id',
 			onSortRequest(updatedSortDetail: SortDetails) {
 				sorted = true;
+				properties.sortDetail = updatedSortDetail;
 				assert.equal(updatedSortDetail.columnId, 'id');
 				assert.equal(updatedSortDetail.direction, 'desc');
-				sortDetail.direction = updatedSortDetail.direction;
 			},
 			registry,
 			sortDetail
-		});
+		};
+		widget.setProperties(properties);
 
 		const expected = v('th', {
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
@@ -147,7 +162,7 @@ registerSuite({
 			columnId: 'id',
 			direction: 'asc'
 		};
-		widget.setProperties({
+		const properties: HeaderCellProperties = {
 			column: {
 				id: 'id',
 				label: 'foo',
@@ -158,11 +173,11 @@ registerSuite({
 				sorted = true;
 				assert.equal(updatedSortDetail.columnId, 'id');
 				assert.equal(updatedSortDetail.direction, 'desc');
-				sortDetail.direction = updatedSortDetail.direction;
 			},
 			registry,
 			sortDetail
-		});
+		};
+		widget.setProperties(properties);
 
 		const expected = v('th', {
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
@@ -191,6 +206,9 @@ registerSuite({
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
 		});
 
+		properties.sortDetail = { ...properties.sortDetail, direction: 'desc' };
+		widget.setProperties(properties);
+
 		widget.expectRender(expected);
 	},
 
@@ -200,7 +218,7 @@ registerSuite({
 			columnId: 'id',
 			direction: 'desc'
 		};
-		widget.setProperties({
+		const properties = {
 			column: {
 				id: 'id',
 				label: 'foo',
@@ -209,13 +227,14 @@ registerSuite({
 			key: 'id',
 			onSortRequest(updatedSortDetail: SortDetails) {
 				clicked = true;
+				properties.sortDetail = updatedSortDetail;
 				assert.equal(updatedSortDetail.columnId, 'id');
 				assert.equal(updatedSortDetail.direction, 'asc');
-				sortDetail.direction = updatedSortDetail.direction;
 			},
 			registry,
 			sortDetail
-		});
+		};
+		widget.setProperties(properties);
 
 		const expected = v('th', {
 			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
