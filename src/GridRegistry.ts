@@ -1,20 +1,20 @@
 import { WidgetBaseConstructor } from '@dojo/widget-core/interfaces';
 import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
-import Body, { BodyInterface } from './Body';
-import Cell, { CellInterface } from './Cell';
-import Footer, { FooterInterface } from './Footer';
-import Header, { HeaderInterface } from './Header';
-import HeaderCell, { HeaderCellInterface } from './HeaderCell';
-import Row, { RowInterface } from './Row';
+import Body, { BodyProperties } from './Body';
+import Cell, { CellProperties } from './Cell';
+import Footer, { FooterProperties } from './Footer';
+import Header, { HeaderProperties } from './Header';
+import HeaderCell, { HeaderCellProperties } from './HeaderCell';
+import Row, { RowProperties } from './Row';
 
 export interface GridRegistered {
 	[key: string]: WidgetBaseConstructor;
-	body: BodyInterface;
-	cell: CellInterface;
-	footer: FooterInterface;
-	header: HeaderInterface;
-	'header-cell': HeaderCellInterface;
-	row: RowInterface;
+	body: WidgetBaseConstructor<BodyProperties>;
+	cell: WidgetBaseConstructor<CellProperties>;
+	footer: WidgetBaseConstructor<FooterProperties>;
+	header: WidgetBaseConstructor<HeaderProperties>;
+	'header-cell': WidgetBaseConstructor<HeaderCellProperties>;
+	row: WidgetBaseConstructor<RowProperties>;
 }
 
 export default class GridRegistry<T extends GridRegistered = GridRegistered> extends WidgetRegistry {
