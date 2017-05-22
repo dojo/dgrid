@@ -13,7 +13,7 @@ import * as tableCss from './styles/shared/table.m.css';
 export const RowBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
 export interface RowProperties extends WidgetProperties, HasColumns, RegistryMixinProperties, ThemeableProperties {
-	item: ItemProperties<any>;
+	item: ItemProperties;
 	key: string;
 }
 
@@ -37,15 +37,44 @@ class Row extends RowBase<RowProperties> {
 				classes: this.classes(tableCss.table, css.rowTable)
 			}, [
 				v('tr', columns.map((column) => {
-					const { id, field } = column;
+					const { field, id } = column;
+
+					let value: any;
+					if (column.get) {
+						// Get the value from the column callback
+						value = column.get(item, column);
+					}
+					else if (!column.render) {
+						// Get the value using a property lookup on the item data
+						value = item.data[ field || id ];
+					}
+					else {
+						// This column has no value
+						value = '';
+					}
+
+					let content: DNode;
+					if (column.render) {
+						// The column callback calculates its own value and DNode/string
+						content = column.render(item, column);
+					}
+					else if (column.renderValue) {
+						// The value from get/item data is passed to column callback to create a DNode/string
+						content = column.renderValue(value, item, column);
+					}
+					else {
+						// The value from get/item data is cast to a string
+						content = String(value);
+					}
 
 					return w<Cell>('cell', {
+						content,
 						column,
 						item,
 						key: id,
 						registry,
 						theme,
-						value: item.data[ field || id ]
+						value
 					});
 				}))
 			])

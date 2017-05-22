@@ -8,10 +8,10 @@ import { Column, ItemProperties } from '../../src/interfaces';
 import * as cellCss from '../../src/styles/shared/cell.m.css';
 import * as css from '../../src/styles/cell.m.css';
 
-const column: Column<any> = {
+const column: Column = {
 	id: 'column'
 };
-const item: ItemProperties<any> = {
+const item: ItemProperties = {
 	id: 'item',
 	data: {}
 };
@@ -28,13 +28,14 @@ registerSuite({
 		widget.destroy();
 	},
 
-	'Cell value used for child node'() {
+	'Cell content used for child node'() {
 		widget.setProperties({
 			column,
+			content: 'Hello, World!',
 			key: column.id,
 			item,
 			registry,
-			value: 'Hello, World!'
+			value: 'unexpected'
 		});
 
 		widget.expectRender(v('td', {
@@ -42,38 +43,6 @@ registerSuite({
 			classes: widget.classes(cellCss.cell, css.rowCell)
 		}, [
 			'Hello, World!'
-		]));
-	},
-
-	'Cell value missing'() {
-		widget.setProperties(<any> {
-			column,
-			item,
-			registry
-		});
-
-		widget.expectRender(v('td', {
-			role: 'gridcell',
-			classes: widget.classes(cellCss.cell, css.rowCell)
-		}, [
-			''
-		]));
-	},
-
-	'Cell value is stringified'() {
-		widget.setProperties({
-			column,
-			key: column.id,
-			item,
-			registry,
-			value: <any> 1234
-		});
-
-		widget.expectRender(v('td', {
-			role: 'gridcell',
-			classes: widget.classes(cellCss.cell, css.rowCell)
-		}, [
-			'1234'
 		]));
 	}
 });

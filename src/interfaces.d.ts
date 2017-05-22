@@ -1,8 +1,13 @@
-export interface Column<T> {
+import { DNode } from '@dojo/widget-core/interfaces';
+
+export interface Column<T = any, V = string> {
 	field?: keyof T;
 	id: string;
 	label?: string;
 	sortable?: boolean; // default true
+	render?(item: ItemProperties<T>, column: Column<T>): DNode;
+	get?(item: ItemProperties<T>, column: Column<T>): V;
+	renderValue?(value: V, item: ItemProperties<T>, column: Column<T>): DNode;
 }
 
 export interface DataProperties<T> {
@@ -10,12 +15,16 @@ export interface DataProperties<T> {
 	sort?: SortDetails[];
 }
 
+export interface HasContent {
+	content: DNode;
+}
+
 export interface HasColumn {
-	column: Column<any>;
+	column: Column<any, any>;
 }
 
 export interface HasColumns {
-	columns: Column<any>[];
+	columns: Column<any, any>[];
 }
 
 export interface HasSortDetail {
@@ -35,18 +44,18 @@ export interface HasSortEvent {
 }
 
 export interface HasItem {
-	item: ItemProperties<any>;
+	item: ItemProperties;
 }
 
 export interface HasItems {
-	items: ItemProperties<any>[];
+	items: ItemProperties[];
 }
 
 export interface HasValue {
 	value: string;
 }
 
-export interface ItemProperties<T> {
+export interface ItemProperties<T = any> {
 	id: string;
 	data: T;
 }

@@ -22,11 +22,11 @@ registerSuite({
 	},
 
 	'Simple item'() {
-		const columns: Column<any>[] = [
+		const columns: Column[] = [
 			{ id: 'foo' },
 			{ id: 'bar' }
 		];
-		const item: ItemProperties<any> = {
+		const item: ItemProperties = {
 			id: '1',
 			data: {
 				id: 1,
