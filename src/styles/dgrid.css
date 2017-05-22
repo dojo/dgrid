@@ -1,3 +1,6 @@
+@import 'grid.m.css';
+@import 'shared/cell.m.css';
+@import 'shared/table.m.css';
 @import 'header.m.css';
 @import 'headerCell.m.css';
 @import 'row.m.css';

@@ -24,9 +24,14 @@ class HeaderCell extends HeaderCellBase<HeaderCellProperties> {
 			onSortRequest
 		} = this.properties;
 
+		// The following inputs should create the respective outputs:
+		// undefined => 'asc'
+		// { columnId: string } => 'desc'
+		// { columnId: string, direction: 'asc' } => 'desc'
+		// { columnId: string, direction: 'desc' } => 'asc'
 		onSortRequest({
 			columnId: key,
-			direction: (sortDetail && sortDetail.direction === 'desc') ? 'asc' : 'desc'
+			direction: (!sortDetail || sortDetail.direction === 'desc') ? 'asc' : 'desc'
 		});
 	}
 

@@ -1,7 +1,7 @@
-import DataProviderBase, { DataProviderState, Options } from '../bases/DataProviderBase';
-import { DataProperties, ItemProperties } from '../interfaces';
+import DataProviderBase, { DataProviderOptions } from '../bases/DataProviderBase';
+import { ItemProperties } from '../interfaces';
 
-export interface ArrayDataProviderOptions<T> extends Options {
+export interface ArrayDataProviderOptions<T> extends DataProviderOptions {
 	idProperty?: string;
 	data: T[];
 }
@@ -18,18 +18,21 @@ function expand(items: any[], idProperty: string) {
 	return array;
 }
 
-class ArrayDataProvider<T> extends DataProviderBase<T, ArrayDataProviderOptions<T>> {
-	buildData(state: DataProviderState<ArrayDataProviderOptions<T>>): DataProperties<T> {
+class ArrayDataProvider<T = object> extends DataProviderBase<T, ArrayDataProviderOptions<T>> {
+	buildData(): void {
 		const {
 			options: {
 				idProperty = 'id',
 				data
 			},
-			sort
-		} = state;
+			state: {
+				sort
+			}
+		} = this;
+
 		let items = data;
 		if (sort && sort.length) {
-			items = items.sort((a: any, b: any) => {
+			items = [ ...items ].sort((a: any, b: any) => {
 				for (let field of sort) {
 					const aValue = a[field.columnId];
 					const bValue = b[field.columnId];
@@ -47,7 +50,7 @@ class ArrayDataProvider<T> extends DataProviderBase<T, ArrayDataProviderOptions<
 			});
 		}
 		const itemProperties = expand(items, idProperty);
-		return {
+		this.data = {
 			sort,
 			items: itemProperties
 		};

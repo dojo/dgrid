@@ -13,7 +13,7 @@
 
 <body>
 	<ul id="links">
-		<!-- <li><a href="?module=pagination">Pagination</a></li> -->
+		<li><a href="?module=simple_grid">Simple Grid</a></li>
 	</ul>
 
 	<script src="../../node_modules/@dojo/loader/loader.min.js"></script>
@@ -22,9 +22,6 @@
 		require.config({
 			baseUrl: '..',
 			packages: [
-				{ name: 'tests', location: 'tests' },
-				{ name: 'dgrid', location: 'src' },
-				{ name: 'examples', location: 'examples' },
 				{ name: '@dojo', location: '../node_modules/@dojo' },
 				{ name: 'pepjs', location: '../node_modules/pepjs/dist', main: 'pep' },
 				{ name: 'maquette', location: '../node_modules/maquette/dist', main: 'maquette' }

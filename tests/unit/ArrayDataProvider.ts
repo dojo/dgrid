@@ -5,6 +5,7 @@ import ArrayDataProvider from '../../src/providers/ArrayDataProvider';
 
 registerSuite({
 	name: 'ArrayDataProvider',
+
 	'default ascending'() {
 		const dataProvider = new ArrayDataProvider({
 			idProperty: 'id',
@@ -35,6 +36,7 @@ registerSuite({
 
 		subscription.unsubscribe();
 	},
+
 	'configure default ascending'() {
 		const dataProvider = new ArrayDataProvider({
 			data: [
@@ -64,6 +66,7 @@ registerSuite({
 
 		subscription.unsubscribe();
 	},
+
 	'ascending'() {
 		const dataProvider = new ArrayDataProvider({
 			data: [
@@ -93,11 +96,9 @@ registerSuite({
 
 		subscription.unsubscribe();
 	},
+
 	'constructor configure ascending'() {
 		const dataProvider = new ArrayDataProvider({
-			configuration: {
-				sort: { columnId: 'id', direction: 'asc' }
-			},
 			data: [
 				{ id: 1 },
 				{ id: 3 },
@@ -105,6 +106,8 @@ registerSuite({
 				{ id: 2 },
 				{ id: 4 }
 			]
+		}, {
+			sort: { columnId: 'id', direction: 'asc' }
 		});
 		let data: DataProperties<any> = { items: [] };
 		const subscription = dataProvider.observe().subscribe((updated) => {
@@ -124,6 +127,7 @@ registerSuite({
 
 		subscription.unsubscribe();
 	},
+
 	'descending'() {
 		const dataProvider = new ArrayDataProvider({
 			data: [
@@ -160,6 +164,7 @@ registerSuite({
 
 		subscription.unsubscribe();
 	},
+
 	'multi column'() {
 		const dataProvider = new ArrayDataProvider({
 			data: [
@@ -189,6 +194,7 @@ registerSuite({
 
 		subscription.unsubscribe();
 	},
+
 	'configure multi column'() {
 		const dataProvider = new ArrayDataProvider({
 			data: [
@@ -220,11 +226,9 @@ registerSuite({
 
 		subscription.unsubscribe();
 	},
+
 	'constructor configure multi column'() {
 		const dataProvider = new ArrayDataProvider({
-			configuration: {
-				sort: [ { columnId: 'letter', direction: 'desc' }, { columnId: 'id', direction: 'asc' } ]
-			},
 			data: [
 				{ id: 1, letter: 'a' },
 				{ id: 4, letter: 'b' },
@@ -232,6 +236,8 @@ registerSuite({
 				{ id: 3, letter: 'b' },
 				{ id: 2, letter: 'a' }
 			]
+		}, {
+			sort: [ { columnId: 'letter', direction: 'desc' }, { columnId: 'id', direction: 'asc' } ]
 		});
 		dataProvider.notify(); // build data before adding an observer
 		let data: DataProperties<any> = { items: [] };
