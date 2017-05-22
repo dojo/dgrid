@@ -1,8 +1,8 @@
 import './ArrayDataProvider';
 import './GridRegistry';
 import './Grid';
-import './Header';
-import './HeaderCell';
+import './ColumnHeaders';
+import './ColumnHeaderCell';
 import './Body';
 import './Row';
 import './Cell';

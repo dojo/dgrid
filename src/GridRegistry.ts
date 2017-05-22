@@ -2,18 +2,18 @@ import { WidgetBaseConstructor } from '@dojo/widget-core/interfaces';
 import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
 import Body, { BodyProperties } from './Body';
 import Cell, { CellProperties } from './Cell';
+import ColumnHeaderCell, { ColumnHeaderCellProperties } from './ColumnHeaderCell';
+import ColumnHeaders, { ColumnHeadersProperties } from './ColumnHeaders';
 import Footer, { FooterProperties } from './Footer';
-import Header, { HeaderProperties } from './Header';
-import HeaderCell, { HeaderCellProperties } from './HeaderCell';
 import Row, { RowProperties } from './Row';
 
 export interface GridRegistered {
 	[key: string]: WidgetBaseConstructor;
 	body: WidgetBaseConstructor<BodyProperties>;
 	cell: WidgetBaseConstructor<CellProperties>;
+	'column-header-cell': WidgetBaseConstructor<ColumnHeaderCellProperties>;
+	'column-headers': WidgetBaseConstructor<ColumnHeadersProperties>;
 	footer: WidgetBaseConstructor<FooterProperties>;
-	header: WidgetBaseConstructor<HeaderProperties>;
-	'header-cell': WidgetBaseConstructor<HeaderCellProperties>;
 	row: WidgetBaseConstructor<RowProperties>;
 }
 
@@ -25,9 +25,9 @@ export default class GridRegistry<T extends GridRegistered = GridRegistered> ext
 
 		super.define('body', Body);
 		super.define('cell', Cell);
+		super.define('column-header-cell', ColumnHeaderCell);
+		super.define('column-headers', ColumnHeaders);
 		super.define('footer', Footer);
-		super.define('header', Header);
-		super.define('header-cell', HeaderCell);
 		super.define('row', Row);
 	}
 

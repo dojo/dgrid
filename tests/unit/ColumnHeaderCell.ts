@@ -5,18 +5,18 @@ import harness, { Harness } from '@dojo/test-extras/harness';
 import { assignChildProperties, assignProperties } from '@dojo/test-extras/support/d';
 import { registry, v } from '@dojo/widget-core/d';
 
-import HeaderCell, { HeaderCellProperties } from '../../src/HeaderCell';
+import ColumnHeaderCell, { ColumnHeaderCellProperties } from '../../src/ColumnHeaderCell';
 import { SortDetails } from '../../src/interfaces';
 import * as cellCss from '../../src/styles/shared/cell.m.css';
-import * as css from '../../src/styles/headerCell.m.css';
+import * as css from '../../src/styles/columnHeaderCell.m.css';
 
-let widget: Harness<HeaderCellProperties, typeof HeaderCell>;
+let widget: Harness<ColumnHeaderCellProperties, typeof ColumnHeaderCell>;
 
 registerSuite({
-	name: 'HeaderCell',
+	name: 'ColumnHeaderCell',
 
 	beforeEach() {
-		widget = harness(HeaderCell);
+		widget = harness(ColumnHeaderCell);
 	},
 
 	afterEach() {
@@ -39,7 +39,7 @@ registerSuite({
 		});
 
 		const expected = v('th', {
-			classes: widget.classes(cellCss.cell, css.headerCell),
+			classes: widget.classes(cellCss.cell, css.columnHeaderCell),
 			role: 'columnheader'
 		}, [
 			v('span', [
@@ -55,7 +55,7 @@ registerSuite({
 
 	'Renders sortable header cell when column.sortable not explicitly false and adds arrows when clicked'() {
 		let sorted = false;
-		const properties: HeaderCellProperties = {
+		const properties: ColumnHeaderCellProperties = {
 			column: {
 				id: 'foo'
 			},
@@ -71,7 +71,7 @@ registerSuite({
 		widget.setProperties(properties);
 
 		const expected = v('th', {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
+			classes: widget.classes(cellCss.cell, css.columnHeaderCell, css.sortable),
 			onclick: widget.listener,
 			role: 'columnheader'
 		}, [
@@ -97,7 +97,7 @@ registerSuite({
 			})
 		];
 		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
+			classes: widget.classes(cellCss.cell, css.columnHeaderCell, css.sortable)
 		});
 
 		widget.expectRender(expected);
@@ -108,7 +108,7 @@ registerSuite({
 		const sortDetail: SortDetails = {
 			columnId: 'id'
 		};
-		const properties: HeaderCellProperties = {
+		const properties: ColumnHeaderCellProperties = {
 			column: {
 				id: 'id',
 				label: 'foo',
@@ -127,7 +127,7 @@ registerSuite({
 		widget.setProperties(properties);
 
 		const expected = v('th', {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
+			classes: widget.classes(cellCss.cell, css.columnHeaderCell, css.sortable),
 			onclick: widget.listener,
 			role: 'columnheader'
 		}, [
@@ -150,7 +150,7 @@ registerSuite({
 			classes: widget.classes(css.sortArrow, css.sortArrowDown)
 		});
 		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
+			classes: widget.classes(cellCss.cell, css.columnHeaderCell, css.sortable)
 		});
 
 		widget.expectRender(expected);
@@ -162,7 +162,7 @@ registerSuite({
 			columnId: 'id',
 			direction: 'asc'
 		};
-		const properties: HeaderCellProperties = {
+		const properties: ColumnHeaderCellProperties = {
 			column: {
 				id: 'id',
 				label: 'foo',
@@ -180,7 +180,7 @@ registerSuite({
 		widget.setProperties(properties);
 
 		const expected = v('th', {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
+			classes: widget.classes(cellCss.cell, css.columnHeaderCell, css.sortable),
 			onclick: widget.listener,
 			role: 'columnheader'
 		}, [
@@ -203,7 +203,7 @@ registerSuite({
 			classes: widget.classes(css.sortArrow, css.sortArrowDown)
 		});
 		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
+			classes: widget.classes(cellCss.cell, css.columnHeaderCell, css.sortable)
 		});
 
 		properties.sortDetail = { ...properties.sortDetail, direction: 'desc' };
@@ -237,7 +237,7 @@ registerSuite({
 		widget.setProperties(properties);
 
 		const expected = v('th', {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable),
+			classes: widget.classes(cellCss.cell, css.columnHeaderCell, css.sortable),
 			onclick: widget.listener,
 			role: 'columnheader'
 		}, [
@@ -260,7 +260,7 @@ registerSuite({
 			classes: widget.classes(css.sortArrow, css.sortArrowUp)
 		});
 		assignProperties(expected, {
-			classes: widget.classes(cellCss.cell, css.headerCell, css.sortable)
+			classes: widget.classes(cellCss.cell, css.columnHeaderCell, css.sortable)
 		});
 
 		widget.expectRender(expected);

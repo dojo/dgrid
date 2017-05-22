@@ -1,8 +1,8 @@
 @import 'grid.m.css';
 @import 'shared/cell.m.css';
 @import 'shared/table.m.css';
-@import 'header.m.css';
-@import 'headerCell.m.css';
+@import 'columnHeaders.m.css';
+@import 'columnHeaderCell.m.css';
 @import 'row.m.css';
 @import 'cell.m.css';
 @import 'footer.m.css';

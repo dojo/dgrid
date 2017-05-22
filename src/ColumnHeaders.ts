@@ -3,19 +3,19 @@ import { DNode } from '@dojo/widget-core/interfaces';
 import { RegistryMixin, RegistryMixinProperties }  from '@dojo/widget-core/mixins/Registry';
 import { ThemeableMixin, theme, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
-import HeaderCell from './HeaderCell';
+import ColumnHeaderCell from './ColumnHeaderCell';
 import { HasColumns, HasSortDetails, HasSortEvent } from './interfaces';
 
-import * as css from './styles/header.m.css';
+import * as css from './styles/columnHeaders.m.css';
 import * as tableCss from './styles/shared/table.m.css';
 
-export const HeaderBase = ThemeableMixin(RegistryMixin(WidgetBase));
+export const ColumnHeadersBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-export interface HeaderProperties extends ThemeableProperties, HasColumns, HasSortDetails, HasSortEvent, RegistryMixinProperties {}
+export interface ColumnHeadersProperties extends ThemeableProperties, HasColumns, HasSortDetails, HasSortEvent, RegistryMixinProperties {}
 
 @theme(tableCss)
 @theme(css)
-class Header extends HeaderBase<HeaderProperties> {
+class ColumnHeaders extends ColumnHeadersBase<ColumnHeadersProperties> {
 	render(): DNode {
 		const {
 			columns,
@@ -26,12 +26,12 @@ class Header extends HeaderBase<HeaderProperties> {
 		} = this.properties;
 
 		return v('div', {
-			classes: this.classes(css.header, css.headerRow),
+			classes: this.classes(css.columnHeaders, css.columnHeadersRow),
 			role: 'row'
 		}, [
 			v('table', {
 				role: 'presentation',
-				classes: this.classes(tableCss.table, css.headerTable)
+				classes: this.classes(tableCss.table, css.columnHeadersTable)
 			}, [
 				v('tr', columns.map((column) => {
 					let sortDetail;
@@ -42,7 +42,7 @@ class Header extends HeaderBase<HeaderProperties> {
 						}
 					}
 
-					return w<HeaderCell>('header-cell', {
+					return w<ColumnHeaderCell>('column-header-cell', {
 						column,
 						key: column.id,
 						onSortRequest,
@@ -56,4 +56,4 @@ class Header extends HeaderBase<HeaderProperties> {
 	}
 }
 
-export default Header;
+export default ColumnHeaders;

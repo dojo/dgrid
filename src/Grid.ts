@@ -6,8 +6,9 @@ import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mi
 import WidgetBase, { diffProperty } from '@dojo/widget-core/WidgetBase';
 import DataProviderBase from './bases/DataProviderBase';
 import Body from './Body';
+import ColumnHeaders from './ColumnHeaders';
+import Footer from './Footer';
 import GridRegistry, { gridRegistry } from './GridRegistry';
-import Header from './Header';
 import { DataProperties, HasColumns, SortRequestListener } from './interfaces';
 
 import * as css from './styles/grid.m.css';
@@ -25,6 +26,8 @@ export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
 export interface GridProperties extends ThemeableProperties, HasColumns {
 	registry?: GridRegistry;
 	dataProvider: DataProviderBase;
+	footers?: DNode[];
+	headers?: DNode[];
 }
 
 @theme(css)
@@ -69,6 +72,8 @@ class Grid extends GridBase<GridProperties> {
 			_sortRequestListener: onSortRequest,
 			properties: {
 				columns,
+				footers = [],
+				headers = [],
 				theme,
 				registry = gridRegistry
 			}
@@ -78,7 +83,7 @@ class Grid extends GridBase<GridProperties> {
 			classes: this.classes(css.grid),
 			role: 'grid'
 		}, [
-			w<Header>('header', {
+			w<ColumnHeaders>('column-headers', {
 				columns,
 				registry,
 				sortDetails,
@@ -90,7 +95,11 @@ class Grid extends GridBase<GridProperties> {
 				items,
 				registry,
 				theme
-			})
+			}),
+			w<Footer>('footer', {
+				registry,
+				theme
+			}, footers)
 		]);
 	}
 }
