@@ -50,6 +50,7 @@ abstract class DataProviderBase<T = object, O extends DataProviderOptions = Data
 			}
 			return () => {
 				const index = this._observers.indexOf(observer);
+				/* istanbul ignore else: type safety in case this function is called more than once */
 				if (index > -1) {
 					this._observers.slice(index, 1);
 				}
@@ -71,6 +72,7 @@ abstract class DataProviderBase<T = object, O extends DataProviderOptions = Data
 	 * @param configuration - State changes to make
 	 */
 	configure({ sort }: C, updateData = true): void {
+		/* istanbul ignore else: sort is not a required argument */
 		if (sort) {
 			this.state.sort = Array.isArray(sort) ? sort : [ sort ];
 		}
