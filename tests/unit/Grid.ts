@@ -165,6 +165,41 @@ registerSuite({
 		]));
 	},
 
+	'dgrid with custom header/footer'() {
+		widget.setProperties({
+			columns,
+			dataProvider: new ArrayDataProvider({
+				data: items
+			}),
+			footers: [ v('div.footer-child') ],
+			headers: [ v('div.header-child') ]
+		});
+
+		widget.expectRender(v('div', {
+			classes: widget.classes(css.grid),
+			role: 'grid'
+		}, [
+			w<Header>('header', {
+				registry,
+				theme: undefined
+			}, [
+				v('div.header-child')
+			]),
+			w<Body>('body', {
+				columns,
+				items: itemProperties,
+				registry,
+				theme: undefined
+			}),
+			w<Footer>('footer', {
+				registry,
+				theme: undefined
+			}, [
+				v('div.footer-child')
+			])
+		]));
+	},
+
 	'dgrid no dataProvider'() {
 		widget.setProperties({
 			dataProvider: new (class extends DataProviderBase {})({}),
