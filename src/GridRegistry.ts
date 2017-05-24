@@ -5,6 +5,7 @@ import Cell, { CellProperties } from './Cell';
 import ColumnHeaderCell, { ColumnHeaderCellProperties } from './ColumnHeaderCell';
 import ColumnHeaders, { ColumnHeadersProperties } from './ColumnHeaders';
 import Footer, { FooterProperties } from './Footer';
+import Header, { HeaderProperties } from './Header';
 import Row, { RowProperties } from './Row';
 
 export interface GridRegistered {
@@ -14,6 +15,7 @@ export interface GridRegistered {
 	'column-header-cell': WidgetBaseConstructor<ColumnHeaderCellProperties>;
 	'column-headers': WidgetBaseConstructor<ColumnHeadersProperties>;
 	footer: WidgetBaseConstructor<FooterProperties>;
+	header: WidgetBaseConstructor<HeaderProperties>;
 	row: WidgetBaseConstructor<RowProperties>;
 }
 
@@ -28,6 +30,7 @@ export default class GridRegistry<T extends GridRegistered = GridRegistered> ext
 		super.define('column-header-cell', ColumnHeaderCell);
 		super.define('column-headers', ColumnHeaders);
 		super.define('footer', Footer);
+		super.define('header', Header);
 		super.define('row', Row);
 	}
 

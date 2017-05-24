@@ -12,6 +12,7 @@ import GridRegistry, { gridRegistry } from './GridRegistry';
 import { DataProperties, HasColumns, SortRequestListener } from './interfaces';
 
 import * as css from './styles/grid.m.css';
+import Header from './Header';
 
 export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
@@ -83,13 +84,18 @@ class Grid extends GridBase<GridProperties> {
 			classes: this.classes(css.grid),
 			role: 'grid'
 		}, [
-			w<ColumnHeaders>('column-headers', {
-				columns,
+			w<Header>('header', {
 				registry,
-				sortDetails,
-				theme,
-				onSortRequest
-			}),
+				theme
+			}, [
+				w<ColumnHeaders>('column-headers', {
+					columns,
+					registry,
+					sortDetails,
+					theme,
+					onSortRequest
+				})
+			]),
 			w<Body>('body', {
 				columns,
 				items,

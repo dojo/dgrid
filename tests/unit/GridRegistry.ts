@@ -9,6 +9,7 @@ import ColumnHeaderCell from '../../src/ColumnHeaderCell';
 import ColumnHeaders, { ColumnHeadersProperties } from '../../src/ColumnHeaders';
 import Footer from '../../src/Footer';
 import GridRegistry, { GridRegistered, gridRegistry } from '../../src/GridRegistry';
+import Header from '../../src/Header';
 import Row from '../../src/Row';
 
 registerSuite({
@@ -20,6 +21,7 @@ registerSuite({
 		assert.equal(gridRegistry.get('column-header-cell'), ColumnHeaderCell);
 		assert.equal(gridRegistry.get('column-headers'), ColumnHeaders);
 		assert.equal(gridRegistry.get('footer'), Footer);
+		assert.equal(gridRegistry.get('header'), Header);
 		assert.equal(gridRegistry.get('row'), Row);
 	},
 
