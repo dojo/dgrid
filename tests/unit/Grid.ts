@@ -13,7 +13,7 @@ import ArrayDataProvider from '../../src/providers/ArrayDataProvider';
 import * as css from '../../src/styles/grid.m.css';
 import DataProviderBase from '../../src/bases/DataProviderBase';
 import Footer from '../../src/Footer';
-import Header from '../../src/Header';
+import Header, { HeaderType } from '../../src/Header';
 
 const registry: GridRegistry = <any> compareProperty((value) => {
 	if (value instanceof GridRegistry) {
@@ -123,6 +123,45 @@ registerSuite({
 				registry,
 				theme: undefined
 			})
+		]));
+	},
+
+	'dgrid with column headers in footer'() {
+		widget.setProperties({
+			columns,
+			dataProvider: new ArrayDataProvider({
+				data: items
+			}),
+			footers: [ HeaderType.COLUMN_HEADERS ],
+			headers: []
+		});
+
+		widget.expectRender(v('div', {
+			classes: widget.classes(css.grid),
+			role: 'grid'
+		}, [
+			w<Header>('header', {
+				registry,
+				theme: undefined
+			}),
+			w<Body>('body', {
+				columns,
+				items: itemProperties,
+				registry,
+				theme: undefined
+			}),
+			w<Footer>('footer', {
+				registry,
+				theme: undefined
+			}, [
+				w<ColumnHeaders>('column-headers', {
+					columns,
+					registry,
+					sortDetails: [],
+					theme: undefined,
+					onSortRequest: widget.listener
+				})
+			])
 		]));
 	},
 

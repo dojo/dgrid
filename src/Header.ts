@@ -10,6 +10,10 @@ export const HeaderBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
 export interface HeaderProperties extends ThemeableProperties, RegistryMixinProperties {}
 
+export const enum HeaderType {
+	COLUMN_HEADERS = 1
+};
+
 @theme(css)
 class Header extends HeaderBase<HeaderProperties> {
 	render(): DNode {

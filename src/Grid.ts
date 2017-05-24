@@ -9,10 +9,10 @@ import Body from './Body';
 import ColumnHeaders from './ColumnHeaders';
 import Footer from './Footer';
 import GridRegistry, { gridRegistry } from './GridRegistry';
+import Header, { HeaderType } from './Header';
 import { DataProperties, HasColumns, SortRequestListener } from './interfaces';
 
 import * as css from './styles/grid.m.css';
-import Header from './Header';
 
 export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
@@ -27,8 +27,8 @@ export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
 export interface GridProperties extends ThemeableProperties, HasColumns {
 	registry?: GridRegistry;
 	dataProvider: DataProviderBase;
-	footers?: DNode[];
-	headers?: DNode[];
+	footers?: Array<HeaderType | DNode>;
+	headers?: Array<HeaderType | DNode>;
 }
 
 @theme(css)
@@ -74,7 +74,7 @@ class Grid extends GridBase<GridProperties> {
 			properties: {
 				columns,
 				footers = [],
-				headers = [],
+				headers = [ HeaderType.COLUMN_HEADERS ],
 				theme,
 				registry = gridRegistry
 			}
@@ -87,15 +87,15 @@ class Grid extends GridBase<GridProperties> {
 			w<Header>('header', {
 				registry,
 				theme
-			}, [
-				w<ColumnHeaders>('column-headers', {
+			}, <DNode[]> headers.map((child) => {
+				return (child === HeaderType.COLUMN_HEADERS) ? w<ColumnHeaders>('column-headers', {
 					columns,
 					registry,
 					sortDetails,
 					theme,
 					onSortRequest
-				})
-			]),
+				}) : child;
+			})),
 			w<Body>('body', {
 				columns,
 				items,
@@ -105,7 +105,15 @@ class Grid extends GridBase<GridProperties> {
 			w<Footer>('footer', {
 				registry,
 				theme
-			}, footers)
+			}, <DNode[]> footers.map((child) => {
+				return (child === HeaderType.COLUMN_HEADERS) ? w<ColumnHeaders>('column-headers', {
+					columns,
+					registry,
+					sortDetails,
+					theme,
+					onSortRequest
+				}) : child;
+			}))
 		]);
 	}
 }
