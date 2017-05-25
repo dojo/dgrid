@@ -20,8 +20,14 @@ export interface Column<T = any, V = string> {
 	id: string;
 	label?: string;
 	sortable?: boolean; // default true
-	get?: ((item: ItemProperties<T>, column: Column<T>) => V | DNode) | V;
-	render?(value: V, item: ItemProperties<T>, column: Column<T>): DNode;
+	get?: ((item: ItemProperties<T>, column: Column<T>) => V) | V;
+	render?(options: ColumnRenderOptions<T, V>): DNode;
+}
+
+export interface ColumnRenderOptions<T = any, V = string> {
+	column: Column<T>;
+	item: ItemProperties<T>;
+	value: V;
 }
 
 export interface DataProperties<T> {

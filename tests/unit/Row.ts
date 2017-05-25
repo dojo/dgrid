@@ -4,7 +4,7 @@ import harness, { Harness } from '@dojo/test-extras/harness';
 import { registry, v, w } from '@dojo/widget-core/d';
 
 import Cell from '../../src/Cell';
-import { Column, ItemProperties } from '../../src/interfaces';
+import { Column, ColumnRenderOptions, ItemProperties } from '../../src/interfaces';
 import Row, { RowProperties } from '../../src/Row';
 import * as css from '../../src/styles/row.m.css';
 import * as tableCss from '../../src/styles/shared/table.m.css';
@@ -174,7 +174,8 @@ registerSuite({
 		const columns: Column[] = [
 			{
 				id: 'foo',
-				get(item: ItemProperties, column: Column) {
+				get: '',
+				render({ column, item }: ColumnRenderOptions) {
 					return v('span.render', [
 						item.data[column.id]
 					]);
@@ -270,7 +271,7 @@ registerSuite({
 	'content is converted to HTML'() {
 		const htmlColumn: Column = {
 			id: 'html',
-			render(value: string, item: ItemProperties, column: Column) {
+			render({ value }: ColumnRenderOptions) {
 				return v('div', {
 					innerHTML: value
 				});
@@ -326,7 +327,7 @@ registerSuite({
 		const fooColumn: Column<any, number> = {
 			id: 'foo',
 			get: 1234,
-			render(value: number, item: ItemProperties, column: Column) {
+			render({ value, item, column }: ColumnRenderOptions<any, number>) {
 				return v('span.renderValue', [
 					item.data[column.id] + value
 				]);
