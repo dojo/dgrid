@@ -17,20 +17,21 @@ registerSuite({
 				{ id: '4' }
 			]
 		});
-		let data: DataProperties<any> = { items: [] };
+		let data: DataProperties<any> = <any> {};
 		const subscription = dataProvider.observe().subscribe((updated) => {
 			data = updated;
 		});
 		dataProvider.sort({ columnId: 'id' });
+		dataProvider.slice({ start: 0, count: 4});
 
 		assert.deepEqual(data, {
+			slice: { start: 0, count: 4},
 			sort: [ { columnId: 'id', direction: 'asc' } ],
 			items: [
 				{ id: '1', data: { id: 1 } },
 				{ id: '2', data: { id: '2' } },
 				{ id: '3', data: { id: 3 } },
-				{ id: '4', data: { id: '4' } },
-				{ id: '5', data: { id: 5 } }
+				{ id: '4', data: { id: '4' } }
 			]
 		});
 
@@ -47,16 +48,16 @@ registerSuite({
 				{ id: 4 }
 			]
 		});
-		let data: DataProperties<any> = { items: [] };
+		let data: DataProperties<any> = <any> {};
 		const subscription = dataProvider.observe().subscribe((updated) => {
 			data = updated;
 		});
-		dataProvider.configure({ sort: { columnId: 'id', direction: 'asc' } });
+		dataProvider.configure({ slice: { start: 1, count: 4 }, sort: { columnId: 'id', direction: 'asc' } });
 
 		assert.deepEqual(data, {
+			slice: { start: 1, count: 4},
 			sort: [ { columnId: 'id', direction: 'asc' } ],
 			items: [
-				{ id: '1', data: { id: 1 } },
 				{ id: '2', data: { id: 2 } },
 				{ id: '3', data: { id: 3 } },
 				{ id: '4', data: { id: 4 } },
@@ -77,13 +78,14 @@ registerSuite({
 				{ id: 4 }
 			]
 		});
-		let data: DataProperties<any> = { items: [] };
+		let data: DataProperties<any> = <any> {};
 		const subscription = dataProvider.observe().subscribe((updated) => {
 			data = updated;
 		});
 		dataProvider.sort({ columnId: 'id', direction: 'asc' });
 
 		assert.deepEqual(data, {
+			slice: undefined,
 			sort: [ { columnId: 'id', direction: 'asc' } ],
 			items: [
 				{ id: '1', data: { id: 1 } },
@@ -109,12 +111,13 @@ registerSuite({
 		}, {
 			sort: { columnId: 'id', direction: 'asc' }
 		});
-		let data: DataProperties<any> = { items: [] };
+		let data: DataProperties<any> = <any> {};
 		const subscription = dataProvider.observe().subscribe((updated) => {
 			data = updated;
 		});
 		dataProvider.notify();
 		assert.deepEqual(data, {
+			slice: undefined,
 			sort: [ { columnId: 'id', direction: 'asc' } ],
 			items: [
 				{ id: '1', data: { id: 1 } },
@@ -138,7 +141,7 @@ registerSuite({
 				{ id: 2, letter: 'a' }
 			]
 		});
-		let data: DataProperties<any> = { items: [] };
+		let data: DataProperties<any> = <any> {};
 		const subscription = dataProvider.observe().subscribe((updated) => {
 			data = updated;
 		});
@@ -152,6 +155,7 @@ registerSuite({
 		}
 
 		assert.deepEqual(data, {
+			slice: undefined,
 			sort: [ { columnId: 'letter', direction: 'desc' } ],
 			items: [
 				{ data: { letter: 'c' } },
@@ -175,13 +179,14 @@ registerSuite({
 				{ id: 2, letter: 'a' }
 			]
 		});
-		let data: DataProperties<any> = { items: [] };
+		let data: DataProperties<any> = <any> {};
 		const subscription = dataProvider.observe().subscribe((updated) => {
 			data = updated;
 		});
 		dataProvider.sort([ { columnId: 'letter', direction: 'desc' }, { columnId: 'id', direction: 'asc' } ]);
 
 		assert.deepEqual(data, {
+			slice: undefined,
 			sort: [ { columnId: 'letter', direction: 'desc' }, { columnId: 'id', direction: 'asc' } ],
 			items: [
 				{ id: '5', data: { id: 5, letter: 'c' } },
@@ -208,12 +213,13 @@ registerSuite({
 		dataProvider.configure({
 			sort: [ { columnId: 'letter', direction: 'desc' }, { columnId: 'id', direction: 'asc' } ]
 		});
-		let data: DataProperties<any> = { items: [] };
+		let data: DataProperties<any> = <any> {};
 		const subscription = dataProvider.observe().subscribe((updated) => {
 			data = updated;
 		});
 
 		assert.deepEqual(data, {
+			slice: undefined,
 			sort: [ { columnId: 'letter', direction: 'desc' }, { columnId: 'id', direction: 'asc' } ],
 			items: [
 				{ id: '5', data: { id: 5, letter: 'c' } },
@@ -240,12 +246,13 @@ registerSuite({
 			sort: [ { columnId: 'letter', direction: 'desc' }, { columnId: 'id', direction: 'asc' } ]
 		});
 		dataProvider.notify(); // build data before adding an observer
-		let data: DataProperties<any> = { items: [] };
+		let data: DataProperties<any> = <any> {};
 		const subscription = dataProvider.observe().subscribe((updated) => {
 			data = updated;
 		});
 
 		assert.deepEqual(data, {
+			slice: undefined,
 			sort: [ { columnId: 'letter', direction: 'desc' }, { columnId: 'id', direction: 'asc' } ],
 			items: [
 				{ id: '5', data: { id: 5, letter: 'c' } },

@@ -7,6 +7,7 @@ export interface Column<T> {
 
 export interface DataProperties<T> {
 	items: ItemProperties<T>[];
+	slice?: SliceDetails;
 	sort?: SortDetails[];
 }
 
@@ -26,8 +27,8 @@ export interface HasSortDetails {
 	sortDetails: SortDetails[];
 }
 
-export interface SortRequestListener {
-	(sortDetail: SortDetails): void;
+export interface HasSliceEvent {
+	onSliceRequest(sliceDetails: SliceDetails): void;
 }
 
 export interface HasSortEvent {
@@ -51,6 +52,11 @@ export interface ItemProperties<T> {
 	data: T;
 }
 
+export interface SliceDetails {
+	start: number;
+	count: number;
+}
+
 export type SortDirection = 'asc' | 'desc';
 
 export interface SortDetails {
@@ -59,4 +65,8 @@ export interface SortDetails {
 	 * @default 'asc'
 	 */
 	direction?: SortDirection;
+}
+
+export interface SortRequestListener {
+	(sortDetail: SortDetails): void;
 }
