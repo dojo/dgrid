@@ -174,7 +174,7 @@ registerSuite({
 		const columns: Column[] = [
 			{
 				id: 'foo',
-				render(item: ItemProperties, column: Column) {
+				get(item: ItemProperties, column: Column) {
 					return v('span.render', [
 						item.data[column.id]
 					]);
@@ -268,9 +268,9 @@ registerSuite({
 	},
 
 	'content is converted to HTML'() {
-		const htmlColumn = {
+		const htmlColumn: Column = {
 			id: 'html',
-			renderValue(value: string, item: ItemProperties, column: Column) {
+			render(value: string, item: ItemProperties, column: Column) {
 				return v('div', {
 					innerHTML: value
 				});
@@ -325,10 +325,8 @@ registerSuite({
 	'renderValue'() {
 		const fooColumn: Column<any, number> = {
 			id: 'foo',
-			get() {
-				return 1234;
-			},
-			renderValue(value: number, item: ItemProperties, column: Column) {
+			get: 1234,
+			render(value: number, item: ItemProperties, column: Column) {
 				return v('span.renderValue', [
 					item.data[column.id] + value
 				]);

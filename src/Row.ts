@@ -1,4 +1,4 @@
-import { v, w } from '@dojo/widget-core/d';
+import { isHNode, isWNode, v, w } from '@dojo/widget-core/d';
 import { WidgetProperties } from '@dojo/widget-core/interfaces';
 import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
@@ -40,27 +40,28 @@ class Row extends RowBase<RowProperties> {
 					const { field, id } = column;
 
 					let value: any;
-					if (column.get) {
+					if (typeof column.get === 'function') {
 						// Get the value from the column callback
 						value = column.get(item, column);
 					}
-					else if (!column.render) {
-						// Get the value using a property lookup on the item data
-						value = item.data[ field || id ];
+					else if (column.get) {
+						// Get the value from the column property
+						value = column.get;
 					}
 					else {
-						// This column has no value
-						value = '';
+						// Get the value using a property lookup on the item data
+						value = item.data[ field || id ];
 					}
 
 					let content: DNode;
 					if (column.render) {
 						// The column callback calculates its own value and DNode/string
-						content = column.render(item, column);
+						content = column.render(value, item, column);
 					}
-					else if (column.renderValue) {
-						// The value from get/item data is passed to column callback to create a DNode/string
-						content = column.renderValue(value, item, column);
+					else if (isHNode(value) || isWNode(value)) {
+						// The content was retrieved in the column callback
+						content = value;
+						value = '';
 					}
 					else {
 						// The value from get/item data is cast to a string
