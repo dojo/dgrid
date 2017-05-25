@@ -8,7 +8,10 @@ import DataProviderBase from './bases/DataProviderBase';
 import Body from './Body';
 import GridRegistry, { gridRegistry } from './GridRegistry';
 import Header from './Header';
-import { DataProperties, HasColumns, SortRequestListener } from './interfaces';
+import {
+	DataProperties, HasColumns, HasScrollTo, ScrollToDetails, ScrollToCompleteListener, SliceRequestListener,
+	SortRequestListener
+} from './interfaces';
 
 import * as css from './styles/grid.m.css';
 
@@ -22,16 +25,18 @@ export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
  * @property columns		Column definitions
  * @property dataProvider	An observable object that responds to events and returns {@link DataProperties}
  */
-export interface GridProperties extends ThemeableProperties, HasColumns {
-	registry?: GridRegistry;
+export interface GridProperties extends ThemeableProperties, HasColumns, HasScrollTo {
 	dataProvider: DataProviderBase;
+	registry?: GridRegistry;
 }
 
 @theme(css)
 class Grid extends GridBase<GridProperties> {
 	private _data: DataProperties<object> = <DataProperties<object>> {};
+	private _scrollTo: ScrollToDetails;
 	private _subscription: Subscription;
 	private _sortRequestListener: SortRequestListener;
+	private _sliceRequestListener: SliceRequestListener;
 
 	constructor() {
 		super();
@@ -43,6 +48,7 @@ class Grid extends GridBase<GridProperties> {
 	protected diffPropertyDataProvider(previousDataProvider: DataProviderBase, dataProvider: DataProviderBase): PropertyChangeRecord {
 		const changed = (previousDataProvider !== dataProvider);
 		if (changed) {
+			this._sliceRequestListener = dataProvider.slice.bind(dataProvider);
 			this._sortRequestListener = dataProvider.sort.bind(dataProvider);
 
 			this._subscription && this._subscription.unsubscribe();
@@ -60,17 +66,34 @@ class Grid extends GridBase<GridProperties> {
 		};
 	}
 
+	private onScrollToRequest(scrollTo: ScrollToDetails) {
+		this._scrollTo = scrollTo;
+		this.invalidate();
+	}
+
+	private onScrollToComplete() {
+		delete this._scrollTo;
+		const {
+			onScrollToComplete
+		} = this.properties;
+		onScrollToComplete && onScrollToComplete();
+	}
+
 	render(): DNode {
 		const {
 			_data: {
 				items = [],
 				sort: sortDetails = []
 			},
+			_sliceRequestListener: onSliceRequest,
 			_sortRequestListener: onSortRequest,
+			onScrollToComplete,
+			onScrollToRequest,
 			properties: {
 				columns,
 				theme,
-				registry = gridRegistry
+				registry = gridRegistry,
+				scrollTo = this._scrollTo
 			}
 		} = this;
 
@@ -83,6 +106,9 @@ class Grid extends GridBase<GridProperties> {
 				registry,
 				sortDetails,
 				theme,
+				onScrollToComplete,
+				onScrollToRequest,
+				onSliceRequest,
 				onSortRequest
 			}),
 			w<Body>('body', {

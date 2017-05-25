@@ -28,7 +28,7 @@ export interface HasSortDetails {
 }
 
 export interface HasSliceEvent {
-	onSliceRequest(sliceDetails: SliceDetails): void;
+	onSliceRequest: SliceRequestListener;
 }
 
 export interface HasSortEvent {
@@ -43,6 +43,12 @@ export interface HasItems {
 	items: ItemProperties<any>[];
 }
 
+export interface HasScrollTo {
+	scrollTo?: ScrollToDetails;
+	onScrollToComplete?: ScrollToCompleteListener;
+	onScrollToRequest?: ScrollToRequestListener;
+}
+
 export interface HasValue {
 	value: string;
 }
@@ -52,9 +58,26 @@ export interface ItemProperties<T> {
 	data: T;
 }
 
+export interface ScrollToDetails {
+	index: number;
+	position?: 'top';
+}
+
+export interface ScrollToCompleteListener {
+	(index: number): void;
+}
+
+export interface ScrollToRequestListener {
+	(index: number): void;
+}
+
 export interface SliceDetails {
 	start: number;
 	count: number;
+}
+
+export interface SliceRequestListener {
+	onSliceRequest(sliceDetails: SliceDetails): void;
 }
 
 export type SortDirection = 'asc' | 'desc';
