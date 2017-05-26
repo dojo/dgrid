@@ -6,12 +6,13 @@ export interface ArrayDataProviderOptions<T> extends DataProviderOptions {
 	data: T[];
 }
 
-function expand(items: any[], idProperty: string) {
+function expand(items: any[], idProperty: string, index = 0) {
 	const array: ItemProperties<any>[] = [];
 	for (const item of items) {
 		const id = String(item[idProperty]);
 		array.push({
 			id,
+			index: index++,
 			data: item
 		});
 	}
@@ -57,6 +58,10 @@ class ArrayDataProvider<T = object> extends DataProviderBase<T, ArrayDataProvide
 		}
 
 		this.data = {
+			size: {
+				dataLength: data.length,
+				totalLength: data.length
+			},
 			slice,
 			sort,
 			items: itemProperties

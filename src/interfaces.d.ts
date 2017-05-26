@@ -7,8 +7,20 @@ export interface Column<T> {
 
 export interface DataProperties<T> {
 	items: ItemProperties<T>[];
+	size: SizeDetails;
 	slice?: SliceDetails;
 	sort?: SortDetails[];
+}
+
+export interface HasBufferRows {
+	/**
+	 * @default 10
+	 */
+	bufferRows?: number;
+	/**
+	 * @default 5
+	 */
+	rowDrift?: number;
 }
 
 export interface HasColumn {
@@ -19,12 +31,20 @@ export interface HasColumns {
 	columns: Column<any>[];
 }
 
+export interface HasSize {
+	size: SizeDetails;
+}
+
 export interface HasSortDetail {
 	sortDetail?: SortDetails;
 }
 
 export interface HasSortDetails {
 	sortDetails: SortDetails[];
+}
+
+export interface HasSlice {
+	slice?: SliceDetails;
 }
 
 export interface HasSliceEvent {
@@ -55,6 +75,7 @@ export interface HasValue {
 
 export interface ItemProperties<T = any> {
 	id: string;
+	index: number;
 	data: T;
 }
 
@@ -64,11 +85,16 @@ export interface ScrollToDetails {
 }
 
 export interface ScrollToCompleteListener {
-	(index: number): void;
+	(scrollTo: ScrollToDetails): void;
 }
 
 export interface ScrollToRequestListener {
-	(index: number): void;
+	(scrollTo: ScrollToDetails): void;
+}
+
+export interface SizeDetails {
+	dataLength: number;
+	totalLength: number;
 }
 
 export interface SliceDetails {
@@ -77,7 +103,7 @@ export interface SliceDetails {
 }
 
 export interface SliceRequestListener {
-	onSliceRequest(sliceDetails: SliceDetails): void;
+	(sliceDetails: SliceDetails): void;
 }
 
 export type SortDirection = 'asc' | 'desc';

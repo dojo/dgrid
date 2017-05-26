@@ -4,14 +4,14 @@ import { RegistryMixin, RegistryMixinProperties }  from '@dojo/widget-core/mixin
 import { ThemeableMixin, theme, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 import HeaderCell from './HeaderCell';
-import { HasColumns, HasSliceEvent, HasSortDetails, HasSortEvent } from './interfaces';
+import { HasColumns, HasSortDetails, HasSortEvent } from './interfaces';
 
 import * as css from './styles/header.m.css';
 import * as tableCss from './styles/shared/table.m.css';
 
 export const HeaderBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-export interface HeaderProperties extends ThemeableProperties, HasColumns, HasSliceEvent, HasSortDetails, HasSortEvent, RegistryMixinProperties {}
+export interface HeaderProperties extends ThemeableProperties, HasColumns, HasSortDetails, HasSortEvent, RegistryMixinProperties {}
 
 @theme(tableCss)
 @theme(css)

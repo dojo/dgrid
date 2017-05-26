@@ -32,10 +32,12 @@ const columns: Column<any>[] = [
 const items = [
 	{
 		id: 1,
+		index: 0,
 		name: 'One'
 	},
 	{
 		id: 2,
+		index: 1,
 		name: 'Two'
 	}
 ];
@@ -43,10 +45,12 @@ const items = [
 const itemProperties: ItemProperties<any>[] = [
 	{
 		id: '1',
+		index: 0,
 		data: items[0]
 	},
 	{
 		id: '2',
+		index: 1,
 		data: items[1]
 	}
 ];
@@ -65,10 +69,12 @@ const items2 = [
 const itemProperties2: ItemProperties<any>[] = [
 	{
 		id: '3',
+		index: 0,
 		data: items2[0]
 	},
 	{
 		id: '4',
+		index: 1,
 		data: items2[1]
 	}
 ];
@@ -87,12 +93,14 @@ registerSuite({
 	},
 
 	'dgrid'() {
-		widget.setProperties({
+		const properties: GridProperties = {
 			dataProvider: new ArrayDataProvider({
 				data: items
 			}),
 			columns
-		});
+		};
+		properties.dataProvider.notify();
+		widget.setProperties(properties);
 
 		widget.expectRender(v('div', {
 			classes: widget.classes(css.grid),
@@ -106,9 +114,20 @@ registerSuite({
 				onSortRequest: widget.listener
 			}),
 			w<Body>('body', {
+				bufferRows: undefined,
 				columns,
 				items: itemProperties,
+				onScrollToComplete: widget.listener,
+				onScrollToRequest: widget.listener,
+				onSliceRequest: widget.listener,
 				registry: compareRegistryProperty,
+				rowDrift: undefined,
+				scrollTo: undefined,
+				size: {
+					dataLength: 2,
+					totalLength: 2
+				},
+				slice: undefined,
 				theme: undefined
 			})
 		]));
@@ -133,9 +152,20 @@ registerSuite({
 				onSortRequest: widget.listener
 			}),
 			w<Body>('body', {
+				bufferRows: undefined,
 				columns,
 				items: [],
+				onScrollToComplete: widget.listener,
+				onScrollToRequest: widget.listener,
+				onSliceRequest: widget.listener,
 				registry: compareRegistryProperty,
+				rowDrift: undefined,
+				scrollTo: undefined,
+				size: {
+					dataLength: 0,
+					totalLength: 0
+				},
+				slice: undefined,
 				theme: undefined
 			})
 		]));
@@ -148,6 +178,7 @@ registerSuite({
 			}),
 			columns
 		};
+		properties.dataProvider.notify();
 
 		widget.setProperties(properties);
 
@@ -163,9 +194,20 @@ registerSuite({
 				onSortRequest: widget.listener
 			}),
 			w<Body>('body', {
+				bufferRows: undefined,
 				columns,
 				items: itemProperties,
+				onScrollToComplete: widget.listener,
+				onScrollToRequest: widget.listener,
+				onSliceRequest: widget.listener,
 				registry: compareRegistryProperty,
+				rowDrift: undefined,
+				scrollTo: undefined,
+				size: {
+					dataLength: 2,
+					totalLength: 2
+				},
+				slice: undefined,
 				theme: undefined
 			})
 		]);
@@ -184,7 +226,7 @@ registerSuite({
 		});
 
 		assignChildProperties(expected, 1, {
-			items: [ itemProperties[1], itemProperties[0] ]
+			items: [ { ...itemProperties[1], index: 0 }, { ...itemProperties[0], index: 1 } ]
 		});
 
 		widget.expectRender(expected);
@@ -197,6 +239,7 @@ registerSuite({
 			}),
 			columns
 		};
+		properties.dataProvider.notify();
 
 		widget.setProperties(properties);
 
@@ -212,9 +255,20 @@ registerSuite({
 				onSortRequest: widget.listener
 			}),
 			w<Body>('body', {
+				bufferRows: undefined,
 				columns,
 				items: itemProperties,
+				onScrollToComplete: widget.listener,
+				onScrollToRequest: widget.listener,
+				onSliceRequest: widget.listener,
 				registry: compareRegistryProperty,
+				rowDrift: undefined,
+				scrollTo: undefined,
+				size: {
+					dataLength: 2,
+					totalLength: 2
+				},
+				slice: undefined,
 				theme: undefined
 			})
 		]);
@@ -227,6 +281,7 @@ registerSuite({
 				data: items2
 			})
 		};
+		properties.dataProvider.notify();
 
 		assignChildProperties(expected, 1, {
 			items: itemProperties2

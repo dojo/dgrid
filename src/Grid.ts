@@ -8,10 +8,7 @@ import DataProviderBase from './bases/DataProviderBase';
 import Body from './Body';
 import GridRegistry, { gridRegistry } from './GridRegistry';
 import Header from './Header';
-import {
-	DataProperties, HasColumns, HasScrollTo, ScrollToDetails, ScrollToCompleteListener, SliceRequestListener,
-	SortRequestListener
-} from './interfaces';
+import {  DataProperties, HasBufferRows,  HasColumns, HasScrollTo, ScrollToDetails, SliceRequestListener,  SortRequestListener } from './interfaces';
 
 import * as css from './styles/grid.m.css';
 
@@ -25,7 +22,7 @@ export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
  * @property columns		Column definitions
  * @property dataProvider	An observable object that responds to events and returns {@link DataProperties}
  */
-export interface GridProperties extends ThemeableProperties, HasColumns, HasScrollTo {
+export interface GridProperties extends ThemeableProperties, HasBufferRows, HasColumns, HasScrollTo {
 	dataProvider: DataProviderBase;
 	registry?: GridRegistry;
 }
@@ -56,8 +53,6 @@ class Grid extends GridBase<GridProperties> {
 				this._data = (data || {});
 				this.invalidate();
 			});
-			// TODO: Remove notify when on demand scrolling (https://github.com/dojo/dgrid/issues/21 Initialization) is added
-			dataProvider.notify();
 		}
 
 		return {
@@ -71,18 +66,20 @@ class Grid extends GridBase<GridProperties> {
 		this.invalidate();
 	}
 
-	private onScrollToComplete() {
+	private onScrollToComplete(scrollTo: ScrollToDetails) {
 		delete this._scrollTo;
 		const {
 			onScrollToComplete
 		} = this.properties;
-		onScrollToComplete && onScrollToComplete();
+		onScrollToComplete && onScrollToComplete(scrollTo);
 	}
 
 	render(): DNode {
 		const {
 			_data: {
 				items = [],
+				size = { dataLength: 0, totalLength: 0 },
+				slice,
 				sort: sortDetails = []
 			},
 			_sliceRequestListener: onSliceRequest,
@@ -90,9 +87,11 @@ class Grid extends GridBase<GridProperties> {
 			onScrollToComplete,
 			onScrollToRequest,
 			properties: {
+				bufferRows,
 				columns,
 				theme,
 				registry = gridRegistry,
+				rowDrift,
 				scrollTo = this._scrollTo
 			}
 		} = this;
@@ -106,15 +105,20 @@ class Grid extends GridBase<GridProperties> {
 				registry,
 				sortDetails,
 				theme,
-				onScrollToComplete,
-				onScrollToRequest,
-				onSliceRequest,
 				onSortRequest
 			}),
 			w<Body>('body', {
+				bufferRows,
 				columns,
 				items,
+				onScrollToComplete,
+				onScrollToRequest,
+				onSliceRequest,
 				registry,
+				scrollTo,
+				size,
+				slice,
+				rowDrift,
 				theme
 			})
 		]);

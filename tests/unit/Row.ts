@@ -25,6 +25,7 @@ registerSuite({
 	'Simple columns'() {
 		const item: ItemProperties<any> = {
 			id: '1',
+			index: 0,
 			data: {
 				id: 1,
 				foo: 'foo',
