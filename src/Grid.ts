@@ -27,8 +27,8 @@ export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
 export interface GridProperties extends ThemeableProperties, HasColumns {
 	registry?: GridRegistry;
 	dataProvider: DataProviderBase;
-	footers?: Array<HeaderType | DNode>;
-	headers?: Array<HeaderType | DNode>;
+	footers?: (HeaderType | DNode)[];
+	headers?: (HeaderType | DNode)[];
 }
 
 @theme(css)
@@ -64,13 +64,35 @@ class Grid extends GridBase<GridProperties> {
 		};
 	}
 
-	render(): DNode {
+	protected inflateHeaderTypes(nodes: (HeaderType | DNode)[]): DNode[] {
 		const {
 			_data: {
-				items = [],
 				sort: sortDetails = []
 			},
 			_sortRequestListener: onSortRequest,
+			properties: {
+				columns,
+				theme,
+				registry = gridRegistry
+			}
+		} = this;
+
+		return nodes.map((child) => {
+			return (child === HeaderType.COLUMN_HEADERS) ? w<ColumnHeaders>('column-headers', {
+				columns,
+				registry,
+				sortDetails,
+				theme,
+				onSortRequest
+			}) : <DNode> child;
+		});
+	}
+
+	render(): DNode {
+		const {
+			_data: {
+				items = []
+			},
 			properties: {
 				columns,
 				footers = [],
@@ -87,15 +109,7 @@ class Grid extends GridBase<GridProperties> {
 			w<Header>('header', {
 				registry,
 				theme
-			}, <DNode[]> headers.map((child) => {
-				return (child === HeaderType.COLUMN_HEADERS) ? w<ColumnHeaders>('column-headers', {
-					columns,
-					registry,
-					sortDetails,
-					theme,
-					onSortRequest
-				}) : child;
-			})),
+			}, this.inflateHeaderTypes(headers)),
 			w<Body>('body', {
 				columns,
 				items,
@@ -105,15 +119,7 @@ class Grid extends GridBase<GridProperties> {
 			w<Footer>('footer', {
 				registry,
 				theme
-			}, <DNode[]> footers.map((child) => {
-				return (child === HeaderType.COLUMN_HEADERS) ? w<ColumnHeaders>('column-headers', {
-					columns,
-					registry,
-					sortDetails,
-					theme,
-					onSortRequest
-				}) : child;
-			}))
+			}, this.inflateHeaderTypes(footers))
 		]);
 	}
 }
