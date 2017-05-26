@@ -53,7 +53,7 @@ export interface HasValue {
 	value: string;
 }
 
-export interface ItemProperties<T> {
+export interface ItemProperties<T = any> {
 	id: string;
 	data: T;
 }
