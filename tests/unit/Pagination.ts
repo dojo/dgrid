@@ -26,7 +26,7 @@ registerSuite({
 			const childClasses = widget.classes(css.status);
 			const props = {
 				page: 1,
-				pages: 1,
+				totalPageCount: 1,
 				status: 'test message',
 				onPageRequest: noop
 			};
@@ -50,7 +50,7 @@ registerSuite({
 			const paginationClass = widget.classes(css.pagination);
 			const props = {
 				page: 1,
-				pages: 2,
+				totalPageCount: 2,
 				status: 'test message',
 				onPageRequest: noop
 			};
@@ -95,7 +95,7 @@ registerSuite({
 						disabled: false,
 						isArrow: true,
 						label: '›',
-						page: props.pages,
+						page: props.totalPageCount,
 						onPageRequest: widget.listener
 					})
 				])
@@ -111,7 +111,7 @@ registerSuite({
 			const paginationClass = widget.classes(css.pagination);
 			const props = {
 				page: 5,
-				pages: 10,
+				totalPageCount: 10,
 				status: 'test message',
 				onPageRequest: noop
 			};
