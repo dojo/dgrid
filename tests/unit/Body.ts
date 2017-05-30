@@ -28,6 +28,7 @@ registerSuite({
 		];
 		const item: ItemProperties<any> = {
 			id: '1',
+			index: 0,
 			data: {
 				id: 1,
 				foo: 'foo',
@@ -37,14 +38,25 @@ registerSuite({
 		widget.setProperties({
 			columns,
 			items: [ item ],
-			registry
+			onSliceRequest: widget.listener,
+			registry,
+			size: {
+				dataLength: 2,
+				totalLength: 2
+			}
 		});
 
 		widget.expectRender(v('div', {
-			classes: widget.classes(css.scroller)
+			afterCreate: widget.listener,
+			afterUpdate: widget.listener,
+			classes: widget.classes(css.scroller),
+			key: 'scroller',
+			onscroll: widget.listener
 		}, [
 			v('div', {
-				classes: widget.classes(css.content)
+				afterCreate: widget.listener,
+				afterUpdate: widget.listener,
+				key: '1'
 			}, [
 				w<Row>('row', {
 					columns,
