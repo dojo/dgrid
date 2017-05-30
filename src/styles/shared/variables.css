@@ -1,6 +1,6 @@
 :root {
 	--cell-border-color: #dddddd;
-	--disabled-text-color: rgb(170, 170, 170);
+	--disabled-text-color: #aaaaaa;
 	--grid-border-color: #dddddd;
 	--header-background-color: #eeeeee;
 }

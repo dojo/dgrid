@@ -1,9 +1,6 @@
 @import './shared/variables.css';
 
 .navigation {
-	position: absolute;
-	right: 0;
-	top: 0;
 }
 
 .arrow {
@@ -22,7 +19,8 @@
 }
 
 .pagination {
-	position: relative;
+	display: flex;
+	justify-content: space-between;
 }
 
 .status {
