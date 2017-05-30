@@ -2,7 +2,7 @@ import { v, w } from '@dojo/widget-core/d';
 import { DNode } from '@dojo/widget-core/interfaces';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
-import PageLink, { PageLinkProperties } from './pagination/PageLink';
+import PageLink from './pagination/PageLink';
 
 import * as css from './styles/pagination.m.css';
 
@@ -37,31 +37,31 @@ class Pagination extends PaginationBase<PaginationProperties> {
 		if (totalPageCount > 1) {
 			const pageLinks: DNode[] = [];
 
-			pageLinks.push(w<PageLink>(PageLink, { key: '1', disabled: isFirstPage, page: 1, onPageRequest }));
+			pageLinks.push(w<PageLink>('page-link', { key: '1', disabled: isFirstPage, page: 1, onPageRequest }));
 
 			if (page > 4) {
 				pageLinks.push(v('span', { key: 'skip1', classes: this.classes(css.pageSkip) }, [ '...' ]));
 			}
 			if (page > 3) {
-				pageLinks.push(w<PageLink>(PageLink, { key: String(page - 2), page: page - 2, onPageRequest }));
+				pageLinks.push(w<PageLink>('page-link', { key: String(page - 2), page: page - 2, onPageRequest }));
 			}
 			if (page > 2) {
-				pageLinks.push(w<PageLink>(PageLink, { key: String(page - 1), page: page - 1, onPageRequest }));
+				pageLinks.push(w<PageLink>('page-link', { key: String(page - 1), page: page - 1, onPageRequest }));
 			}
 			if (!isFirstPage && !isLastPage) {
-				pageLinks.push(w<PageLink>(PageLink, { key: String(page), disabled: true, page: page, onPageRequest }));
+				pageLinks.push(w<PageLink>('page-link', { key: String(page), disabled: true, page: page, onPageRequest }));
 			}
 			if (page + 1 < totalPageCount) {
-				pageLinks.push(w<PageLink>(PageLink, { key: String(page + 1), page: page + 1, onPageRequest }));
+				pageLinks.push(w<PageLink>('page-link', { key: String(page + 1), page: page + 1, onPageRequest }));
 			}
 			if (page + 2 < totalPageCount) {
-				pageLinks.push(w<PageLink>(PageLink, { key: String(page + 2), page: page + 2, onPageRequest }));
+				pageLinks.push(w<PageLink>('page-link', { key: String(page + 2), page: page + 2, onPageRequest }));
 			}
 			if (page < (totalPageCount - 3)) {
 				pageLinks.push(v('span', { key: 'skip2', classes: this.classes(css.pageSkip) }, [ '...' ]));
 			}
 
-			pageLinks.push(w<PageLink>(PageLink, {
+			pageLinks.push(w<PageLink>('page-link', {
 				key: String(totalPageCount),
 				disabled: isLastPage,
 				page: totalPageCount,
@@ -71,7 +71,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 			children.push(v('div', {
 				classes: this.classes(css.navigation)
 			}, [
-				w<PageLink>(PageLink, {
+				w<PageLink>('page-link', {
 					key: 'previous',
 					disabled: isFirstPage,
 					isArrow: true,
@@ -82,7 +82,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 				v('span', {
 					classes: this.classes(css.pageLinks)
 				}, pageLinks),
-				w<PageLink>(PageLink, {
+				w<PageLink>('page-link', {
 					key: 'next',
 					disabled: isLastPage,
 					isArrow: true,
