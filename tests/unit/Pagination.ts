@@ -66,7 +66,7 @@ registerSuite({
 				v('div', {
 					classes: navigationClass
 				}, [
-					w(PageLink, {
+					w<PageLink>('page-link', {
 						key: 'previous',
 						disabled: true,
 						isArrow: true,
@@ -77,20 +77,20 @@ registerSuite({
 					v('span', {
 						classes: pageLinksClass
 					}, [
-						w(PageLink, {
+						w<PageLink>('page-link', {
 							key: '1',
 							disabled: true,
 							page: 1,
 							onPageRequest: widget.listener
 						}),
-						w(PageLink, {
+						w<PageLink>('page-link', {
 							key: '2',
 							disabled: false,
 							page: 2,
 							onPageRequest: widget.listener
 						})
 					]),
-					w(PageLink, {
+					w<PageLink>('page-link', {
 						key: 'next',
 						disabled: false,
 						isArrow: true,
@@ -127,7 +127,7 @@ registerSuite({
 				v('div', {
 					classes: navigationClass
 				}, [
-					w(PageLink, {
+					w<PageLink>('page-link', {
 						key: 'previous',
 						disabled: false,
 						isArrow: true,
@@ -138,7 +138,7 @@ registerSuite({
 					v('span', {
 						classes: pageLinksClass
 					}, [
-						w(PageLink, {
+						w<PageLink>('page-link', {
 							key: '1',
 							disabled: false,
 							page: 1,
@@ -150,28 +150,28 @@ registerSuite({
 							key: 'skip1',
 							classes: pageSkipClass
 						}, [ '...' ]),
-						w(PageLink, {
+						w<PageLink>('page-link', {
 							key: '3',
 							page: 3,
 							onPageRequest: widget.listener
 						}),
-						w(PageLink, {
+						w<PageLink>('page-link', {
 							key: '4',
 							page: 4,
 							onPageRequest: widget.listener
 						}),
-						w(PageLink, {
+						w<PageLink>('page-link', {
 							key: '5',
 							disabled: true,
 							page: 5,
 							onPageRequest: widget.listener
 						}),
-						w(PageLink, {
+						w<PageLink>('page-link', {
 							key: '6',
 							page: 6,
 							onPageRequest: widget.listener
 						}),
-						w(PageLink, {
+						w<PageLink>('page-link', {
 							key: '7',
 							page: 7,
 							onPageRequest: widget.listener
@@ -182,14 +182,14 @@ registerSuite({
 							key: 'skip2',
 							classes: pageSkipClass
 						}, [ '...' ]),
-						w(PageLink, {
+						w<PageLink>('page-link', {
 							disabled: false,
 							key: '10',
 							page: 10,
 							onPageRequest: widget.listener
 						})
 					]),
-					w(PageLink, {
+					w<PageLink>('page-link', {
 						key: 'next',
 						disabled: false,
 						isArrow: true,

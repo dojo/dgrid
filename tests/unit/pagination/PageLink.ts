@@ -7,6 +7,8 @@ import * as css from '../../../src/styles/pagination.m.css';
 
 let widget: Harness<PageLinkProperties, typeof PageLink>;
 
+function noop () {}
+
 registerSuite({
 	name: 'PageLink',
 
@@ -21,6 +23,7 @@ registerSuite({
 	render: {
 		simple() {
 			widget.setProperties({
+				onPageRequest: noop,
 				page: 1
 			});
 
@@ -34,11 +37,13 @@ registerSuite({
 		disabled() {
 			widget.setProperties({
 				disabled: true,
+				onPageRequest: noop,
 				page: 1
 			});
 
 			widget.expectRender(v('span', {
 				classes: widget.classes(css.pageLink, css.disabled),
+				onclick: widget.listener,
 				tabindex: '-1'
 			}, [ '1' ]));
 		},
@@ -46,6 +51,7 @@ registerSuite({
 		arrow() {
 			widget.setProperties({
 				isArrow: true,
+				onPageRequest: noop,
 				page: 1
 			});
 
@@ -59,6 +65,7 @@ registerSuite({
 		label() {
 			widget.setProperties({
 				label: 'a',
+				onPageRequest: noop,
 				page: 1
 			});
 

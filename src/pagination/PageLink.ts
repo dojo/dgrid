@@ -12,18 +12,21 @@ export interface PageLinkProperties extends ThemeableProperties {
 	isArrow?: boolean;
 	label?: string;
 	page: number;
-	onPageRequest?: (page: number) => void;
+	onPageRequest: (page: number) => void;
 }
 
 @theme(css)
 class PageLink extends PageLinkBase<PageLinkProperties> {
 	onClick (event: any) {
 		const {
+			disabled = false,
 			onPageRequest,
 			page
 		} = this.properties;
 
-		onPageRequest && onPageRequest(page);
+		if (disabled === false) {
+			onPageRequest(page);
+		}
 	}
 
 	render (): DNode {
@@ -32,11 +35,10 @@ class PageLink extends PageLinkBase<PageLinkProperties> {
 			isArrow = false,
 			label = String(this.properties.page)
 		} = this.properties;
-		const onclick = disabled ? {} : { onclick: this.onClick };
 
 		return v('span', {
 			classes: this.classes(css.pageLink, disabled ? css.disabled : null, isArrow ? css.arrow : null),
-			...onclick,
+			onclick: this.onClick,
 			tabindex: disabled ? '-1' : '0'
 		}, [ label ]);
 	}
