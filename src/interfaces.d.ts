@@ -9,18 +9,18 @@ import { DNode } from '@dojo/widget-core/interfaces';
  * @typeparam T        Used by field property and cell customization functions to enforce type safety
  * @typeparam V        Used by cell customization to ensure the same type is used by get and render
  * @property  field    Property on the row's data item to use to look up the column's value
+ * @property  get      Manually return the value or content to use for this column
  * @property  id       A unique identifier for this column
  * @property  label    The label to use in the column's header
  * @property  sortable Set to false to indicate the column is not sortable
- * @property  get      Manually return the value or content to use for this column
  * @property  render   Use this column's value to provide content for this column
  */
 export interface Column<T = any, V = string> {
 	field?: keyof T;
+	get?: V | ((item: ItemProperties<T>, column: Column<T>) => V);
 	id: string;
 	label?: string;
 	sortable?: boolean; // default true
-	get?: ((item: ItemProperties<T>, column: Column<T>) => V) | V;
 	render?(options: ColumnRenderOptions<T, V>): DNode;
 }
 
