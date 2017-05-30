@@ -50,7 +50,7 @@ class Grid extends GridBase<GridProperties> {
 
 			this._subscription && this._subscription.unsubscribe();
 			this._subscription = dataProvider.observe().subscribe((data) => {
-				this._data = (data || {});
+				this._data = data;
 				this.invalidate();
 			});
 		}

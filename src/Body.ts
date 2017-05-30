@@ -5,14 +5,14 @@ import { DNode, PropertiesChangeEvent } from '@dojo/widget-core/interfaces';
 import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase, { onPropertiesChanged } from '@dojo/widget-core/WidgetBase';
-import { HasBufferRows, HasColumns, HasItems, HasScrollTo, HasSize, HasSlice, HasSliceEvent, ItemProperties } from './interfaces';
+import { HasBufferRows, HasColumns, HasItems, HasScrollTo, HasScrollToEvent, HasSize, HasSlice, HasSliceEvent, ItemProperties } from './interfaces';
 import Row from './Row';
 
-import * as bodyClasses from './styles/body.m.css';
+import * as css from './styles/body.m.css';
 
 export const BodyBase = ThemeableMixin(RegistryMixin(WidgetBase));
 
-export interface BodyProperties extends ThemeableProperties, HasBufferRows, HasColumns, HasItems, HasScrollTo, HasSize, HasSlice, HasSliceEvent, RegistryMixinProperties {}
+export interface BodyProperties extends ThemeableProperties, HasBufferRows, HasColumns, HasItems, HasScrollTo, HasScrollToEvent, HasSize, HasSlice, HasSliceEvent, RegistryMixinProperties {}
 
 interface RenderedDetails {
 	add: boolean;
@@ -22,7 +22,7 @@ interface RenderedDetails {
 	height?: number;
 }
 
-@theme(bodyClasses)
+@theme(css)
 class Body extends BodyBase<BodyProperties> {
 	private _firstVisibleKey: string;
 	private _itemElementMap = new Map<string, RenderedDetails>();
@@ -556,7 +556,7 @@ class Body extends BodyBase<BodyProperties> {
 		}
 
 		return v('div', {
-			classes: this.classes(bodyClasses.scroller),
+			classes: this.classes(css.scroller),
 			key: 'scroller',
 			onscroll: this.onScroll
 		}, children);

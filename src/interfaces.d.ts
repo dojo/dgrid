@@ -66,6 +66,9 @@ export interface HasItems {
 export interface HasScrollTo {
 	scrollTo?: ScrollToDetails;
 	onScrollToComplete?: ScrollToCompleteListener;
+}
+
+export interface HasScrollToEvent {
 	onScrollToRequest?: ScrollToRequestListener;
 }
 

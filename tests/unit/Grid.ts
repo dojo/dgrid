@@ -94,10 +94,14 @@ registerSuite({
 
 	'dgrid'() {
 		const properties: GridProperties = {
+			columns,
 			dataProvider: new ArrayDataProvider({
 				data: items
 			}),
-			columns
+			scrollTo: {
+				index: 0,
+				position: 'top'
+			}
 		};
 		properties.dataProvider.notify();
 		widget.setProperties(properties);
@@ -122,7 +126,10 @@ registerSuite({
 				onSliceRequest: widget.listener,
 				registry: compareRegistryProperty,
 				rowDrift: undefined,
-				scrollTo: undefined,
+				scrollTo: {
+					index: 0,
+					position: 'top'
+				},
 				size: {
 					dataLength: 2,
 					totalLength: 2
