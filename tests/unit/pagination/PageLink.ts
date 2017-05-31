@@ -56,7 +56,7 @@ registerSuite({
 			});
 
 			widget.expectRender(v('span', {
-				classes: widget.classes(css.pageLink, css.arrow),
+				classes: widget.classes(css.pageLink, css.paginationArrow),
 				onclick: widget.listener,
 				tabindex: '0'
 			}, [ '1' ]));

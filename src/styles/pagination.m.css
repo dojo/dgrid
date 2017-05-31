@@ -3,7 +3,7 @@
 .navigation {
 }
 
-.arrow {
+.paginationArrow {
 }
 
 .pageLink {
@@ -23,7 +23,7 @@
 	justify-content: space-between;
 }
 
-.status {
+.paginationStatus {
 }
 
 .disabled {

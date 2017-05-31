@@ -23,7 +23,7 @@ registerSuite({
 	render: {
 		'single page'() {
 			// TODO: move `widget.classes` call inline when test-extras is fixed
-			const childClasses = widget.classes(css.status);
+			const childClasses = widget.classes(css.paginationStatus);
 			const props = {
 				page: 1,
 				totalPageCount: 1,
@@ -44,7 +44,7 @@ registerSuite({
 
 		'multiple pages'() {
 			// TODO: move `widget.classes` call inline when test-extras is fixed
-			const statusClass = widget.classes(css.status);
+			const statusClass = widget.classes(css.paginationStatus);
 			const navigationClass = widget.classes(css.navigation);
 			const pageLinksClass = widget.classes(css.pageLinks);
 			const paginationClass = widget.classes(css.pagination);
@@ -104,7 +104,7 @@ registerSuite({
 
 		'middle page'() {
 			// TODO: move `widget.classes` call inline when test-extras is fixed
-			const statusClass = widget.classes(css.status);
+			const statusClass = widget.classes(css.paginationStatus);
 			const pageSkipClass = widget.classes(css.pageSkip);
 			const navigationClass = widget.classes(css.navigation);
 			const pageLinksClass = widget.classes(css.pageLinks);

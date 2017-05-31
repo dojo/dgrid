@@ -28,7 +28,7 @@ class Pagination extends PaginationBase<PaginationProperties> {
 		const isLastPage = page === totalPageCount;
 		const children: DNode[] = [
 			v('div', {
-				classes: this.classes(css.status)
+				classes: this.classes(css.paginationStatus)
 			}, [
 				status
 			])
