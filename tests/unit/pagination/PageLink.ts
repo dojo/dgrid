@@ -76,7 +76,7 @@ registerSuite({
 			}, [ 'a' ]));
 		},
 
-		onPageRequest() {
+		'onclick: enabled'() {
 			const page = 5;
 			let pageRequested = 0;
 
@@ -89,6 +89,21 @@ registerSuite({
 			widget.sendEvent('click');
 
 			assert.strictEqual(pageRequested, page, 'Click event should call handler with page number');
+		},
+
+		'onclick: disabled'() {
+			let pageRequested = 0;
+
+			widget.setProperties({
+				disabled: true,
+				page: 5,
+				onPageRequest: function (page: number) {
+					pageRequested = page;
+				}
+			});
+			widget.sendEvent('click');
+
+			assert.strictEqual(pageRequested, 0, 'Click event should not call handler');
 		}
 	}
 });
