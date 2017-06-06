@@ -5,6 +5,8 @@ import Cell, { CellProperties } from './Cell';
 import Footer, { FooterProperties } from './Footer';
 import Header, { HeaderProperties } from './Header';
 import HeaderCell, { HeaderCellProperties } from './HeaderCell';
+import PageLink, { PageLinkProperties } from './pagination/PageLink';
+import Pagination, { PaginationProperties } from './Pagination';
 import Row, { RowProperties } from './Row';
 
 export interface GridRegistered {
@@ -14,6 +16,8 @@ export interface GridRegistered {
 	footer: WidgetBaseConstructor<FooterProperties>;
 	header: WidgetBaseConstructor<HeaderProperties>;
 	'header-cell': WidgetBaseConstructor<HeaderCellProperties>;
+	'page-link': WidgetBaseConstructor<PageLinkProperties>;
+	pagination: WidgetBaseConstructor<PaginationProperties>;
 	row: WidgetBaseConstructor<RowProperties>;
 }
 
@@ -28,6 +32,8 @@ export default class GridRegistry<T extends GridRegistered = GridRegistered> ext
 		super.define('footer', Footer);
 		super.define('header', Header);
 		super.define('header-cell', HeaderCell);
+		super.define('page-link', PageLink);
+		super.define('pagination', Pagination);
 		super.define('row', Row);
 	}
 
