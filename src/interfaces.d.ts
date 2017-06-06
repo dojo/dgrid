@@ -1,8 +1,33 @@
-export interface Column<T> {
+import { DNode } from '@dojo/widget-core/interfaces';
+
+/**
+ * @type Column
+ *
+ * Adds information about a column that will be used by the
+ * grid when retrieving and displaying data.
+ *
+ * @typeparam T        Used by field property and cell customization functions to enforce type safety
+ * @typeparam V        Used by cell customization to ensure the same type is used by get and render
+ * @property  field    Property on the row's data item to use to look up the column's value
+ * @property  get      Manually return the value or content to use for this column
+ * @property  id       A unique identifier for this column
+ * @property  label    The label to use in the column's header
+ * @property  sortable Set to false to indicate the column is not sortable
+ * @property  render   Use this column's value to provide content for this column
+ */
+export interface Column<T = any, V = string> {
 	field?: keyof T;
+	get?: V | ((item: ItemProperties<T>, column: Column<T>) => V);
 	id: string;
 	label?: string;
 	sortable?: boolean; // default true
+	render?(options: ColumnRenderOptions<T, V>): DNode;
+}
+
+export interface ColumnRenderOptions<T = any, V = string> {
+	column: Column<T>;
+	item: ItemProperties<T>;
+	value: V;
 }
 
 export interface DataProperties<T> {
@@ -10,12 +35,16 @@ export interface DataProperties<T> {
 	sort?: SortDetails[];
 }
 
+export interface HasContent {
+	content: DNode;
+}
+
 export interface HasColumn {
-	column: Column<any>;
+	column: Column<any, any>;
 }
 
 export interface HasColumns {
-	columns: Column<any>[];
+	columns: Column<any, any>[];
 }
 
 export interface HasSortDetail {
@@ -35,18 +64,18 @@ export interface HasSortEvent {
 }
 
 export interface HasItem {
-	item: ItemProperties<any>;
+	item: ItemProperties;
 }
 
 export interface HasItems {
-	items: ItemProperties<any>[];
+	items: ItemProperties[];
 }
 
 export interface HasValue {
 	value: string;
 }
 
-export interface ItemProperties<T> {
+export interface ItemProperties<T = any> {
 	id: string;
 	data: T;
 }

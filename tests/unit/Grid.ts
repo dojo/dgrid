@@ -25,7 +25,7 @@ const compareRegistryProperty: GridRegistry = <any> compareProperty((value) => {
 	return false;
 });
 
-const columns: Column<any>[] = [
+const columns: Column[] = [
 	{ id: 'name', label: 'Name' }
 ];
 
@@ -40,7 +40,7 @@ const items = [
 	}
 ];
 
-const itemProperties: ItemProperties<any>[] = [
+const itemProperties: ItemProperties[] = [
 	{
 		id: '1',
 		data: items[0]
@@ -62,7 +62,7 @@ const items2 = [
 	}
 ];
 
-const itemProperties2: ItemProperties<any>[] = [
+const itemProperties2: ItemProperties[] = [
 	{
 		id: '3',
 		data: items2[0]
