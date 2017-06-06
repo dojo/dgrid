@@ -32,6 +32,8 @@ export interface ColumnRenderOptions<T = any, V = string> {
 
 export interface DataProperties<T> {
 	items: ItemProperties<T>[];
+	size: SizeDetails;
+	slice?: SliceDetails;
 	sort?: SortDetails[];
 }
 
@@ -47,16 +49,16 @@ export interface HasColumns {
 	columns: Column<any, any>[];
 }
 
+export interface HasSize {
+	size: SizeDetails;
+}
+
 export interface HasSortDetail {
 	sortDetail?: SortDetails;
 }
 
 export interface HasSortDetails {
 	sortDetails: SortDetails[];
-}
-
-export interface SortRequestListener {
-	(sortDetail: SortDetails): void;
 }
 
 export interface HasSortEvent {
@@ -77,7 +79,26 @@ export interface HasValue {
 
 export interface ItemProperties<T = any> {
 	id: string;
+	index: number;
 	data: T;
+}
+
+/**
+ * @type SizeDetails
+ *
+ * Adds information about the size of a data set
+ *
+ * @property  dataLength  The number of items in the data set available through a slice operation
+ * @property  totalLength The total number of items in the data
+ */
+export interface SizeDetails {
+	dataLength: number;
+	totalLength: number;
+}
+
+export interface SliceDetails {
+	start: number;
+	count: number;
 }
 
 export type SortDirection = 'asc' | 'desc';
@@ -88,4 +109,8 @@ export interface SortDetails {
 	 * @default 'asc'
 	 */
 	direction?: SortDirection;
+}
+
+export interface SortRequestListener {
+	(sortDetail: SortDetails): void;
 }

@@ -35,10 +35,12 @@ const columns: Column[] = [
 const items = [
 	{
 		id: 1,
+		index: 0,
 		name: 'One'
 	},
 	{
 		id: 2,
+		index: 1,
 		name: 'Two'
 	}
 ];
@@ -46,10 +48,12 @@ const items = [
 const itemProperties: ItemProperties[] = [
 	{
 		id: '1',
+		index: 0,
 		data: items[0]
 	},
 	{
 		id: '2',
+		index: 1,
 		data: items[1]
 	}
 ];
@@ -57,10 +61,12 @@ const itemProperties: ItemProperties[] = [
 const items2 = [
 	{
 		id: 3,
+		index: 0,
 		name: 'Three'
 	},
 	{
 		id: 4,
+		index: 1,
 		name: 'Four'
 	}
 ];
@@ -68,10 +74,12 @@ const items2 = [
 const itemProperties2: ItemProperties[] = [
 	{
 		id: '3',
+		index: 0,
 		data: items2[0]
 	},
 	{
 		id: '4',
+		index: 1,
 		data: items2[1]
 	}
 ];
@@ -289,7 +297,7 @@ registerSuite({
 		});
 
 		assignChildProperties(expected, 1, {
-			items: [ itemProperties[1], itemProperties[0] ]
+			items: [ { ...itemProperties[1], index: 0 }, { ...itemProperties[0], index: 1 } ]
 		});
 
 		widget.expectRender(expected);

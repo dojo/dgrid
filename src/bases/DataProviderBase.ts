@@ -1,5 +1,5 @@
 import { Observable, Observer } from '@dojo/core/Observable';
-import { DataProperties, SortDetails } from '../interfaces';
+import { DataProperties, SliceDetails, SortDetails } from '../interfaces';
 
 /**
  * Used by subclasses to add properties
@@ -12,6 +12,7 @@ export interface DataProviderOptions {}
  * to make batched state changes to the data provider.
  */
 export interface DataProviderConfiguration {
+	slice?: SliceDetails;
 	sort?: SortDetails | SortDetails[];
 }
 
@@ -20,6 +21,7 @@ export interface DataProviderConfiguration {
  * to provide state to subclasses.
  */
 export interface DataProviderState {
+	slice?: SliceDetails;
 	sort?: SortDetails[];
 }
 
@@ -71,7 +73,11 @@ abstract class DataProviderBase<T = object, O extends DataProviderOptions = Data
 	 *
 	 * @param configuration - State changes to make
 	 */
-	configure({ sort }: C, updateData = true): void {
+	configure({ slice, sort }: C, updateData = true): void {
+		/* istanbul ignore else: slice is not a required argument */
+		if (slice) {
+			this.state.slice = slice;
+		}
 		/* istanbul ignore else: sort is not a required argument */
 		if (sort) {
 			this.state.sort = Array.isArray(sort) ? sort : [ sort ];
@@ -98,6 +104,18 @@ abstract class DataProviderBase<T = object, O extends DataProviderOptions = Data
 	 */
 	observe(): Observable<DataProperties<T>> {
 		return this._observable;
+	}
+
+	/**
+	 * Apply a slice to the data that would be returned
+	 * otherwise. Can also be assigned from
+	 * {@link DataProviderBase#configure}.
+	 *
+	 * @param slice - Where to slice from and how many items to include
+	 */
+	slice(slice: SliceDetails) {
+		this.state.slice = slice;
+		this.updateData();
 	}
 
 	/**

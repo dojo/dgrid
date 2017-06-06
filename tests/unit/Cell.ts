@@ -13,6 +13,7 @@ const column: Column = {
 };
 const item: ItemProperties = {
 	id: 'item',
+	index: 0,
 	data: {}
 };
 let widget: Harness<CellProperties, typeof Cell>;
