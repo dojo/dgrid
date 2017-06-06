@@ -6,8 +6,10 @@ import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mi
 import WidgetBase, { diffProperty } from '@dojo/widget-core/WidgetBase';
 import DataProviderBase from './bases/DataProviderBase';
 import Body from './Body';
+import ColumnHeaders from './ColumnHeaders';
+import Footer from './Footer';
 import GridRegistry, { gridRegistry } from './GridRegistry';
-import Header from './Header';
+import Header, { HeaderType } from './Header';
 import { DataProperties, HasColumns, SortRequestListener } from './interfaces';
 
 import * as css from './styles/grid.m.css';
@@ -25,6 +27,8 @@ export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
 export interface GridProperties extends ThemeableProperties, HasColumns {
 	registry?: GridRegistry;
 	dataProvider: DataProviderBase;
+	footers?: (HeaderType | DNode)[];
+	headers?: (HeaderType | DNode)[];
 }
 
 @theme(css)
@@ -60,10 +64,9 @@ class Grid extends GridBase<GridProperties> {
 		};
 	}
 
-	render(): DNode {
+	protected inflateHeaderTypes(nodes: (HeaderType | DNode)[]): DNode[] {
 		const {
 			_data: {
-				items = [],
 				sort: sortDetails = []
 			},
 			_sortRequestListener: onSortRequest,
@@ -74,23 +77,49 @@ class Grid extends GridBase<GridProperties> {
 			}
 		} = this;
 
-		return v('div', {
-			classes: this.classes(css.grid),
-			role: 'grid'
-		}, [
-			w<Header>('header', {
+		return nodes.map((child) => {
+			return (child === HeaderType.COLUMN_HEADERS) ? w<ColumnHeaders>('column-headers', {
 				columns,
 				registry,
 				sortDetails,
 				theme,
 				onSortRequest
-			}),
+			}) : <DNode> child;
+		});
+	}
+
+	render(): DNode {
+		const {
+			_data: {
+				items = []
+			},
+			properties: {
+				columns,
+				footers = [],
+				headers = [ HeaderType.COLUMN_HEADERS ],
+				theme,
+				registry = gridRegistry
+			}
+		} = this;
+
+		return v('div', {
+			classes: this.classes(css.grid),
+			role: 'grid'
+		}, [
+			w<Header>('header', {
+				registry,
+				theme
+			}, this.inflateHeaderTypes(headers)),
 			w<Body>('body', {
 				columns,
 				items,
 				registry,
 				theme
-			})
+			}),
+			w<Footer>('footer', {
+				registry,
+				theme
+			}, this.inflateHeaderTypes(footers))
 		]);
 	}
 }
