@@ -1,0 +1,32 @@
+@import './shared/variables.css';
+
+.navigation {
+}
+
+.paginationArrow {
+}
+
+.pageLink {
+	cursor: pointer;
+	font-weight: bold;
+	padding: 0 4px;
+}
+
+.pageLinks {
+}
+
+.pageSkip {
+}
+
+.pagination {
+	display: flex;
+	justify-content: space-between;
+}
+
+.paginationStatus {
+}
+
+.disabled {
+	color: var(--disabled-text-color);
+	cursor: default;
+}

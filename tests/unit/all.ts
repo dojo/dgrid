@@ -1,3 +1,4 @@
+import '@dojo/test-extras/support/loadJsdom';
 import './ArrayDataProvider';
 import './GridRegistry';
 import './Grid';
@@ -8,3 +9,5 @@ import './Body';
 import './Row';
 import './Cell';
 import './Footer';
+import './pagination/PageLink';
+import './Pagination';
