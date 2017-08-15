@@ -8,7 +8,7 @@ import Cell from '../../src/Cell';
 import ColumnHeaderCell from '../../src/ColumnHeaderCell';
 import ColumnHeaders, { ColumnHeadersProperties } from '../../src/ColumnHeaders';
 import Footer from '../../src/Footer';
-import GridRegistry, { GridRegistered, gridRegistry } from '../../src/GridRegistry';
+import GridRegistry, { gridRegistry } from '../../src/GridRegistry';
 import Header from '../../src/Header';
 import Row from '../../src/Row';
 
@@ -28,11 +28,7 @@ registerSuite({
 	'Additional type'() {
 		class Header2 extends WidgetBase<ColumnHeadersProperties> {}
 
-		interface MoreRegistered extends GridRegistered {
-			header: typeof Header2;
-		}
-
-		const gridRegistry2 = new GridRegistry<MoreRegistered>();
+		const gridRegistry2 = new GridRegistry();
 		gridRegistry2.define('column-headers', Header2);
 		assert.equal(gridRegistry2.get('column-headers'), Header2);
 	}

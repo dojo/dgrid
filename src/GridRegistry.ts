@@ -1,29 +1,16 @@
-import { WidgetBaseConstructor } from '@dojo/widget-core/interfaces';
-import WidgetRegistry from '@dojo/widget-core/WidgetRegistry';
-import Body, { BodyProperties } from './Body';
-import Cell, { CellProperties } from './Cell';
-import ColumnHeaderCell, { ColumnHeaderCellProperties } from './ColumnHeaderCell';
-import ColumnHeaders, { ColumnHeadersProperties } from './ColumnHeaders';
-import Footer, { FooterProperties } from './Footer';
-import Header, { HeaderProperties } from './Header';
-import PageLink, { PageLinkProperties } from './pagination/PageLink';
-import Pagination, { PaginationProperties } from './Pagination';
-import Row, { RowProperties } from './Row';
+import { Constructor, RegistryLabel, WidgetBaseInterface } from '@dojo/widget-core/interfaces';
+import WidgetRegistry, { WidgetRegistryItem } from '@dojo/widget-core/WidgetRegistry';
+import Body from './Body';
+import Cell from './Cell';
+import ColumnHeaderCell from './ColumnHeaderCell';
+import ColumnHeaders from './ColumnHeaders';
+import Footer from './Footer';
+import Header from './Header';
+import Pagination from './Pagination';
+import PageLink from './pagination/PageLink';
+import Row from './Row';
 
-export interface GridRegistered {
-	[key: string]: WidgetBaseConstructor;
-	body: WidgetBaseConstructor<BodyProperties>;
-	cell: WidgetBaseConstructor<CellProperties>;
-	'column-header-cell': WidgetBaseConstructor<ColumnHeaderCellProperties>;
-	'column-headers': WidgetBaseConstructor<ColumnHeadersProperties>;
-	footer: WidgetBaseConstructor<FooterProperties>;
-	header: WidgetBaseConstructor<HeaderProperties>;
-	'page-link': WidgetBaseConstructor<PageLinkProperties>;
-	pagination: WidgetBaseConstructor<PaginationProperties>;
-	row: WidgetBaseConstructor<RowProperties>;
-}
-
-export default class GridRegistry<T extends GridRegistered = GridRegistered> extends WidgetRegistry {
+export default class GridRegistry extends WidgetRegistry {
 	private _overrides: WidgetRegistry = new WidgetRegistry();
 
 	constructor() {
@@ -40,15 +27,15 @@ export default class GridRegistry<T extends GridRegistered = GridRegistered> ext
 		super.define('row', Row);
 	}
 
-	define<K extends keyof T>(widgetLabel: K, registryItem: T[K]): void {
+	define(widgetLabel: RegistryLabel, registryItem: WidgetRegistryItem): void {
 		this._overrides.define(widgetLabel, registryItem);
 	}
 
-	get<K extends keyof T>(widgetLabel: K): T[K] {
-		return <WidgetBaseConstructor> this._overrides.get(widgetLabel) || super.get(widgetLabel);
+	get<T extends WidgetBaseInterface = WidgetBaseInterface>(widgetLabel: RegistryLabel): Constructor<T> | null {
+		return this._overrides.get(widgetLabel) || super.get(widgetLabel);
 	}
 
-	has<K extends keyof T>(widgetLabel: K): boolean {
+	has(widgetLabel: RegistryLabel): boolean {
 		return this._overrides.has(widgetLabel) || super.has(widgetLabel);
 	}
 }
