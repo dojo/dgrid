@@ -145,8 +145,6 @@ registerSuite({
 							onPageRequest: widget.listener
 						}),
 						v('span', {
-							afterCreate: widget.listener,
-							afterUpdate: widget.listener,
 							key: 'skip1',
 							classes: pageSkipClass
 						}, [ '...' ]),
@@ -177,8 +175,6 @@ registerSuite({
 							onPageRequest: widget.listener
 						}),
 						v('span', {
-							afterCreate: widget.listener,
-							afterUpdate: widget.listener,
 							key: 'skip2',
 							classes: pageSkipClass
 						}, [ '...' ]),
