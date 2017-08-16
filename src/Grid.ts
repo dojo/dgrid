@@ -4,7 +4,7 @@ import { DNode, PropertyChangeRecord } from '@dojo/widget-core/interfaces';
 import { RegistryMixin }  from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase, { diffProperty } from '@dojo/widget-core/WidgetBase';
-import { auto } from '@dojo/widget-core/diff';
+import { reference } from '@dojo/widget-core/diff';
 import DataProviderBase from './bases/DataProviderBase';
 import Body from './Body';
 import ColumnHeaders from './ColumnHeaders';
@@ -44,7 +44,7 @@ class Grid extends GridBase<GridProperties> {
 		this.getRegistries().add(gridRegistry);
 	}
 
-	@diffProperty('dataProvider', auto)
+	@diffProperty('dataProvider', reference)
 	protected diffPropertyDataProvider({ dataProvider: previousDataProvider }: GridProperties, { dataProvider }: GridProperties) {
 		this._sortRequestListener = dataProvider.sort.bind(dataProvider);
 
