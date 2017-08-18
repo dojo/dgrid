@@ -4,6 +4,7 @@ import { DNode, PropertyChangeRecord } from '@dojo/widget-core/interfaces';
 import { RegistryMixin }  from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase, { diffProperty } from '@dojo/widget-core/WidgetBase';
+import { reference } from '@dojo/widget-core/diff';
 import DataProviderBase from './bases/DataProviderBase';
 import Body from './Body';
 import ColumnHeaders from './ColumnHeaders';
@@ -40,28 +41,20 @@ class Grid extends GridBase<GridProperties> {
 	constructor() {
 		super();
 
-		this.registries.add(gridRegistry);
+		this.getRegistries().add(gridRegistry);
 	}
 
-	@diffProperty('dataProvider')
-	protected diffPropertyDataProvider(previousDataProvider: DataProviderBase, dataProvider: DataProviderBase): PropertyChangeRecord {
-		const changed = (previousDataProvider !== dataProvider);
-		if (changed) {
-			this._sortRequestListener = dataProvider.sort.bind(dataProvider);
+	@diffProperty('dataProvider', reference)
+	protected diffPropertyDataProvider({ dataProvider: previousDataProvider }: GridProperties, { dataProvider }: GridProperties) {
+		this._sortRequestListener = dataProvider.sort.bind(dataProvider);
 
-			this._subscription && this._subscription.unsubscribe();
-			this._subscription = dataProvider.observe().subscribe((data) => {
-				this._data = (data || {});
-				this.invalidate();
-			});
-			// TODO: Remove notify when on demand scrolling (https://github.com/dojo/dgrid/issues/21 Initialization) is added
-			dataProvider.notify();
-		}
-
-		return {
-			changed,
-			value: dataProvider
-		};
+		this._subscription && this._subscription.unsubscribe();
+		this._subscription = dataProvider.observe().subscribe((data) => {
+			this._data = (data || {});
+			this.invalidate();
+		});
+		// TODO: Remove notify when on demand scrolling (https://github.com/dojo/dgrid/issues/21 Initialization) is added
+		dataProvider.notify();
 	}
 
 	protected inflateHeaderTypes(nodes: (HeaderType | DNode)[]): DNode[] {
