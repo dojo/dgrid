@@ -1,4 +1,5 @@
 import { v, w } from '@dojo/widget-core/d';
+import {DNode} from '@dojo/widget-core/interfaces';
 import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
@@ -13,7 +14,7 @@ export interface BodyProperties extends ThemeableProperties, HasColumns, HasItem
 
 @theme(bodyClasses)
 class Body extends BodyBase<BodyProperties> {
-	render() {
+	render(): DNode {
 		const {
 			columns,
 			items,

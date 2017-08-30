@@ -19,7 +19,12 @@ module.exports = function (grunt) {
                 src: 'examples/**/*.{html,css,json,xml,js,txt}',
                 dest: '<%= devDirectory %>'
             }
-        }
+        },
+		ts: {
+			dist: {
+				exclude: ['tests/**/*.ts', 'examples/**/*.ts']
+			}
+		}
     });
 
     grunt.registerTask('dev', grunt.config.get('devTasks').concat([
