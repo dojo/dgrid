@@ -3,9 +3,10 @@ import * as assert from 'intern/chai!assert';
 
 import harness, { Harness } from '@dojo/test-extras/harness';
 import { assignChildProperties, assignProperties } from '@dojo/test-extras/support/d';
-import { registry, v } from '@dojo/widget-core/d';
+import { v } from '@dojo/widget-core/d';
 
 import ColumnHeaderCell, { ColumnHeaderCellProperties } from '../../src/ColumnHeaderCell';
+import { gridRegistry as registry } from '../../src/GridRegistry';
 import { SortDetails } from '../../src/interfaces';
 import * as cellCss from '../../src/styles/shared/cell.m.css';
 import * as css from '../../src/styles/columnHeaderCell.m.css';

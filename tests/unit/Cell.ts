@@ -1,9 +1,10 @@
 import * as registerSuite from 'intern!object';
 
 import harness, { Harness } from '@dojo/test-extras/harness';
-import { registry, v } from '@dojo/widget-core/d';
+import { v } from '@dojo/widget-core/d';
 
 import Cell, { CellProperties } from '../../src/Cell';
+import { gridRegistry as registry } from '../../src/GridRegistry';
 import { Column, ItemProperties } from '../../src/interfaces';
 import * as cellCss from '../../src/styles/shared/cell.m.css';
 import * as css from '../../src/styles/cell.m.css';

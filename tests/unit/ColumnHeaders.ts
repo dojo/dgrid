@@ -1,10 +1,11 @@
 import * as registerSuite from 'intern!object';
 
 import harness, { Harness } from '@dojo/test-extras/harness';
-import { registry, v, w } from '@dojo/widget-core/d';
+import { v, w } from '@dojo/widget-core/d';
 
 import ColumnHeaderCell from '../../src/ColumnHeaderCell';
 import ColumnHeaders, { ColumnHeadersProperties } from '../../src/ColumnHeaders';
+import { gridRegistry as registry } from '../../src/GridRegistry';
 import * as css from '../../src/styles/columnHeaders.m.css';
 import * as tableCss from '../../src/styles/shared/table.m.css';
 

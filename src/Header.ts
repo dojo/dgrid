@@ -1,14 +1,13 @@
 import { v } from '@dojo/widget-core/d';
 import { DNode } from '@dojo/widget-core/interfaces';
-import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 
 import * as css from './styles/header.m.css';
 
-export const HeaderBase = ThemeableMixin(RegistryMixin(WidgetBase));
+export const HeaderBase = ThemeableMixin(WidgetBase);
 
-export interface HeaderProperties extends ThemeableProperties, RegistryMixinProperties {}
+export interface HeaderProperties extends ThemeableProperties {}
 
 export const enum HeaderType {
 	COLUMN_HEADERS = 1
