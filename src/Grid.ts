@@ -1,7 +1,6 @@
 import { Subscription } from '@dojo/shim/Observable';
 import { v, w } from '@dojo/widget-core/d';
-import { DNode, PropertyChangeRecord } from '@dojo/widget-core/interfaces';
-import { RegistryMixin }  from '@dojo/widget-core/mixins/Registry';
+import { DNode } from '@dojo/widget-core/interfaces';
 import { theme, ThemeableMixin, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase, { diffProperty } from '@dojo/widget-core/WidgetBase';
 import { reference } from '@dojo/widget-core/diff';
@@ -15,7 +14,7 @@ import { DataProperties, HasColumns, SortRequestListener } from './interfaces';
 
 import * as css from './styles/grid.m.css';
 
-export const GridBase = ThemeableMixin(RegistryMixin(WidgetBase));
+export const GridBase = ThemeableMixin(WidgetBase);
 
 /**
  * @type GridProperties

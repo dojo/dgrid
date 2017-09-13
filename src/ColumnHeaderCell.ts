@@ -1,5 +1,4 @@
 import { v } from '@dojo/widget-core/d';
-import { RegistryMixin, RegistryMixinProperties } from '@dojo/widget-core/mixins/Registry';
 import { ThemeableMixin, theme, ThemeableProperties } from '@dojo/widget-core/mixins/Themeable';
 import WidgetBase from '@dojo/widget-core/WidgetBase';
 import { DNode } from '@dojo/widget-core/interfaces';
@@ -8,9 +7,9 @@ import { HasColumn, HasSortDetail, HasSortEvent } from './interfaces';
 import * as cellCss from './styles/shared/cell.m.css';
 import * as css from './styles/columnHeaderCell.m.css';
 
-export const ColumnHeaderCellBase = ThemeableMixin(RegistryMixin(WidgetBase));
+export const ColumnHeaderCellBase = ThemeableMixin(WidgetBase);
 
-export interface ColumnHeaderCellProperties extends ThemeableProperties, HasColumn, HasSortDetail, HasSortEvent, RegistryMixinProperties {
+export interface ColumnHeaderCellProperties extends ThemeableProperties, HasColumn, HasSortDetail, HasSortEvent {
 	key: string;
 }
 
