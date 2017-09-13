@@ -4,7 +4,7 @@
 [![codecov](https://codecov.io/gh/dojo/dgrid/branch/master/graph/badge.svg)](https://codecov.io/gh/dojo/dgrid)
 [![npm version](https://badge.fury.io/js/%40dojo%2Fdgrid.svg)](http://badge.fury.io/js/%40dojo%2Fdgrid)
 
-dgrid is a reactive, unidirectional grid component built using [Dojo 2](https://github.com/dojo/widget-core).
+dgrid is a reactive, uni-directional grid component built using [Dojo 2](https://github.com/dojo/widget-core).
 
 ## Features
 
