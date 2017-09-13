@@ -16,7 +16,7 @@ dgrid is a reactive, unidirectional grid component built using [Dojo 2](https://
 
 ## Data Providers
 
-Each grid must be passed a `dataProvider`. dgrid ships with a [data provider](src/providers/ArrayDataProvider.ts) to read array data.
+Each grid must be passed a `dataProvider`. dgrid ships with a [data provider](src/providers/ArrayDataProvider.ts) to read an array of data.
 
 ## Column Configuration
 
@@ -34,7 +34,7 @@ Each column supports properties that allow customization:
 - `get?: V`: Use a static value for this column's value
 - `get?(item: ItemProperties<T>, column: Column<T>): V`: Use a dynamic value for this column's value
 - `label?: string`: Used to display the column's label in the grid header
-- `sortable?: boolean`: Whether this column is sortable. Default: `true`
+- `sortable?: boolean`: Whether this column is sortable. Default value is `true`
 - `render?(options: ColumnRenderOptions<T, V>): DNode`: Used to render dynamic content. Passed a value retrieved from data or `get`
 
 ## Example Usage
@@ -48,7 +48,7 @@ const data = [
 	{ order: 3, name: 'mix butter', description: 'In a large bowl, beat butter, then add the brown sugar and white sugar then mix' },
 	{ order: 4, name: 'mix together', description: 'Slowly add the dry ingredients from the medium bowl to the wet ingredients in the large bowl, mixing until the dry ingredients are totally combined' },
 	{ order: 5, name: 'chocolate chips', description: 'Add chocolate chips' },
-	{ order: 6, name: 'make balls', description: 'Scoop up a golf ball size amount of dough with a spoon and drop in onto a cookie sheet' },
+	{ order: 6, name: 'make balls', description: 'Scoop up a golf ball size amount of dough with a spoon and drop it onto a cookie sheet' },
 	{ order: 7, name: 'bake', description: 'Put the cookies in the oven and bake for about 10-14 minutes' },
 	{ order: 8, name: 'remove', description: 'Using a spatula, lift cookies off onto wax paper or a cooling rack' },
 	{ order: 9, name: 'eat', description: 'Eat and enjoy!' }
@@ -127,10 +127,10 @@ const dataProvider = new ArrayDataProvider({
 
 The following CSS classes are used to style the `Grid` widget:
 
-- `grid`: Applied to the root node to set height and border
+- `grid`: Applied to the root node to set the height and border
 - `table`: Used by `columnHeadersTable` and `rowTable` to style inline tables
 - `cell`: Used by `rowCell` and `columnHeaderCell` to add padding and border
-- `header`: Applied to the header area to set background color
+- `header`: Applied to the header area to set the background color
 - `columnHeaders`: Applied to the area surrounding all column rows (currently a single row)
 - `columnHeadersRow`: Applied to each row surrounding header column cells
 - `columnHeadersTable`: Applied to the inline table in each column header row
