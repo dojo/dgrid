@@ -1,3 +1,5 @@
+**WARNING** This package is deprecated in favor of the grid provided by [`@dojo/widgets`](https://github.com/dojo/widgets/tree/master/src/grid).
+
 # @dojo/dgrid
 
 [![Build Status](https://travis-ci.org/dojo/dgrid.svg?branch=master)](https://travis-ci.org/dojo/dgrid)
